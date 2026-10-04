@@ -7,20 +7,20 @@
       <div class="relative w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div class="rounded-3xl p-7 sm:p-10 lg:p-16 xl:p-20 lg:min-h-[calc(100vh-7rem)] lg:flex lg:flex-col lg:justify-center">
           <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight mb-6">
-            <span class="text-gray-900 dark:text-white transition-colors duration-300">Temukan </span>
+            <span class="text-gray-900 dark:text-white transition-colors duration-300">Jelajahi Unit Bisnis Anggota </span>
             <span
               @click="handleEasterEgg"
               class="gradient-text cursor-pointer select-none active:scale-95 inline-block transition-transform duration-100"
               title="Touch me"
             >
-              UMKM Terbaik
+              BPC HIPMI BANTUL
             </span>
             <br />
             <span class="text-gray-900 dark:text-white transition-colors duration-300">di Sekitarmu</span>
           </h1>
 
           <p class="text-gray-500 dark:text-gray-400 text-lg sm:text-xl max-w-3xl mx-auto mb-10 leading-relaxed transition-colors duration-300">
-            Jelajahi usaha mikro, kecil, dan menengah lokal dari kuliner, minuman, sampai jasa harian.
+            Berbagai usaha mikro, kecil, dan menengah lokal dari kuliner, minuman, sampai jasa harian.
           </p>
 
           <div
@@ -100,7 +100,7 @@
 
           <div class="grid grid-cols-3 gap-4 sm:gap-8 mt-12">
             <div class="text-center">
-              <p class="text-2xl sm:text-3xl font-extrabold text-primary">{{ totalUmkm }}+</p>
+              <p class="text-2xl sm:text-3xl font-extrabold text-primary">{{ totalBusiness }}+</p>
               <p class="text-gray-400 dark:text-gray-500 text-xs sm:text-sm mt-1 transition-colors duration-300">UMKM Terdaftar</p>
             </div>
             <div class="text-center">
@@ -181,15 +181,15 @@
 
         <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
           <router-link
-            v-for="umkm in displayedUmkm"
-            :key="umkm.id"
-            :to="{ name: 'UmkmDetail', params: { id: umkm.id } }"
+            v-for="business in displayedBusiness"
+            :key="business.id"
+            :to="{ name: 'BusinessDetail', params: { id: business.id } }"
             class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden shadow-sm dark:shadow-black/40 hover:shadow-2xl hover:shadow-primary/10 dark:hover:shadow-primary/5 border border-transparent dark:border-white/5 transition-all duration-500 hover:-translate-y-2 card-hover"
           >
             <div class="relative h-32 sm:h-48 overflow-hidden">
               <img
-                :src="umkm.foto.utama"
-                :alt="umkm.namaUsaha"
+                :src="business.foto.utama"
+                :alt="business.namaUsaha"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 loading="lazy"
                 decoding="async"
@@ -198,26 +198,26 @@
               <div class="absolute top-2 left-2 sm:top-3 sm:left-3">
                 <span
                   class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-lg"
-                  :style="getCategoryStyle(umkm.kategori)"
+                  :style="getCategoryStyle(business.kategori)"
                 >
-                  <CategoryIcon :name="umkm.kategori" class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                  <span class="hidden sm:inline">{{ umkm.kategori }}</span>
+                  <CategoryIcon :name="business.kategori" class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <span class="hidden sm:inline">{{ business.kategori }}</span>
                 </span>
               </div>
             </div>
 
             <div class="p-3 sm:p-5">
               <h3 class="font-bold text-gray-900 dark:text-white text-sm sm:text-base mb-1 group-hover:text-primary transition-colors line-clamp-1">
-                {{ umkm.namaUsaha }}
+                {{ business.namaUsaha }}
               </h3>
               <p class="text-gray-400 dark:text-gray-500 text-xs sm:text-sm mb-2 sm:mb-3 flex items-center gap-1">
                 <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Z" />
                 </svg>
-                <span class="line-clamp-1">{{ umkm.namaPemilik }}</span>
+                <span class="line-clamp-1">{{ business.namaPemilik }}</span>
               </p>
               <p class="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm leading-relaxed line-clamp-2 mb-3 sm:mb-4">
-                {{ umkm.deskripsi }}
+                {{ business.deskripsi }}
               </p>
 
               <div class="flex items-center justify-between pt-2 sm:pt-3 border-t border-gray-100 dark:border-white/5">
@@ -226,7 +226,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10.5h.01" />
                   </svg>
-                  <span class="line-clamp-1">{{ getCity(umkm.alamat) }}</span>
+                  <span class="line-clamp-1">{{ getCity(business.alamat) }}</span>
                 </div>
                 <span class="text-primary text-[10px] sm:text-xs font-semibold flex items-center gap-1 group-hover:gap-1.5 sm:group-hover:gap-2 transition-all duration-300">
                   <span class="hidden sm:inline">Detail</span>
@@ -239,7 +239,7 @@
           </router-link>
         </div>
 
-        <div v-if="displayedUmkm.length < allUmkm.length" class="text-center mt-12">
+        <div v-if="displayedBusiness.length < allBusiness.length" class="text-center mt-12">
           <button
             @click="loadMore"
             class="px-8 py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 font-semibold text-sm hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-300 cursor-pointer"
@@ -256,7 +256,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
-import { umkmStore, getCategoryStyle } from '../data/umkmData'
+import { businessStore, getCategoryStyle } from '../data/businessData'
 import { homeSearchState } from '../stores/uiState'
 
 const router = useRouter()
@@ -322,11 +322,11 @@ const triggerThumbsUpBurst = () => {
   }, 4500)
 }
 
-const allUmkm = computed(() => umkmStore.getAll())
-const displayedUmkm = computed(() => allUmkm.value.slice(0, itemsToShow.value))
-const totalUmkm = computed(() => allUmkm.value.length)
-const totalKategori = computed(() => umkmStore.getCategories().length)
-const totalProduk = computed(() => allUmkm.value.reduce((sum, u) => sum + (u.produk?.length || 0), 0))
+const allBusiness = computed(() => businessStore.getAll())
+const displayedBusiness = computed(() => allBusiness.value.slice(0, itemsToShow.value))
+const totalBusiness = computed(() => allBusiness.value.length)
+const totalKategori = computed(() => businessStore.getCategories().length)
+const totalProduk = computed(() => allBusiness.value.reduce((sum, u) => sum + (u.produk?.length || 0), 0))
 
 const popularCategories = ['Makanan', 'Minuman', 'Jasa']
 const luckyTexts = [
@@ -350,17 +350,17 @@ const luckyTexts = [
 const categoryCards = computed(() => {
   const pinnedNames = ['Makanan', 'Minuman', 'Jasa']
   const cards = pinnedNames.map(name => {
-    const cat = umkmStore.categoriesList.find(c => c.name === name)
+    const cat = businessStore.categoriesList.find(c => c.name === name)
     const color = cat ? cat.color : (name === 'Makanan' ? '#FA6781' : (name === 'Minuman' ? '#FFC94D' : '#4A5568'))
     return {
       name,
-      count: umkmStore.getByCategory(name).length,
+      count: businessStore.getByCategory(name).length,
       color
     }
   })
   
   // Calculate count of other categories' UMKM
-  const otherCount = umkmStore.umkmList.filter(u => !pinnedNames.includes(u.kategori)).length
+  const otherCount = businessStore.businessList.filter(u => !pinnedNames.includes(u.kategori)).length
   
   cards.push({
     name: 'Lainnya',
@@ -394,9 +394,9 @@ const handleFeelingLucky = () => {
     window.clearInterval(luckyInterval)
     luckyInterval = null
     luckyLoading.value = false
-    const randomUmkm = umkmStore.getRandom(['Makanan', 'Minuman'])
-    if (randomUmkm) {
-      router.push({ name: 'UmkmDetail', params: { id: randomUmkm.id } })
+    const randomBusiness = businessStore.getRandom(['Makanan', 'Minuman'])
+    if (randomBusiness) {
+      router.push({ name: 'BusinessDetail', params: { id: randomBusiness.id } })
     }
   }, 3000)
 }

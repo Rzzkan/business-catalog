@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { umkmStore, getCategoryStyle } from '../data/umkmData'
+import { businessStore, getCategoryStyle } from '../data/businessData'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
 import { useGravity } from '../composables/useGravity'
@@ -77,10 +77,10 @@ watch(query, (newQuery) => {
 const selectedCategory = ref('Semua')
 const sortBy = ref('nama-az')
 
-const categories = computed(() => ['Semua', ...umkmStore.getCategories()])
+const categories = computed(() => ['Semua', ...businessStore.getCategories()])
 
 const baseResults = computed(() =>
-  query.value ? umkmStore.search(query.value) : umkmStore.getAll()
+  query.value ? businessStore.search(query.value) : businessStore.getAll()
 )
 
 const filteredResults = computed(() => {
@@ -111,14 +111,14 @@ function handleSearch() {
 }
 
 function goToDetail(id) {
-  router.push({ name: 'UmkmDetail', params: { id } })
+  router.push({ name: 'BusinessDetail', params: { id } })
 }
 
 function goHome() {
   router.push({ name: 'Home' })
 }
 
-function showAllUmkm() {
+function showAllBusiness() {
   selectedCategory.value = 'Semua'
   router.push({ name: 'SearchResult' })
 }
@@ -221,15 +221,15 @@ function truncate(text, maxLength = 100) {
         class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6"
       >
         <article
-          v-for="umkm in results"
-          :key="umkm.id"
+          v-for="business in results"
+          :key="business.id"
           class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm dark:shadow-black/40 hover:shadow-xl hover:shadow-[#FFC94D]/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-          @click="goToDetail(umkm.id)"
+          @click="goToDetail(business.id)"
         >
           <div class="relative h-32 sm:h-48 overflow-hidden">
             <img
-              :src="umkm.foto.utama"
-              :alt="umkm.namaUsaha"
+              :src="business.foto.utama"
+              :alt="business.namaUsaha"
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               loading="lazy"
               decoding="async"
@@ -238,32 +238,32 @@ function truncate(text, maxLength = 100) {
             <div class="absolute top-2 left-2 sm:top-3 sm:left-3">
               <span
                 class="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-lg"
-                :style="getCategoryStyle(umkm.kategori)"
+                :style="getCategoryStyle(business.kategori)"
               >
-                <CategoryIcon :name="umkm.kategori" class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span class="hidden sm:inline">{{ umkm.kategori }}</span>
+                <CategoryIcon :name="business.kategori" class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span class="hidden sm:inline">{{ business.kategori }}</span>
               </span>
             </div>
           </div>
 
           <div class="p-3 sm:p-5">
             <h3 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base leading-snug mb-1 group-hover:text-[#FFC94D] transition-colors duration-200 line-clamp-1">
-              {{ umkm.namaUsaha }}
+              {{ business.namaUsaha }}
             </h3>
 
             <div class="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">
               <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 14a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7Z" />
               </svg>
-              <span class="truncate">{{ umkm.namaPemilik }}</span>
+              <span class="truncate">{{ business.namaPemilik }}</span>
             </div>
 
             <p class="text-[10px] sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-3 sm:mb-4 line-clamp-2">
-              {{ truncate(umkm.deskripsi) }}
+              {{ truncate(business.deskripsi) }}
             </p>
 
             <button
-              @click.stop="goToDetail(umkm.id)"
+              @click.stop="goToDetail(business.id)"
               class="w-full flex items-center justify-center gap-1.5 sm:gap-2 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl bg-[#FFC94D]/10 dark:bg-[#FFC94D]/20 text-[#FFC94D] text-xs sm:text-sm font-semibold hover:bg-[#FFC94D] hover:text-white dark:hover:text-black active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               Lihat Detail
@@ -311,7 +311,7 @@ function truncate(text, maxLength = 100) {
           </button>
           <button
             data-grav
-            @click="showAllUmkm"
+            @click="showAllBusiness"
             class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white dark:bg-[#161a24] text-[#FFC94D] font-semibold text-sm border-2 border-[#FFC94D]/30 dark:border-white/10 hover:border-[#FFC94D] hover:bg-[#FFC94D]/5 dark:hover:bg-[#FFC94D]/10 active:scale-95 transition-all duration-200 cursor-pointer"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

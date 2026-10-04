@@ -9,13 +9,13 @@ const defaultCategories = [
   { name: 'Jasa', icon: 'wrench', color: '#4A5568' }
 ]
 
-const storedCategories = localStorage.getItem('umkm-categories')
+const storedCategories = localStorage.getItem('business-categories')
 const initialCategories = storedCategories ? JSON.parse(storedCategories) : defaultCategories
 if (!storedCategories) {
-  localStorage.setItem('umkm-categories', JSON.stringify(defaultCategories))
+  localStorage.setItem('business-categories', JSON.stringify(defaultCategories))
 }
 
-const defaultUmkmList = [
+const defaultBusinessList = [
     {
       id: 1,
       namaUsaha: 'Warung Nasi Padang Bu Ani',
@@ -44,7 +44,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'QRIS', 'GoPay', 'OVO', 'Dana'],
       alamat: 'Jl. Merdeka No. 45, Kelurahan Sukamaju, Kecamatan Cibeunying, Bandung',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Merdeka%20No.%2045%2C%20Kelurahan%20Sukamaju%2C%20Kecamatan%20Cibeunying%2C%20Bandung&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800',
         tempat: [
@@ -87,7 +87,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'QRIS', 'GoPay', 'OVO', 'Dana', 'Kartu Debit', 'Kartu Kredit'],
       alamat: 'Jl. Braga No. 12, Bandung Wetan, Bandung',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Braga%20No.%2012%2C%20Bandung%20Wetan%2C%20Bandung&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800',
         tempat: [
@@ -129,7 +129,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'Transfer Bank', 'QRIS'],
       alamat: 'Jl. Laweyan No. 8, Laweyan, Solo',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Laweyan%20No.%208%2C%20Laweyan%2C%20Solo&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800',
         tempat: [
@@ -171,7 +171,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'QRIS', 'GoPay'],
       alamat: 'Jl. Pahlawan No. 23, Kota Malang',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Pahlawan%20No.%2023%2C%20Kota%20Malang&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=800',
         tempat: [
@@ -213,7 +213,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'Transfer Bank', 'QRIS'],
       alamat: 'Jl. Jati Raya No. 15, Jepara, Jawa Tengah',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Jati%20Raya%20No.%2015%2C%20Jepara%2C%20Jawa%20Tengah&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800',
         tempat: [
@@ -254,7 +254,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'QRIS', 'GoPay', 'OVO'],
       alamat: 'Jl. Asia Afrika No. 67, Bandung',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Asia%20Afrika%20No.%2067%2C%20Bandung&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800',
         tempat: [
@@ -296,7 +296,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'QRIS', 'Transfer Bank'],
       alamat: 'Jl. Kauman No. 3, Yogyakarta',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Kauman%20No.%203%2C%20Yogyakarta&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800',
         tempat: [
@@ -337,7 +337,7 @@ const defaultUmkmList = [
       ],
       metodePembayaran: ['Tunai', 'QRIS'],
       alamat: 'Jl. Kaliurang KM 5, Sleman, Yogyakarta',
-      mapsEmbed: '',
+      mapsEmbed: 'https://www.google.com/maps?q=Jl.%20Kaliurang%20KM%205%2C%20Sleman%2C%20Yogyakarta&output=embed',
       foto: {
         utama: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800',
         tempat: [
@@ -396,8 +396,8 @@ const defaultUmkmList = [
     }
 ]
 
-const storedUmkm = localStorage.getItem('umkm-list')
-let initialUmkm = storedUmkm ? JSON.parse(storedUmkm) : defaultUmkmList
+const storedBusiness = localStorage.getItem('business-list')
+let initialBusiness = storedBusiness ? JSON.parse(storedBusiness) : defaultBusinessList
 
 const defaultFacilitiesMap = {
   1: ['Toilet', 'Tempat Parkir', 'Meja & Tempat Duduk'],
@@ -411,34 +411,34 @@ const defaultFacilitiesMap = {
   9: ['Toilet', 'Tempat Parkir', 'WiFi', 'Meja & Tempat Duduk']
 }
 
-initialUmkm.forEach(u => {
+initialBusiness.forEach(u => {
   if (!u.hasOwnProperty('fasilitas')) {
     u.fasilitas = defaultFacilitiesMap[u.id] || []
   }
 })
 
-localStorage.setItem('umkm-list', JSON.stringify(initialUmkm))
+localStorage.setItem('business-list', JSON.stringify(initialBusiness))
 
 // Reactive store for UMKM data
-export const umkmStore = reactive({
+export const businessStore = reactive({
   categoriesList: initialCategories,
-  reports: JSON.parse(localStorage.getItem('umkm-reports') || '[]'),
-  umkmList: initialUmkm,
+  reports: JSON.parse(localStorage.getItem('business-reports') || '[]'),
+  businessList: initialBusiness,
 
   // Get all UMKM
   getAll() {
-    return this.umkmList
+    return this.businessList
   },
 
   // Get UMKM by ID
   getById(id) {
-    return this.umkmList.find(u => u.id === Number(id))
+    return this.businessList.find(u => u.id === Number(id))
   },
 
   // Search UMKM
   search(query) {
     const q = query.toLowerCase()
-    return this.umkmList.filter(u =>
+    return this.businessList.filter(u =>
       u.namaUsaha.toLowerCase().includes(q) ||
       u.namaPemilik.toLowerCase().includes(q) ||
       u.kategori.toLowerCase().includes(q) ||
@@ -449,14 +449,14 @@ export const umkmStore = reactive({
 
   // Get UMKM by category
   getByCategory(kategori) {
-    return this.umkmList.filter(u => u.kategori === kategori)
+    return this.businessList.filter(u => u.kategori === kategori)
   },
 
   // Get random UMKM
   getRandom(categories = null) {
     const pool = Array.isArray(categories) && categories.length
-      ? this.umkmList.filter(u => categories.includes(u.kategori))
-      : this.umkmList
+      ? this.businessList.filter(u => categories.includes(u.kategori))
+      : this.businessList
     return pool[Math.floor(Math.random() * pool.length)]
   },
 
@@ -480,7 +480,7 @@ export const umkmStore = reactive({
       icon: catObj.icon || 'grid',
       color: catObj.color || '#FFC94D'
     })
-    localStorage.setItem('umkm-categories', JSON.stringify(this.categoriesList))
+    localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
     return true
   },
 
@@ -499,49 +499,49 @@ export const umkmStore = reactive({
         color: catObj.color || '#FFC94D'
       }
 
-      this.umkmList.forEach((u) => {
+      this.businessList.forEach((u) => {
         if (u.kategori === oldName) u.kategori = cleanName
       })
 
-      localStorage.setItem('umkm-list', JSON.stringify(this.umkmList))
-      localStorage.setItem('umkm-categories', JSON.stringify(this.categoriesList))
+      localStorage.setItem('business-list', JSON.stringify(this.businessList))
+      localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
       return true
     }
     return false
   },
 
   deleteCategory(name) {
-    if (this.umkmList.some(u => u.kategori === name)) {
+    if (this.businessList.some(u => u.kategori === name)) {
       return false
     }
 
     const index = this.categoriesList.findIndex(c => c.name === name)
     if (index !== -1) {
       this.categoriesList.splice(index, 1)
-      localStorage.setItem('umkm-categories', JSON.stringify(this.categoriesList))
+      localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
       return true
     }
     return false
   },
 
   // Add new UMKM
-  add(umkm) {
-    const newId = this.umkmList.length ? Math.max(...this.umkmList.map(u => u.id)) + 1 : 1
-    if (umkm.kategori && !this.getCategories().includes(umkm.kategori)) {
-      this.categoriesList.push({ name: umkm.kategori, icon: 'grid', color: '#FFC94D' })
-      localStorage.setItem('umkm-categories', JSON.stringify(this.categoriesList))
+  add(business) {
+    const newId = this.businessList.length ? Math.max(...this.businessList.map(u => u.id)) + 1 : 1
+    if (business.kategori && !this.getCategories().includes(business.kategori)) {
+      this.categoriesList.push({ name: business.kategori, icon: 'grid', color: '#FFC94D' })
+      localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
     }
-    this.umkmList.push({ ...umkm, id: newId })
-    localStorage.setItem('umkm-list', JSON.stringify(this.umkmList))
+    this.businessList.push({ ...business, id: newId })
+    localStorage.setItem('business-list', JSON.stringify(this.businessList))
     return newId
   },
 
   // Update UMKM
   update(id, data) {
-    const index = this.umkmList.findIndex(u => u.id === Number(id))
+    const index = this.businessList.findIndex(u => u.id === Number(id))
     if (index !== -1) {
-      this.umkmList[index] = { ...this.umkmList[index], ...data }
-      localStorage.setItem('umkm-list', JSON.stringify(this.umkmList))
+      this.businessList[index] = { ...this.businessList[index], ...data }
+      localStorage.setItem('business-list', JSON.stringify(this.businessList))
       return true
     }
     return false
@@ -549,10 +549,10 @@ export const umkmStore = reactive({
 
   // Delete UMKM
   delete(id) {
-    const index = this.umkmList.findIndex(u => u.id === Number(id))
+    const index = this.businessList.findIndex(u => u.id === Number(id))
     if (index !== -1) {
-      this.umkmList.splice(index, 1)
-      localStorage.setItem('umkm-list', JSON.stringify(this.umkmList))
+      this.businessList.splice(index, 1)
+      localStorage.setItem('business-list', JSON.stringify(this.businessList))
       return true
     }
     return false
@@ -562,7 +562,7 @@ export const umkmStore = reactive({
   addReport(report) {
     const newReport = {
       id: Date.now(),
-      umkmId: Number(report.umkmId),
+      businessId: Number(report.businessId),
       namaUsaha: report.namaUsaha,
       tipe: report.tipe, // 'kesalahan_data' | 'toko_tutup'
       detail: report.detail || '',
@@ -570,7 +570,7 @@ export const umkmStore = reactive({
       status: 'pending' // 'pending' | 'resolved'
     }
     this.reports.push(newReport)
-    localStorage.setItem('umkm-reports', JSON.stringify(this.reports))
+    localStorage.setItem('business-reports', JSON.stringify(this.reports))
   },
 
   // Resolve a report
@@ -578,7 +578,7 @@ export const umkmStore = reactive({
     const index = this.reports.findIndex(r => r.id === Number(reportId))
     if (index !== -1) {
       this.reports[index].status = 'resolved'
-      localStorage.setItem('umkm-reports', JSON.stringify(this.reports))
+      localStorage.setItem('business-reports', JSON.stringify(this.reports))
       return true
     }
     return false
@@ -589,7 +589,7 @@ export const umkmStore = reactive({
     const index = this.reports.findIndex(r => r.id === Number(reportId))
     if (index !== -1) {
       this.reports.splice(index, 1)
-      localStorage.setItem('umkm-reports', JSON.stringify(this.reports))
+      localStorage.setItem('business-reports', JSON.stringify(this.reports))
       return true
     }
     return false
@@ -605,7 +605,7 @@ function getContrastColor(hex) {
 }
 
 export const getCategoryStyle = (kategori, isDarkTheme = false) => {
-  const cat = umkmStore.categoriesList?.find(c => c.name === kategori)
+  const cat = businessStore.categoriesList?.find(c => c.name === kategori)
   const hex = cat ? cat.color : '#9CA3AF'
   return {
     backgroundColor: hex,
@@ -614,7 +614,7 @@ export const getCategoryStyle = (kategori, isDarkTheme = false) => {
 }
 
 export const getCategoryLightStyle = (kategori, isDarkTheme = false) => {
-  const cat = umkmStore.categoriesList?.find(c => c.name === kategori)
+  const cat = businessStore.categoriesList?.find(c => c.name === kategori)
   const hex = cat ? cat.color : '#9CA3AF'
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)

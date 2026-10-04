@@ -7,7 +7,7 @@
         <div class="lg:col-span-1">
           <div class="flex items-center gap-2 mb-4">
             <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-10 h-10 object-contain" />
-            <span class="text-lg font-bold">HIPMI<span class="text-primary">Bantul</span></span>
+            <span class="text-lg font-bold">BPC HIPMI<span class="text-primary">Bantul</span></span>
           </div>
           <p class="text-gray-400 text-sm leading-relaxed">
             Katalog bisnis anggota BPC HIPMI Bantul. Temukan dan dukung usaha para pengusaha muda di Kabupaten Bantul.
@@ -50,11 +50,11 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/achievements" class="footer-link">
+              <router-link to="/tentang" class="footer-link">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
-                Achievements
+                Tentang Sistem
               </router-link>
             </li>
           </ul>
@@ -113,10 +113,10 @@
 
 <script setup>
 import { computed } from 'vue'
-import { umkmStore } from '../data/umkmData'
+import { businessStore } from '../data/businessData'
 import CategoryIcon from './CategoryIcon.vue'
 
-const categories = computed(() => umkmStore.getCategories())
+const categories = computed(() => businessStore.getCategories())
 </script>
 
 <style scoped>

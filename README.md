@@ -20,7 +20,7 @@ This project is built using:
 
 If you want to continue development or just test the app on your machine, make sure you have Node.js installed first. Once that's sorted, just follow these steps:
 
-1. Open your terminal or command prompt and navigate to this project's folder (`umkm-catalog`).
+1. Open your terminal or command prompt and navigate to this project's folder (`business-catalog`).
 2. Type this command to install all the required packages:
    ```bash
    npm install

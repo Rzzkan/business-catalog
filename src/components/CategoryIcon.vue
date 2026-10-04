@@ -146,7 +146,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { umkmStore } from '../data/umkmData'
+import { businessStore } from '../data/businessData'
 
 const props = defineProps({
   name: {
@@ -163,7 +163,7 @@ const activeIcon = computed(() => {
   if (props.icon) return props.icon
   if (props.name) {
     // Look up in store
-    const cat = umkmStore.categoriesList?.find(c => c.name === props.name)
+    const cat = businessStore.categoriesList?.find(c => c.name === props.name)
     if (cat) return cat.icon
     
     // Legacy mapping fallback

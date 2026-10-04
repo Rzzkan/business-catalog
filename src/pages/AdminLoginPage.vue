@@ -156,8 +156,8 @@ function handleLogin() {
     timer = null
   }
 
-  sessionStorage.setItem('umkm-admin-auth', 'true')
-  sessionStorage.setItem('umkm-admin-email', email.value)
+  sessionStorage.setItem('business-admin-auth', 'true')
+  sessionStorage.setItem('business-admin-email', email.value)
   router.replace(route.query.redirect || { name: 'Admin' })
 }
 </script>

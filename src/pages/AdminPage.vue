@@ -132,7 +132,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9.5 12 4l9 5.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5Z" />
                 </svg>
               </div>
-              <p class="text-3xl font-bold text-gray-800 mt-4">{{ stats.totalUmkm }}</p>
+              <p class="text-3xl font-bold text-gray-800 mt-4">{{ stats.totalBusiness }}</p>
               <p class="text-sm text-gray-500 mt-1">Total UMKM</p>
             </article>
 
@@ -211,7 +211,7 @@
               Semua
             </button>
             <button
-              v-for="cat in umkmStore.getCategories()"
+              v-for="cat in businessStore.getCategories()"
               :key="cat"
               @click="filterCategory = cat"
               :class="categoryFilterClass(cat)"
@@ -234,7 +234,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(item, index) in filteredUmkm"
+                    v-for="(item, index) in filteredBusiness"
                     :key="item.id"
                     class="border-b border-gray-50 hover:bg-[#FAE7CB]/20 transition-colors duration-150"
                   >
@@ -288,7 +288,7 @@
                       </div>
                     </td>
                   </tr>
-                  <tr v-if="filteredUmkm.length === 0">
+                  <tr v-if="filteredBusiness.length === 0">
                     <td colspan="5" class="px-6 py-16 text-center">
                       <div class="flex flex-col items-center gap-3">
                         <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -303,7 +303,7 @@
               </table>
             </div>
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 text-sm text-gray-500">
-              Menampilkan {{ filteredUmkm.length }} dari {{ umkmStore.getAll().length }} UMKM
+              Menampilkan {{ filteredBusiness.length }} dari {{ businessStore.getAll().length }} UMKM
             </div>
           </div>
         </section>
@@ -317,13 +317,13 @@
                   <p class="text-sm text-gray-500 mt-1">Kelola kategori usaha warga dengan warna dan icon pilihan.</p>
                 </div>
                 <span class="text-sm font-semibold text-[#FFC94D] bg-[#FFC94D]/10 rounded-full px-3 py-1">
-                  {{ umkmStore.getCategories().length }} kategori
+                  {{ businessStore.getCategories().length }} kategori
                 </span>
               </div>
 
               <div class="divide-y divide-gray-100">
                 <div
-                  v-for="cat in umkmStore.categoriesList"
+                  v-for="cat in businessStore.categoriesList"
                   :key="cat.name"
                   class="px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
                 >
@@ -458,7 +458,7 @@
                 <p class="text-sm text-gray-500 mt-1">Daftar laporan kesalahan data atau toko tutup dari warga.</p>
               </div>
               <span class="text-sm font-semibold text-[#FA6781] bg-[#FA6781]/10 rounded-full px-3 py-1">
-                {{ umkmStore.reports?.length || 0 }} laporan
+                {{ businessStore.reports?.length || 0 }} laporan
               </span>
             </div>
 
@@ -476,7 +476,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="rep in umkmStore.reports"
+                    v-for="rep in businessStore.reports"
                     :key="rep.id"
                     class="border-b border-gray-50 hover:bg-[#FAE7CB]/20 transition-colors duration-150"
                   >
@@ -526,7 +526,7 @@
                       </div>
                     </td>
                   </tr>
-                  <tr v-if="!umkmStore.reports || umkmStore.reports.length === 0">
+                  <tr v-if="!businessStore.reports || businessStore.reports.length === 0">
                     <td colspan="6" class="px-6 py-16 text-center">
                       <div class="flex flex-col items-center gap-3">
                         <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -594,12 +594,33 @@
                   <input v-model="form.alamat" type="text" class="form-input" placeholder="Masukkan alamat lengkap" />
                 </div>
                 <div class="md:col-span-2">
-                  <label class="form-label">Google Maps Embed / Link / Koordinat</label>
+                  <label class="form-label">Google Maps Embed / Link</label>
                   <input
                     v-model="form.mapsEmbed"
                     type="text"
                     class="form-input"
-                    placeholder="Paste iframe, link Google Maps, atau koordinat (opsional)"
+                    placeholder="Paste kode embed iframe atau link Google Maps (opsional)"
+                  />
+                  <p class="text-xs text-gray-400 mt-1.5">Atau isi koordinat Latitude &amp; Longitude di bawah ini. Salah satu cukup — kalau keduanya diisi, Latitude/Longitude yang dipakai.</p>
+                </div>
+                <div>
+                  <label class="form-label">Latitude</label>
+                  <input
+                    v-model="form.latitude"
+                    type="text"
+                    inputmode="decimal"
+                    class="form-input"
+                    placeholder="Contoh: -7.8481"
+                  />
+                </div>
+                <div>
+                  <label class="form-label">Longitude</label>
+                  <input
+                    v-model="form.longitude"
+                    type="text"
+                    inputmode="decimal"
+                    class="form-input"
+                    placeholder="Contoh: 110.3287"
                   />
                 </div>
                 <div class="md:col-span-2">
@@ -903,7 +924,7 @@
               Batal
             </button>
             <button
-              @click="saveUmkm"
+              @click="saveBusiness"
               class="px-6 py-2.5 rounded-xl bg-[#FFC94D] hover:bg-[#e6b03a] text-white font-semibold text-sm shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.97]"
             >
               {{ isEditing ? 'Simpan Perubahan' : 'Tambah UMKM' }}
@@ -975,7 +996,7 @@ import { computed, defineComponent, h, nextTick, onMounted, onUnmounted, reactiv
 import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
-import { umkmStore, getCategoryLightStyle, sanitizeUrl } from '../data/umkmData'
+import { businessStore, getCategoryLightStyle, sanitizeUrl } from '../data/businessData'
 
 const router = useRouter()
 const sidebarOpen = ref(false)
@@ -993,7 +1014,7 @@ const categoryFormIcon = ref('grid')
 const categoryFormColor = ref('#FFC94D')
 const editingCategory = ref('')
 const toast = reactive({ show: false, message: '', type: 'success' })
-const adminEmail = sessionStorage.getItem('umkm-admin-email') || 'Admin'
+const adminEmail = sessionStorage.getItem('business-admin-email') || 'Admin'
 
 const availableIcons = [
   'utensils', 'coffee', 'shirt', 'palette', 'wrench', 'shopping-bag',
@@ -1010,7 +1031,7 @@ const colorPresets = [
   '#022C22', '#475569', '#A21CAF', '#65A30D'
 ]
 
-const categoryOptions = computed(() => umkmStore.getCategories())
+const categoryOptions = computed(() => businessStore.getCategories())
 const allPaymentMethods = [
   'Tunai', 'QRIS', 'GoPay', 'OVO',
   'Dana', 'Transfer Bank', 'Kartu Debit', 'Kartu Kredit'
@@ -1097,6 +1118,8 @@ const getEmptyForm = () => ({
   deskripsi: '',
   alamat: '',
   mapsEmbed: '',
+  latitude: '',
+  longitude: '',
   kontak: { telepon: '', whatsapp: '', instagram: '', email: '' },
   jamOperasional: [{ hari: '', jam: '00:00 - 00:00' }],
   produk: [{ nama: '', harga: 0, deskripsi: '' }],
@@ -1108,11 +1131,11 @@ const getEmptyForm = () => ({
 const form = reactive(getEmptyForm())
 
 const stats = computed(() => {
-  const all = umkmStore.getAll()
+  const all = businessStore.getAll()
   const totalProduk = all.reduce((sum, item) => sum + (item.produk?.length || 0), 0)
   return {
-    totalUmkm: all.length,
-    totalKategori: umkmStore.getCategories().length,
+    totalBusiness: all.length,
+    totalKategori: businessStore.getCategories().length,
     totalProduk
   }
 })
@@ -1128,11 +1151,11 @@ const pageTitle = computed(() => {
 })
 
 const pendingReportsCount = computed(() => {
-  return umkmStore.reports?.filter(r => r.status === 'pending').length || 0
+  return businessStore.reports?.filter(r => r.status === 'pending').length || 0
 })
 
 const categoryDistribution = computed(() => {
-  const all = umkmStore.getAll()
+  const all = businessStore.getAll()
   const styles = {
     Makanan: 'bg-[#FA6781]/15 text-[#FA6781]',
     Minuman: 'bg-[#FFC94D]/15 text-[#FFC94D]',
@@ -1141,15 +1164,15 @@ const categoryDistribution = computed(() => {
     Jasa: 'bg-slate-100 text-slate-700'
   }
 
-  return umkmStore.getCategories().map(cat => ({
+  return businessStore.getCategories().map(cat => ({
     name: cat,
     count: all.filter(item => item.kategori === cat).length,
     bgClass: styles[cat] || 'bg-gray-100 text-gray-600'
   }))
 })
 
-const filteredUmkm = computed(() => {
-  let list = umkmStore.getAll()
+const filteredBusiness = computed(() => {
+  let list = businessStore.getAll()
   if (filterCategory.value) {
     list = list.filter(item => item.kategori === filterCategory.value)
   }
@@ -1381,6 +1404,8 @@ function openEditModal(item) {
     deskripsi: item.deskripsi || '',
     alamat: item.alamat || '',
     mapsEmbed: item.mapsEmbed || '',
+    latitude: extractLatLng(item.mapsEmbed)?.lat || '',
+    longitude: extractLatLng(item.mapsEmbed)?.lng || '',
     kontak: {
       telepon: item.kontak?.telepon || '',
       whatsapp: item.kontak?.whatsapp || '',
@@ -1434,7 +1459,7 @@ function removeProduk(index) {
   }
 }
 
-function saveUmkm() {
+function saveBusiness() {
   if (
     !form.namaUsaha.trim() ||
     !form.namaPemilik.trim() ||
@@ -1447,14 +1472,31 @@ function saveUmkm() {
     return
   }
 
-  // Validate Google Maps URL if provided
-  if (form.mapsEmbed.trim()) {
-    const mapsVal = form.mapsEmbed.trim().toLowerCase()
-    if (mapsVal.includes('maps.app.goo.gl') || mapsVal.includes('goo.gl/maps') || mapsVal.includes('goo.gl')) {
-      showToast('Tautan pendek Google Maps (maps.app.goo.gl) tidak bisa dimuat secara langsung karena pembatasan dari Google. Silakan klik "Bagikan" -> "Sematkan peta" di Google Maps lalu salin kode HTML-nya, atau gunakan koordinat (contoh: -6.8893, 107.5962).', 'error')
+  // Lokasi: Latitude/Longitude (jika diisi) menggantikan field link/embed
+  const lat = form.latitude.trim()
+  const lng = form.longitude.trim()
+  let mapsInput = form.mapsEmbed.trim()
+
+  if (lat || lng) {
+    const latNum = Number(lat)
+    const lngNum = Number(lng)
+    if (!lat || !lng) {
+      showToast('Latitude dan Longitude harus diisi berdua, atau kosongkan keduanya.', 'error')
       return
     }
-    if (!isValidGoogleMapsUrl(form.mapsEmbed)) {
+    if (Number.isNaN(latNum) || Number.isNaN(lngNum) || latNum < -90 || latNum > 90 || lngNum < -180 || lngNum > 180) {
+      showToast('Latitude/Longitude tidak valid. Latitude antara -90 s/d 90, Longitude antara -180 s/d 180.', 'error')
+      return
+    }
+    mapsInput = `${latNum},${lngNum}`
+  } else if (mapsInput) {
+    // Validate Google Maps URL/embed if that's what was provided instead
+    const mapsVal = mapsInput.toLowerCase()
+    if (mapsVal.includes('maps.app.goo.gl') || mapsVal.includes('goo.gl/maps') || mapsVal.includes('goo.gl')) {
+      showToast('Tautan pendek Google Maps (maps.app.goo.gl) tidak bisa dimuat secara langsung karena pembatasan dari Google. Silakan klik "Bagikan" -> "Sematkan peta" di Google Maps lalu salin kode HTML-nya, atau isi Latitude/Longitude (contoh: -6.8893, 107.5962).', 'error')
+      return
+    }
+    if (!isValidGoogleMapsUrl(mapsInput)) {
       showToast('Tautan Google Maps tidak valid. Harus berupa kode HTML iframe atau tautan Google Maps asli yang berisi koordinat.', 'error')
       return
     }
@@ -1466,7 +1508,7 @@ function saveUmkm() {
     kategori: form.kategori,
     deskripsi: form.deskripsi.trim(),
     alamat: form.alamat.trim(),
-    mapsEmbed: normalizeMapEmbed(form.mapsEmbed.trim()),
+    mapsEmbed: normalizeMapEmbed(mapsInput),
     kontak: { ...form.kontak },
     jamOperasional: form.jamOperasional.filter(jam => jam.hari.trim() || jam.jam.trim()),
     produk: form.produk.filter(produk => produk.nama.trim()),
@@ -1486,10 +1528,10 @@ function saveUmkm() {
   if (!data.jamOperasional.length) data.jamOperasional = [{ hari: '', jam: '' }]
 
   if (isEditing.value) {
-    umkmStore.update(editingId.value, data)
+    businessStore.update(editingId.value, data)
     showToast('UMKM berhasil diperbarui.')
   } else {
-    umkmStore.add(data)
+    businessStore.add(data)
     showToast('UMKM baru berhasil ditambahkan.')
   }
 
@@ -1503,7 +1545,7 @@ function openDeleteModal(item) {
 
 function confirmDelete() {
   if (deleteTarget.value) {
-    umkmStore.delete(deleteTarget.value.id)
+    businessStore.delete(deleteTarget.value.id)
     showToast('UMKM berhasil dihapus.')
   }
   showDeleteModal.value = false
@@ -1511,14 +1553,14 @@ function confirmDelete() {
 }
 
 function resolveReport(id) {
-  const ok = umkmStore.resolveReport(id)
+  const ok = businessStore.resolveReport(id)
   if (ok) {
     showToast('Laporan berhasil ditandai selesai.')
   }
 }
 
 function deleteReport(id) {
-  const ok = umkmStore.deleteReport(id)
+  const ok = businessStore.deleteReport(id)
   if (ok) {
     showToast('Laporan berhasil dihapus.')
   }
@@ -1532,7 +1574,7 @@ function showToast(message, type = 'success') {
 }
 
 function categoryUsage(category) {
-  return umkmStore.getAll().filter(item => item.kategori === category).length
+  return businessStore.getAll().filter(item => item.kategori === category).length
 }
 
 function startEditCategory(categoryObj) {
@@ -1563,10 +1605,10 @@ function saveCategory() {
 
   let ok = false
   if (editingCategory.value) {
-    ok = umkmStore.updateCategory(editingCategory.value, categoryData)
+    ok = businessStore.updateCategory(editingCategory.value, categoryData)
     showToast(ok ? 'Kategori berhasil diperbarui.' : 'Kategori sudah ada atau tidak valid.', ok ? 'success' : 'error')
   } else {
-    ok = umkmStore.addCategory(categoryData)
+    ok = businessStore.addCategory(categoryData)
     showToast(ok ? 'Kategori berhasil ditambahkan.' : 'Kategori sudah ada atau tidak valid.', ok ? 'success' : 'error')
   }
 
@@ -1574,9 +1616,17 @@ function saveCategory() {
 }
 
 function removeCategory(category) {
-  const removed = umkmStore.deleteCategory(category)
+  const removed = businessStore.deleteCategory(category)
   showToast(removed ? 'Kategori berhasil dihapus.' : 'Kategori masih dipakai UMKM.', removed ? 'success' : 'error')
   if (editingCategory.value === category) cancelCategoryEdit()
+}
+
+function extractLatLng(value) {
+  const input = (value || '').trim()
+  if (!input) return null
+  const match = input.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/)
+  if (!match) return null
+  return { lat: match[1], lng: match[2] }
 }
 
 function normalizeMapEmbed(value) {
@@ -1641,8 +1691,8 @@ function isValidGoogleMapsUrl(value) {
 }
 
 function logout() {
-  sessionStorage.removeItem('umkm-admin-auth')
-  sessionStorage.removeItem('umkm-admin-email')
+  sessionStorage.removeItem('business-admin-auth')
+  sessionStorage.removeItem('business-admin-email')
   router.replace({ name: 'AdminLogin' })
 }
 

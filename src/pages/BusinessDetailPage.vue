@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!umkm" class="min-h-screen flex items-center justify-center bg-[#FAE7CB]/30 dark:bg-[#0a0a0a] transition-colors duration-300">
+  <div v-if="!business" class="min-h-screen flex items-center justify-center bg-[#FAE7CB]/30 dark:bg-[#0a0a0a] transition-colors duration-300">
     <div class="text-center px-6 py-16 animate-fade-in">
       <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-white dark:bg-[#161a24] text-[#FFC94D] flex items-center justify-center shadow-sm border border-transparent dark:border-white/5">
         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,8 +25,8 @@
   <div v-else class="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-300">
     <section class="relative h-[65vh] min-h-[420px] max-h-[600px] overflow-hidden">
       <img
-        :src="umkm.foto.utama"
-        :alt="umkm.namaUsaha"
+        :src="business.foto.utama"
+        :alt="business.namaUsaha"
         class="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-[1200ms]"
         fetchpriority="high"
         decoding="async"
@@ -61,10 +61,10 @@
           <div class="flex flex-wrap gap-2.5 mb-4">
             <span
               class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg transition-all duration-300"
-              :style="getCategoryStyle(umkm.kategori)"
+              :style="getCategoryStyle(business.kategori)"
             >
-              <CategoryIcon :name="umkm.kategori" class="w-4 h-4" />
-              {{ umkm.kategori }}
+              <CategoryIcon :name="business.kategori" class="w-4 h-4" />
+              {{ business.kategori }}
             </span>
             <span
               class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold shadow-lg backdrop-blur-md text-white transition-all duration-300"
@@ -76,10 +76,10 @@
             </span>
           </div>
           <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-3 leading-tight drop-shadow-lg">
-            {{ umkm.namaUsaha }}
+            {{ business.namaUsaha }}
           </h1>
           <p class="text-white/80 text-base md:text-lg max-w-3xl line-clamp-2">
-            {{ umkm.deskripsi }}
+            {{ business.deskripsi }}
           </p>
         </div>
       </div>
@@ -97,7 +97,7 @@
               </span>
               Tentang Usaha
             </h2>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ umkm.deskripsi }}</p>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ business.deskripsi }}</p>
           </article>
 
           <article class="info-card bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 transition-all duration-300">
@@ -111,10 +111,10 @@
             </h2>
             <div class="flex items-center gap-4">
               <div class="w-14 h-14 rounded-full bg-gradient-to-br from-[#FFC94D] to-[#18933C] flex items-center justify-center text-white text-xl font-bold shadow-md">
-                {{ umkm.namaPemilik.charAt(0) }}
+                {{ business.namaPemilik.charAt(0) }}
               </div>
               <div>
-                <p class="font-semibold text-gray-800 dark:text-white text-lg">{{ umkm.namaPemilik }}</p>
+                <p class="font-semibold text-gray-800 dark:text-white text-lg">{{ business.namaPemilik }}</p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Pemilik Usaha</p>
               </div>
             </div>
@@ -130,7 +130,7 @@
               Kontak
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a href="#" @click.prevent="handleContact('tel', umkm.kontak.telepon)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-primary/5 dark:hover:bg-primary/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
+              <a href="#" @click.prevent="handleContact('tel', business.kontak.telepon)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-primary/5 dark:hover:bg-primary/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
                 <span class="contact-icon bg-[#FFC94D]/10 text-[#FFC94D]">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z" />
@@ -138,10 +138,10 @@
                 </span>
                 <span class="min-w-0">
                   <span class="contact-label text-gray-400 dark:text-gray-550 transition-colors duration-300">Telepon</span>
-                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ umkm.kontak.telepon }}</span>
+                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ business.kontak.telepon }}</span>
                 </span>
               </a>
-              <a href="#" @click.prevent="handleContact('wa', umkm.kontak.whatsapp)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-green-500/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
+              <a href="#" @click.prevent="handleContact('wa', business.kontak.whatsapp)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-green-500/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
                 <span class="contact-icon bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5l1.5-3A7 7 0 1 1 9 16Z" />
@@ -149,10 +149,10 @@
                 </span>
                 <span class="min-w-0">
                   <span class="contact-label text-gray-400 dark:text-gray-550 transition-colors duration-300">WhatsApp</span>
-                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ umkm.kontak.whatsapp }}</span>
+                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ business.kontak.whatsapp }}</span>
                 </span>
               </a>
-              <a href="#" @click.prevent="handleContact('ig', umkm.kontak.instagram)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-pink-500/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
+              <a href="#" @click.prevent="handleContact('ig', business.kontak.instagram)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-pink-500/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
                 <span class="contact-icon bg-pink-100 dark:bg-pink-500/10 text-pink-600 dark:text-pink-400">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <rect x="4" y="4" width="16" height="16" rx="4" />
@@ -162,10 +162,10 @@
                 </span>
                 <span class="min-w-0">
                   <span class="contact-label text-gray-400 dark:text-gray-550 transition-colors duration-300">Instagram</span>
-                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ umkm.kontak.instagram }}</span>
+                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ business.kontak.instagram }}</span>
                 </span>
               </a>
-              <a href="#" @click.prevent="handleContact('email', umkm.kontak.email)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-blue-500/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
+              <a href="#" @click.prevent="handleContact('email', business.kontak.email)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-blue-500/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
                 <span class="contact-icon bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 6 8 6 8-6" />
@@ -174,7 +174,7 @@
                 </span>
                 <span class="min-w-0">
                   <span class="contact-label text-gray-400 dark:text-gray-550 transition-colors duration-300">Email</span>
-                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ umkm.kontak.email }}</span>
+                  <span class="contact-value text-gray-800 dark:text-gray-100 transition-colors duration-300">{{ business.kontak.email }}</span>
                 </span>
               </a>
             </div>
@@ -205,7 +205,7 @@
               <table class="w-full">
                 <tbody>
                   <tr
-                    v-for="(jadwal, index) in umkm.jamOperasional"
+                    v-for="(jadwal, index) in business.jamOperasional"
                     :key="index"
                     class="border-b border-gray-50 dark:border-white/5 last:border-0 hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors"
                   >
@@ -236,7 +236,7 @@
             </h2>
             <div class="flex flex-wrap gap-2">
               <span
-                v-for="metode in umkm.metodePembayaran"
+                v-for="metode in business.metodePembayaran"
                 :key="metode"
                 class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-[#FAE7CB]/50 dark:bg-[#FAE7CB]/10 text-gray-700 dark:text-gray-300 border border-[#FAE7CB] dark:border-white/5"
               >
@@ -249,7 +249,7 @@
           </article>
 
           <!-- Fasilitas (Status Fasilitas) -->
-          <article v-if="umkm.fasilitas && umkm.fasilitas.length" class="info-card bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 transition-all duration-300">
+          <article v-if="business.fasilitas && business.fasilitas.length" class="info-card bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 transition-all duration-300">
             <h2 class="section-heading text-gray-800 dark:text-white transition-colors duration-300">
               <span class="heading-icon bg-[#FFC94D]/10">
                 <svg class="w-4 h-4 text-[#FFC94D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -260,7 +260,7 @@
             </h2>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div
-                v-for="fasilitas in umkm.fasilitas"
+                v-for="fasilitas in business.fasilitas"
                 :key="typeof fasilitas === 'object' ? fasilitas.name : fasilitas"
                 class="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50/50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-[#FFC94D]/[0.03] dark:hover:bg-[#FFC94D]/5 transition-all duration-300 group"
               >
@@ -288,13 +288,13 @@
               </span>
               Produk / Menu
               <span class="ml-auto text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-black/30 px-2.5 py-1 rounded-full">
-                {{ umkm.produk.length }} item
+                {{ business.produk.length }} item
               </span>
             </h2>
 
             <div class="space-y-3">
               <div
-                v-for="(produk, index) in umkm.produk"
+                v-for="(produk, index) in business.produk"
                 :key="index"
                 class="group p-4 rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#FFC94D]/30 hover:bg-[#FFC94D]/[0.03] dark:hover:bg-[#FFC94D]/10 transition-all duration-300 cursor-default bg-white dark:bg-[#0d0f14]"
               >
@@ -325,18 +325,34 @@
               <svg class="w-5 h-5 text-[#FA6781] mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 1 1 9.9 9.9L10 18.9l-4.95-4.95a7 7 0 0 1 0-9.9ZM10 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" clip-rule="evenodd" />
               </svg>
-              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ umkm.alamat }}</p>
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ business.alamat }}</p>
             </div>
-            <div v-if="mapEmbedUrl" class="mt-4 overflow-hidden rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-100 dark:bg-[#161a24]">
+            <a
+              v-if="mapEmbedUrl"
+              :href="mapRedirectUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              :title="`Buka lokasi ${business.namaUsaha} di Google Maps`"
+              class="group relative mt-4 block overflow-hidden rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-100 dark:bg-[#161a24] cursor-pointer"
+            >
               <iframe
                 :src="mapEmbedUrl"
-                :title="`Lokasi ${umkm.namaUsaha}`"
-                class="w-full h-72 border-0"
+                :title="`Lokasi ${business.namaUsaha}`"
+                class="w-full h-44 sm:h-52 border-0 pointer-events-none"
+                style="pointer-events: none;"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                allowfullscreen
+                tabindex="-1"
+                aria-hidden="true"
               ></iframe>
-            </div>
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200"></div>
+              <span class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#0a0a0a] text-[11px] sm:text-xs font-semibold text-gray-700 dark:text-white shadow-md group-hover:scale-105 transition-transform duration-200">
+                <svg class="w-3.5 h-3.5 text-[#FA6781]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Buka di Google Maps
+              </span>
+            </a>
           </article>
 
           <!-- Laporkan Kesalahan / Tutup -->
@@ -382,13 +398,13 @@
                 </span>
                 Produk / Menu
                 <span class="ml-auto text-xs font-medium text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-black/30 px-2.5 py-1 rounded-full">
-                  {{ umkm.produk.length }} item
+                  {{ business.produk.length }} item
                 </span>
               </h2>
 
               <div class="space-y-3">
                 <div
-                  v-for="(produk, index) in umkm.produk"
+                  v-for="(produk, index) in business.produk"
                   :key="index"
                   class="group p-4 rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#FFC94D]/30 hover:bg-[#FFC94D]/[0.03] dark:hover:bg-[#FFC94D]/10 transition-all duration-300 cursor-default bg-white dark:bg-[#0d0f14]"
                 >
@@ -457,17 +473,17 @@
         </div>
       </div>
 
-      <div v-if="recommendedUmkm.length" class="mt-16">
+      <div v-if="recommendedBusiness.length" class="mt-16">
         <div class="flex items-center justify-between gap-4 mb-6">
           <div>
             <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#FFC94D] bg-[#FFC94D]/10 rounded-full px-4 py-1.5 mb-3">
-              <CategoryIcon :name="umkm.kategori" class="w-4 h-4" />
-              Rekomendasi {{ umkm.kategori }}
+              <CategoryIcon :name="business.kategori" class="w-4 h-4" />
+              Rekomendasi {{ business.kategori }}
             </span>
             <h2 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Tempat Serupa</h2>
           </div>
           <router-link
-            :to="{ name: 'SearchResult', query: { q: umkm.kategori } }"
+            :to="{ name: 'SearchResult', query: { q: business.kategori } }"
             class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-[#FFC94D] hover:text-[#e6b03a] dark:text-[#FFC94D] dark:hover:text-[#e6b03a]"
           >
             Lihat kategori
@@ -479,9 +495,9 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           <router-link
-            v-for="item in recommendedUmkm"
+            v-for="item in recommendedBusiness"
             :key="item.id"
-            :to="{ name: 'UmkmDetail', params: { id: item.id } }"
+            :to="{ name: 'BusinessDetail', params: { id: item.id } }"
             class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm dark:shadow-black/40 hover:shadow-xl hover:shadow-[#FFC94D]/10 hover:-translate-y-1 transition-all duration-300"
           >
             <div class="h-32 sm:h-40 overflow-hidden">
@@ -668,7 +684,7 @@
               Bagikan Usaha Ini
             </h3>
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-              Bagikan detail usaha <strong>{{ umkm?.namaUsaha }}</strong> kepada teman atau keluarga Anda.
+              Bagikan detail usaha <strong>{{ business?.namaUsaha }}</strong> kepada teman atau keluarga Anda.
             </p>
 
             <!-- Share Buttons Grid -->
@@ -798,7 +814,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed, ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
-import { umkmStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl } from '../data/umkmData'
+import { businessStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl } from '../data/businessData'
 
 const route = useRoute()
 const router = useRouter()
@@ -837,8 +853,8 @@ const xShareUrl = computed(() => {
 // LinkedIn removed as requested
 
 function checkReportedStatus() {
-  if (umkm.value) {
-    hasReported.value = localStorage.getItem(`reported-${umkm.value.id}`) === 'true'
+  if (business.value) {
+    hasReported.value = localStorage.getItem(`reported-${business.value.id}`) === 'true'
   } else {
     hasReported.value = false
   }
@@ -866,14 +882,14 @@ function submitReport() {
     ? 'Laporan toko tutup permanen.'
     : words.slice(0, 200).join(' ')
 
-  umkmStore.addReport({
-    umkmId: umkm.value.id,
-    namaUsaha: umkm.value.namaUsaha,
+  businessStore.addReport({
+    businessId: business.value.id,
+    namaUsaha: business.value.namaUsaha,
     tipe: reportType.value,
     detail: detailText
   })
 
-  localStorage.setItem(`reported-${umkm.value.id}`, 'true')
+  localStorage.setItem(`reported-${business.value.id}`, 'true')
   hasReported.value = true
 
   closeReportModal()
@@ -944,10 +960,10 @@ function shareToFacebook() {
   })
 }
 
-const umkm = computed(() => umkmStore.getById(route.params.id))
+const business = computed(() => businessStore.getById(route.params.id))
 const operationalStatus = computed(() => {
-  if (!umkm.value) return { isOpen: false, text: 'Tutup' }
-  return checkOperationalStatus(umkm.value.jamOperasional)
+  if (!business.value) return { isOpen: false, text: 'Tutup' }
+  return checkOperationalStatus(business.value.jamOperasional)
 })
 const heroLoaded = ref(false)
 const lightboxOpen = ref(false)
@@ -956,41 +972,73 @@ const lightboxRef = ref(null)
 const showScrollTop = ref(false)
 
 const allPhotos = computed(() => {
-  if (!umkm.value) return []
+  if (!business.value) return []
 
   const photos = []
-  umkm.value.foto.tempat?.forEach((url, i) => {
+  business.value.foto.tempat?.forEach((url, i) => {
     photos.push({ url, label: `Suasana Tempat ${i + 1}` })
   })
-  umkm.value.foto.produk?.forEach((url, i) => {
+  business.value.foto.produk?.forEach((url, i) => {
     photos.push({ url, label: `Foto Produk ${i + 1}` })
   })
-  if (umkm.value.foto.menu) {
-    if (Array.isArray(umkm.value.foto.menu)) {
-      umkm.value.foto.menu.forEach((url, i) => {
+  if (business.value.foto.menu) {
+    if (Array.isArray(business.value.foto.menu)) {
+      business.value.foto.menu.forEach((url, i) => {
         if (url && url.trim()) {
           photos.push({ url, label: `Menu ${i + 1}` })
         }
       })
-    } else if (typeof umkm.value.foto.menu === 'string' && umkm.value.foto.menu.trim()) {
-      photos.push({ url: umkm.value.foto.menu, label: 'Menu' })
+    } else if (typeof business.value.foto.menu === 'string' && business.value.foto.menu.trim()) {
+      photos.push({ url: business.value.foto.menu, label: 'Menu' })
     }
   }
 
   return photos
 })
 
-const recommendedUmkm = computed(() => {
-  if (!umkm.value) return []
-  return umkmStore
-    .getByCategory(umkm.value.kategori)
-    .filter(item => item.id !== umkm.value.id)
+const recommendedBusiness = computed(() => {
+  if (!business.value) return []
+  return businessStore
+    .getByCategory(business.value.kategori)
+    .filter(item => item.id !== business.value.id)
     .slice(0, 3)
 })
 
 const mapEmbedUrl = computed(() => {
-  if (!umkm.value || !umkm.value.mapsEmbed) return ''
-  return normalizeMapEmbed(umkm.value.mapsEmbed)
+  if (!business.value) return ''
+  // Prefer an explicitly configured Google Maps link/embed/coordinates,
+  // fall back to the plain text address so a mini map still shows.
+  const source = (business.value.mapsEmbed || '').trim() || (business.value.alamat || '').trim()
+  if (!source) return ''
+  return normalizeMapEmbed(source)
+})
+
+const mapRedirectUrl = computed(() => {
+  if (!business.value) return ''
+  const source = (business.value.mapsEmbed || '').trim()
+
+  // Exact coordinates (either typed directly or embedded in a Maps URL)
+  const coordMatch = source.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/)
+  if (coordMatch) {
+    return `https://www.google.com/maps/search/?api=1&query=${coordMatch[1]},${coordMatch[2]}`
+  }
+
+  // A query already resolved inside the normalized embed URL (?q=...)
+  if (mapEmbedUrl.value) {
+    try {
+      const embedUrl = new URL(mapEmbedUrl.value)
+      const q = embedUrl.searchParams.get('q')
+      if (q) {
+        return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
+      }
+    } catch {
+      // Not a parseable URL (e.g. a raw /maps/embed?pb=... iframe source) - fall through
+    }
+  }
+
+  // Last resort: search Google Maps by business name + address
+  const query = [business.value.namaUsaha, business.value.alamat].filter(Boolean).join(', ')
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 })
 
 function formatPrice(price) {

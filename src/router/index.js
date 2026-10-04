@@ -13,9 +13,9 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/umkm/:id',
-    name: 'UmkmDetail',
-    component: () => import('../pages/UmkmDetailPage.vue')
+    path: '/business/:id',
+    name: 'BusinessDetail',
+    component: () => import('../pages/BusinessDetailPage.vue')
   },
   {
     path: '/search',
@@ -33,9 +33,9 @@ const routes = [
     component: () => import('../pages/PrivacyPage.vue')
   },
   {
-    path: '/achievements',
-    name: 'Achievements',
-    component: () => import('../pages/AchievementsPage.vue')
+    path: '/tentang',
+    name: 'About',
+    component: () => import('../pages/AboutPage.vue')
   },
   {
     path: '/admin',
@@ -76,11 +76,11 @@ router.beforeEach((to) => {
     applyTheme(themeState.theme || storedTheme)
   }
 
-  if (to.meta.requiresAdmin && sessionStorage.getItem('umkm-admin-auth') !== 'true') {
+  if (to.meta.requiresAdmin && sessionStorage.getItem('business-admin-auth') !== 'true') {
     return { name: 'AdminLogin', query: { redirect: to.fullPath } }
   }
 
-  if (to.name === 'AdminLogin' && sessionStorage.getItem('umkm-admin-auth') === 'true') {
+  if (to.name === 'AdminLogin' && sessionStorage.getItem('business-admin-auth') === 'true') {
     return { name: 'Admin' }
   }
 
