@@ -1,0 +1,14 @@
+# HTTP response headers for Netlify / Cloudflare Pages (static hosting).
+# These cover protections that cannot be expressed in a <meta> tag.
+# The CSP itself lives in index.html so it stays in one place.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Fingerprinted build assets never change for a given hash -> cache forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

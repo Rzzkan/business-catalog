@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #59B292;
+  --color-primary-dark: #478f76;
+  --color-primary-light: #7ac4a8;
+  --color-accent: #FFC94D;
+  --color-accent-dark: #e6b03a;
+  --color-accent-light: #ffd876;
+  --color-cream: #FAE7CB;
+  --color-cream-dark: #f0d4a8;
+  --color-cream-light: #FFF9F0;
+  --color-coral: #FA6781;
+  --color-coral-dark: #e04d66;
+  --color-coral-light: #fb8fa3;
+
+  --font-family-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  color: #2d3436;
+  background-color: #FFF9F0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAE7CB;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #59B292;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #478f76;
+}
+
+/* Selection colors */
+::selection {
+  background: #59B292;
+  color: white;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(89, 178, 146, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(89, 178, 146, 0.6); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #59B292, #FFC94D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(89, 178, 146, 0.15);
+}
+
+/* Shimmer loading */
+.shimmer {
+  background: linear-gradient(90deg, #FAE7CB 25%, #FFF9F0 50%, #FAE7CB 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Image hover zoom */
+.img-zoom {
+  overflow: hidden;
+}
+
+.img-zoom img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.img-zoom:hover img {
+  transform: scale(1.08);
+}
+
+/* Dark Mode Global Styles */
+.dark body {
+  color: #f1f2f6;
+  background-color: #0c0e14;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #161a24;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #59B292;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #478f76;
+}
+
+.dark ::selection {
+  background: #59B292;
+  color: #0c0e14;
+}
+
+/* Glass effect dark mode */
+.dark .glass {
+  background: rgba(12, 14, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Shimmer dark mode */
+.dark .shimmer {
+  background: linear-gradient(90deg, #161a24 25%, #1f2533 50%, #161a24 75%);
+  background-size: 200% 100%;
+}
+
+/* View Transitions circular clip-path reveal */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+  animation: 500ms ease-in-out both ripple-reveal;
+}
+
+@keyframes ripple-reveal {
+  from {
+    clip-path: circle(0px at var(--ripple-x, 50%) var(--ripple-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--ripple-radius, 100%) at var(--ripple-x, 50%) var(--ripple-y, 50%));
+  }
+}
+
+/* Disable all transitions during theme switch to prevent View Transition screenshots from capturing half-transitioned states */
+.disable-transitions body,
+.disable-transitions body * {
+  transition: none !important;
+  transition-duration: 0s !important;
+}
+
+/* Force solid background during view transitions only when navbar is scrolled/solid (has shadow) to prevent transparent flash from losing backdrop blur */
+.disable-transitions nav.shadow-lg {
+  background-color: white !important;
+}
+.dark.disable-transitions nav.shadow-lg {
+  background-color: #0c0e14 !important;
+}
+
+/* Respect the user's OS-level "reduce motion" preference: neutralize CSS
+   animations, transitions and the view-transition ripple for people who get
+   motion sickness or simply prefer a calmer UI. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

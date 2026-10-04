@@ -1,0 +1,29 @@
+# Apache / cPanel configuration for the built static site.
+# Mirrors public/_headers for hosts that run Apache.
+
+# --- SPA routing: send unknown paths to index.html so Vue Router handles them ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# --- Security headers (CSP is defined in index.html) ---
+<IfModule mod_headers.c>
+  Header set X-Frame-Options "DENY"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
+  Header set Cross-Origin-Opener-Policy "same-origin"
+
+  # Cache fingerprinted assets aggressively; never cache the HTML shell.
+  <FilesMatch "\.(js|css|woff2?|png|jpg|jpeg|svg|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,28 @@
+{
+  "name": "UMKMHub - E-Catalog UMKM Indonesia",
+  "short_name": "UMKMHub",
+  "description": "Temukan dan dukung usaha mikro, kecil, dan menengah terbaik di Indonesia.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "id",
+  "dir": "ltr",
+  "background_color": "#FFF9F0",
+  "theme_color": "#59B292",
+  "categories": ["business", "shopping", "food"],
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}
