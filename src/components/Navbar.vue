@@ -17,21 +17,21 @@
   <nav
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
     :class="[
-      scrolled && !navSolid ? 'bg-white/90 dark:bg-[#0c0e14]/90 backdrop-blur-xl shadow-lg shadow-primary/5 dark:shadow-black/20 border-b border-transparent dark:border-white/5' : '',
-      navSolid ? 'bg-white dark:bg-[#0c0e14] shadow-lg shadow-primary/5 dark:shadow-black/20 border-b border-transparent dark:border-white/5' : '',
+      scrolled && !navSolid ? 'bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-xl shadow-lg shadow-primary/5 dark:shadow-black/20 border-b border-transparent dark:border-white/5' : '',
+      navSolid ? 'bg-white dark:bg-[#0a0a0a] shadow-lg shadow-primary/5 dark:shadow-black/20 border-b border-transparent dark:border-white/5' : '',
       !scrolled && !navSolid ? 'bg-transparent border-b border-transparent' : ''
     ]"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-4 h-16 lg:h-20">
         <router-link to="/" class="flex items-center gap-2 group shrink-0">
-          <img src="/logo.svg" alt="UMKMHub Logo" class="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-105" />
+          <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-105" />
           <div class="flex flex-col">
             <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-              UMKM<span class="text-primary">Hub</span>
+              HIPMI<span class="text-primary">Bantul</span>
             </span>
             <span class="text-[10px] font-medium -mt-1 text-gray-400 dark:text-gray-500">
-              E-Catalog Indonesia
+              Katalog Bisnis Anggota
             </span>
           </div>
         </router-link>
@@ -147,7 +147,7 @@
     >
       <div
         v-if="mobileMenuOpen"
-        class="md:hidden bg-white dark:bg-[#0c0e14] border-t border-gray-100 dark:border-white/5 shadow-xl absolute top-full left-0 right-0 w-full overflow-hidden"
+        class="md:hidden bg-white dark:bg-[#0a0a0a] border-t border-gray-100 dark:border-white/5 shadow-xl absolute top-full left-0 right-0 w-full overflow-hidden"
       >
         <transition name="slide-menu" mode="out-in">
           <!-- Main Mobile Menu -->

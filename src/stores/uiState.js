@@ -6,8 +6,8 @@ export const homeSearchState = reactive({
 })
 
 export const themeState = reactive({
-  theme: 'auto',
-  isDark: false,
+  theme: 'dark',
+  isDark: true,
   forceLightMode: false,
   isRaining: false,
   isRainingManuallyToggled: false
@@ -110,7 +110,7 @@ export function setThemeWithAnimation(newTheme, event) {
 // Watch for system preference changes when 'auto' is active
 if (typeof window !== 'undefined') {
   // Set initial state
-  const initialTheme = localStorage.getItem('theme') || 'auto'
+  const initialTheme = localStorage.getItem('theme') || 'dark'
   themeState.isRainingManuallyToggled = localStorage.getItem('isRainingManuallyToggled') === 'true'
   themeState.isRaining = themeState.isRainingManuallyToggled
   

@@ -1,7 +1,8 @@
 <template>
   <div>
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-10">
-      <div class="absolute inset-0 bg-gradient-to-br from-cream-light via-white to-cream dark:from-[#0c0e14] dark:via-[#11131a] dark:to-[#161922] transition-colors duration-300"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-cream-light via-white to-cream dark:from-[#0a0a0a] dark:via-[#11131a] dark:to-[#161922] transition-colors duration-300"></div>
+      <div class="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-300 brand-grid-glow pointer-events-none" aria-hidden="true"></div>
 
       <div class="relative w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div class="rounded-3xl p-7 sm:p-10 lg:p-16 xl:p-20 lg:min-h-[calc(100vh-7rem)] lg:flex lg:flex-col lg:justify-center">
@@ -155,7 +156,7 @@
       </div>
     </section>
 
-    <section class="py-20 bg-gradient-to-b from-white to-cream-light dark:from-[#0d0f15] dark:to-[#0c0e14] relative transition-colors duration-300">
+    <section class="py-20 bg-gradient-to-b from-white to-cream-light dark:from-[#0d0f15] dark:to-[#0a0a0a] relative transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
           <div>
@@ -350,7 +351,7 @@ const categoryCards = computed(() => {
   const pinnedNames = ['Makanan', 'Minuman', 'Jasa']
   const cards = pinnedNames.map(name => {
     const cat = umkmStore.categoriesList.find(c => c.name === name)
-    const color = cat ? cat.color : (name === 'Makanan' ? '#FA6781' : (name === 'Minuman' ? '#59B292' : '#4A5568'))
+    const color = cat ? cat.color : (name === 'Makanan' ? '#FA6781' : (name === 'Minuman' ? '#FFC94D' : '#4A5568'))
     return {
       name,
       count: umkmStore.getByCategory(name).length,

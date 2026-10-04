@@ -1,16 +1,16 @@
 <template>
-  <div class="min-h-screen pt-36 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAE7CB]/20 via-white to-[#59B292]/5 dark:from-[#13100a] dark:via-[#0c0e14] dark:to-[#07130f] transition-colors duration-300">
+  <div class="min-h-screen pt-36 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAE7CB]/20 via-white to-[#FFC94D]/5 dark:from-[#13100a] dark:via-[#0a0a0a] dark:to-[#07130f] transition-colors duration-300">
     <div class="max-w-4xl mx-auto">
       
       <!-- Page Header -->
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-white mb-4">
-          Ruang <span class="text-[#59B292]">Pencapaian</span>
+          Ruang <span class="text-[#FFC94D]">Pencapaian</span>
         </h1>
         <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto text-sm md:text-base mb-2">
           Temukan rahasia yang tersembunyi di seluruh website ini. Lakukan tindakan khusus untuk membuka pencapaian eksklusif!
         </p>
-        <p class="text-xs text-[#59B292] font-semibold">
+        <p class="text-xs text-[#FFC94D] font-semibold">
           Terbuka: {{ unlockedCount }} / {{ achievements.length }} Rahasia
         </p>
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#FFF9F0] dark:bg-[#0c0e14] pt-24 pb-16 transition-colors duration-300">
+  <div class="min-h-screen bg-[#FFF9F0] dark:bg-[#0a0a0a] pt-24 pb-16 transition-colors duration-300">
     <div class="max-w-4xl mx-auto px-6 sm:px-8 text-gray-800 dark:text-gray-300">
       <!-- Back Link -->
       <router-link

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#FFF9F0] dark:bg-[#0c0e14] flex flex-col transition-colors duration-300">
+  <div class="min-h-screen bg-[#FFF9F0] dark:bg-[#0a0a0a] flex flex-col transition-colors duration-300">
     <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
     <Navbar v-if="!hideShell" />
     <main id="main-content" tabindex="-1" class="flex-1">
@@ -77,7 +77,7 @@ onMounted(() => {
   z-index: 100;
   padding: 0.75rem 1.25rem;
   border-radius: 0 0 0.75rem 0.75rem;
-  background: #59B292;
+  background: #FFC94D;
   color: #fff;
   font-weight: 700;
   font-size: 0.875rem;

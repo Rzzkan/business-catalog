@@ -1,7 +1,7 @@
 <template>
-  <div v-if="!umkm" class="min-h-screen flex items-center justify-center bg-[#FAE7CB]/30 dark:bg-[#0c0e14] transition-colors duration-300">
+  <div v-if="!umkm" class="min-h-screen flex items-center justify-center bg-[#FAE7CB]/30 dark:bg-[#0a0a0a] transition-colors duration-300">
     <div class="text-center px-6 py-16 animate-fade-in">
-      <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-white dark:bg-[#161a24] text-[#59B292] flex items-center justify-center shadow-sm border border-transparent dark:border-white/5">
+      <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-white dark:bg-[#161a24] text-[#FFC94D] flex items-center justify-center shadow-sm border border-transparent dark:border-white/5">
         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
         </svg>
@@ -12,7 +12,7 @@
       </p>
       <router-link
         to="/"
-        class="inline-flex items-center gap-2 bg-[#59B292] hover:bg-[#4a9e80] text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+        class="inline-flex items-center gap-2 bg-[#FFC94D] hover:bg-[#e6b03a] text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10h14V10" />
@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div v-else class="min-h-screen bg-gray-50 dark:bg-[#0c0e14] transition-colors duration-300">
+  <div v-else class="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-300">
     <section class="relative h-[65vh] min-h-[420px] max-h-[600px] overflow-hidden">
       <img
         :src="umkm.foto.utama"
@@ -90,8 +90,8 @@
         <div class="lg:col-span-3 space-y-6">
           <article class="info-card bg-white dark:bg-[#161a24] p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 transition-all duration-300">
             <h2 class="section-heading flex items-center gap-2 text-xl font-bold text-gray-800 dark:text-white mb-6 transition-colors duration-300">
-              <span class="heading-icon w-8 h-8 flex items-center justify-center rounded-lg bg-[#59B292]/10">
-                <svg class="w-4 h-4 text-[#59B292]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <span class="heading-icon w-8 h-8 flex items-center justify-center rounded-lg bg-[#FFC94D]/10">
+                <svg class="w-4 h-4 text-[#FFC94D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
               </span>
@@ -110,7 +110,7 @@
               Informasi Pemilik
             </h2>
             <div class="flex items-center gap-4">
-              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-[#59B292] to-[#FFC94D] flex items-center justify-center text-white text-xl font-bold shadow-md">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-[#FFC94D] to-[#18933C] flex items-center justify-center text-white text-xl font-bold shadow-md">
                 {{ umkm.namaPemilik.charAt(0) }}
               </div>
               <div>
@@ -131,7 +131,7 @@
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <a href="#" @click.prevent="handleContact('tel', umkm.kontak.telepon)" class="contact-card bg-[#f9fafb] dark:bg-[#0d0f14] hover:bg-primary/5 dark:hover:bg-primary/10 border border-transparent dark:border-white/5 transition-colors duration-300 cursor-pointer">
-                <span class="contact-icon bg-[#59B292]/10 text-[#59B292]">
+                <span class="contact-icon bg-[#FFC94D]/10 text-[#FFC94D]">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z" />
                   </svg>
@@ -183,8 +183,8 @@
           <article class="info-card bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 transition-all duration-300">
             <h2 class="section-heading flex items-center justify-between gap-4 text-gray-800 dark:text-white transition-colors duration-300">
               <span class="flex items-center gap-2">
-                <span class="heading-icon bg-[#59B292]/10">
-                  <svg class="w-4 h-4 text-[#59B292]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <span class="heading-icon bg-[#FFC94D]/10">
+                  <svg class="w-4 h-4 text-[#FFC94D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
                 </span>
@@ -214,7 +214,7 @@
                       <span
                         :class="jadwal.jam === 'Tutup'
                           ? 'text-[#FA6781] bg-[#FA6781]/10 px-3 py-1 rounded-full font-medium'
-                          : 'text-[#59B292] bg-[#59B292]/10 px-3 py-1 rounded-full font-medium'"
+                          : 'text-[#FFC94D] bg-[#FFC94D]/10 px-3 py-1 rounded-full font-medium'"
                       >
                         {{ jadwal.jam }}
                       </span>
@@ -240,7 +240,7 @@
                 :key="metode"
                 class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium bg-[#FAE7CB]/50 dark:bg-[#FAE7CB]/10 text-gray-700 dark:text-gray-300 border border-[#FAE7CB] dark:border-white/5"
               >
-                <svg class="w-3.5 h-3.5 text-[#59B292]" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-3.5 h-3.5 text-[#FFC94D]" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 0 1 0 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 0 1 1.414-1.414L8 12.586l7.293-7.293a1 1 0 0 1 1.414 0Z" clip-rule="evenodd" />
                 </svg>
                 {{ metode }}
@@ -251,8 +251,8 @@
           <!-- Fasilitas (Status Fasilitas) -->
           <article v-if="umkm.fasilitas && umkm.fasilitas.length" class="info-card bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 transition-all duration-300">
             <h2 class="section-heading text-gray-800 dark:text-white transition-colors duration-300">
-              <span class="heading-icon bg-[#59B292]/10">
-                <svg class="w-4 h-4 text-[#59B292]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <span class="heading-icon bg-[#FFC94D]/10">
+                <svg class="w-4 h-4 text-[#FFC94D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4" />
                 </svg>
               </span>
@@ -262,16 +262,16 @@
               <div
                 v-for="fasilitas in umkm.fasilitas"
                 :key="typeof fasilitas === 'object' ? fasilitas.name : fasilitas"
-                class="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50/50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-[#59B292]/[0.03] dark:hover:bg-[#59B292]/5 transition-all duration-300 group"
+                class="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50/50 dark:bg-white/[0.02] border border-gray-100 dark:border-white/5 text-gray-700 dark:text-gray-300 hover:bg-[#FFC94D]/[0.03] dark:hover:bg-[#FFC94D]/5 transition-all duration-300 group"
               >
-                <div class="w-8 h-8 rounded-lg bg-[#59B292]/10 text-[#59B292] group-hover:bg-[#59B292] group-hover:text-white flex items-center justify-center transition-all duration-300 shrink-0">
+                <div class="w-8 h-8 rounded-lg bg-[#FFC94D]/10 text-[#FFC94D] group-hover:bg-[#FFC94D] group-hover:text-white flex items-center justify-center transition-all duration-300 shrink-0">
                   <FacilityIcon
                     :name="typeof fasilitas === 'object' ? fasilitas.name : fasilitas"
                     :icon="typeof fasilitas === 'object' ? fasilitas.icon : ''"
                     class="w-4.5 h-4.5"
                   />
                 </div>
-                <span class="text-sm font-semibold leading-tight text-gray-800 dark:text-gray-200 group-hover:text-[#59B292] transition-colors">
+                <span class="text-sm font-semibold leading-tight text-gray-800 dark:text-gray-200 group-hover:text-[#FFC94D] transition-colors">
                   {{ typeof fasilitas === 'object' ? fasilitas.name : fasilitas }}
                 </span>
               </div>
@@ -296,13 +296,13 @@
               <div
                 v-for="(produk, index) in umkm.produk"
                 :key="index"
-                class="group p-4 rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#59B292]/30 hover:bg-[#59B292]/[0.03] dark:hover:bg-[#59B292]/10 transition-all duration-300 cursor-default bg-white dark:bg-[#0d0f14]"
+                class="group p-4 rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#FFC94D]/30 hover:bg-[#FFC94D]/[0.03] dark:hover:bg-[#FFC94D]/10 transition-all duration-300 cursor-default bg-white dark:bg-[#0d0f14]"
               >
                 <div class="flex items-start justify-between gap-3 mb-1.5">
-                  <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug group-hover:text-[#59B292] transition-colors">
+                  <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug group-hover:text-[#FFC94D] transition-colors">
                     {{ produk.nama }}
                   </h3>
-                  <span class="shrink-0 text-sm font-bold text-[#59B292] bg-[#59B292]/10 dark:bg-[#59B292]/20 px-2.5 py-0.5 rounded-lg whitespace-nowrap">
+                  <span class="shrink-0 text-sm font-bold text-[#FFC94D] bg-[#FFC94D]/10 dark:bg-[#FFC94D]/20 px-2.5 py-0.5 rounded-lg whitespace-nowrap">
                     Rp {{ formatPrice(produk.harga) }}
                   </span>
                 </div>
@@ -390,13 +390,13 @@
                 <div
                   v-for="(produk, index) in umkm.produk"
                   :key="index"
-                  class="group p-4 rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#59B292]/30 hover:bg-[#59B292]/[0.03] dark:hover:bg-[#59B292]/10 transition-all duration-300 cursor-default bg-white dark:bg-[#0d0f14]"
+                  class="group p-4 rounded-xl border border-gray-100 dark:border-white/5 hover:border-[#FFC94D]/30 hover:bg-[#FFC94D]/[0.03] dark:hover:bg-[#FFC94D]/10 transition-all duration-300 cursor-default bg-white dark:bg-[#0d0f14]"
                 >
                   <div class="flex items-start justify-between gap-3 mb-1.5">
-                    <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug group-hover:text-[#59B292] transition-colors">
+                    <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug group-hover:text-[#FFC94D] transition-colors">
                       {{ produk.nama }}
                     </h3>
-                    <span class="shrink-0 text-sm font-bold text-[#59B292] bg-[#59B292]/10 dark:bg-[#59B292]/20 px-2.5 py-0.5 rounded-lg whitespace-nowrap">
+                    <span class="shrink-0 text-sm font-bold text-[#FFC94D] bg-[#FFC94D]/10 dark:bg-[#FFC94D]/20 px-2.5 py-0.5 rounded-lg whitespace-nowrap">
                       Rp {{ formatPrice(produk.harga) }}
                     </span>
                   </div>
@@ -460,7 +460,7 @@
       <div v-if="recommendedUmkm.length" class="mt-16">
         <div class="flex items-center justify-between gap-4 mb-6">
           <div>
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#59B292] bg-[#59B292]/10 rounded-full px-4 py-1.5 mb-3">
+            <span class="inline-flex items-center gap-2 text-sm font-semibold text-[#FFC94D] bg-[#FFC94D]/10 rounded-full px-4 py-1.5 mb-3">
               <CategoryIcon :name="umkm.kategori" class="w-4 h-4" />
               Rekomendasi {{ umkm.kategori }}
             </span>
@@ -468,7 +468,7 @@
           </div>
           <router-link
             :to="{ name: 'SearchResult', query: { q: umkm.kategori } }"
-            class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-[#59B292] hover:text-[#478f76] dark:text-[#59B292] dark:hover:text-[#478f76]"
+            class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-[#FFC94D] hover:text-[#e6b03a] dark:text-[#FFC94D] dark:hover:text-[#e6b03a]"
           >
             Lihat kategori
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -482,7 +482,7 @@
             v-for="item in recommendedUmkm"
             :key="item.id"
             :to="{ name: 'UmkmDetail', params: { id: item.id } }"
-            class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm dark:shadow-black/40 hover:shadow-xl hover:shadow-[#59B292]/10 hover:-translate-y-1 transition-all duration-300"
+            class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm dark:shadow-black/40 hover:shadow-xl hover:shadow-[#FFC94D]/10 hover:-translate-y-1 transition-all duration-300"
           >
             <div class="h-32 sm:h-40 overflow-hidden">
               <img
@@ -501,7 +501,7 @@
                 <CategoryIcon :name="item.kategori" class="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span class="hidden sm:inline">{{ item.kategori }}</span>
               </p>
-              <h3 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base group-hover:text-[#59B292] transition-colors line-clamp-1">
+              <h3 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base group-hover:text-[#FFC94D] transition-colors line-clamp-1">
                 {{ item.namaUsaha }}
               </h3>
               <p class="text-[10px] sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1 line-clamp-1">{{ getCity(item.alamat) }}</p>
@@ -580,7 +580,7 @@
       <button
         v-if="showScrollTop"
         @click="scrollToTop"
-        class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-[#59B292] text-white shadow-xl shadow-[#59B292]/25 flex items-center justify-center hover:bg-[#478f76] hover:-translate-y-1 active:scale-95 transition-all duration-300"
+        class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-[#FFC94D] text-white shadow-xl shadow-[#FFC94D]/25 flex items-center justify-center hover:bg-[#e6b03a] hover:-translate-y-1 active:scale-95 transition-all duration-300"
         aria-label="Kembali ke atas"
       >
         <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -613,7 +613,7 @@
                 v-model="reportDetail"
                 rows="3"
                 class="w-full px-3 py-2 border rounded-xl bg-transparent text-sm text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none resize-none transition-all duration-200"
-                :class="wordCount > 200 ? 'border-[#FA6781] focus:border-[#FA6781]' : 'border-gray-200 dark:border-white/5 focus:border-[#59B292]'"
+                :class="wordCount > 200 ? 'border-[#FA6781] focus:border-[#FA6781]' : 'border-gray-200 dark:border-white/5 focus:border-[#FFC94D]'"
                 placeholder="Contoh: Nomor WhatsApp sudah tidak aktif, alamat pindah ke..."
               ></textarea>
               <div class="flex justify-between items-center mt-1">
@@ -752,9 +752,9 @@
               <!-- Copy Link -->
               <button
                 @click="copyShareLink"
-                class="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 dark:border-white/5 bg-[#59B292]/5 dark:bg-[#59B292]/10 hover:bg-[#59B292]/15 dark:hover:bg-[#59B292]/20 transition-all duration-200 group text-center"
+                class="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-100 dark:border-white/5 bg-[#FFC94D]/5 dark:bg-[#FFC94D]/10 hover:bg-[#FFC94D]/15 dark:hover:bg-[#FFC94D]/20 transition-all duration-200 group text-center"
               >
-                <div class="w-10 h-10 rounded-full bg-[#59B292] text-white flex items-center justify-center mb-2 shadow-sm group-hover:scale-105 transition-transform">
+                <div class="w-10 h-10 rounded-full bg-[#FFC94D] text-white flex items-center justify-center mb-2 shadow-sm group-hover:scale-105 transition-transform">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                   </svg>
@@ -780,9 +780,9 @@
     <Transition name="toast">
       <div
         v-if="toastOpen"
-        class="fixed bottom-6 right-6 z-[60] bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 shadow-xl shadow-[#59B292]/10 dark:shadow-black/40 rounded-xl px-5 py-3.5 flex items-center gap-3"
+        class="fixed bottom-6 right-6 z-[60] bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 shadow-xl shadow-[#FFC94D]/10 dark:shadow-black/40 rounded-xl px-5 py-3.5 flex items-center gap-3"
       >
-        <div class="w-8 h-8 rounded-full bg-[#59B292] text-white flex items-center justify-center">
+        <div class="w-8 h-8 rounded-full bg-[#FFC94D] text-white flex items-center justify-center">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7" />
           </svg>

@@ -12,7 +12,7 @@
       <aside
         v-show="sidebarOpen || !isMobile"
         :class="[
-          'fixed lg:sticky inset-y-0 left-0 top-0 z-50 w-64 h-screen bg-[#59B292] text-white flex flex-col shadow-xl',
+          'fixed lg:sticky inset-y-0 left-0 top-0 z-50 w-64 h-screen bg-[#FFC94D] text-white flex flex-col shadow-xl',
           'transform transition-transform duration-300 ease-in-out',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         ]"
@@ -20,7 +20,7 @@
         <div class="p-6 border-b border-white/20">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1.5 shrink-0">
-              <img src="/logo.svg" alt="UMKMHub Logo" class="w-full h-full object-contain" />
+              <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-full h-full object-contain" />
             </div>
             <div>
               <h2 class="font-bold text-lg leading-tight">UMKM Admin</h2>
@@ -116,7 +116,7 @@
           </div>
           <div class="flex items-center gap-3 min-w-0">
             <span class="hidden sm:block text-sm text-gray-500 truncate max-w-52">{{ adminEmail }}</span>
-            <div class="w-9 h-9 bg-[#59B292] rounded-full flex items-center justify-center text-white font-bold text-sm">
+            <div class="w-9 h-9 bg-[#FFC94D] rounded-full flex items-center justify-center text-white font-bold text-sm">
               A
             </div>
           </div>
@@ -127,7 +127,7 @@
         <section v-if="activeSection === 'dashboard'">
           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
             <article class="stat-card">
-              <div class="stat-icon bg-[#59B292]/10 text-[#59B292]">
+              <div class="stat-icon bg-[#FFC94D]/10 text-[#FFC94D]">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9.5 12 4l9 5.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5Z" />
                 </svg>
@@ -182,7 +182,7 @@
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <button
               @click="openAddModal"
-              class="flex items-center gap-2 bg-[#59B292] hover:bg-[#4a9e80] text-white px-5 py-2.5 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.97]"
+              class="flex items-center gap-2 bg-[#FFC94D] hover:bg-[#e6b03a] text-white px-5 py-2.5 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.97]"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -269,7 +269,7 @@
                       <div class="flex items-center justify-center gap-2">
                         <button
                           @click="openEditModal(item)"
-                          class="p-2 rounded-lg text-[#59B292] hover:bg-[#59B292]/10 transition-colors duration-200"
+                          class="p-2 rounded-lg text-[#FFC94D] hover:bg-[#FFC94D]/10 transition-colors duration-200"
                           title="Edit"
                         >
                           <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -316,7 +316,7 @@
                   <h2 class="text-lg font-bold text-gray-800">Kategori UMKM</h2>
                   <p class="text-sm text-gray-500 mt-1">Kelola kategori usaha warga dengan warna dan icon pilihan.</p>
                 </div>
-                <span class="text-sm font-semibold text-[#59B292] bg-[#59B292]/10 rounded-full px-3 py-1">
+                <span class="text-sm font-semibold text-[#FFC94D] bg-[#FFC94D]/10 rounded-full px-3 py-1">
                   {{ umkmStore.getCategories().length }} kategori
                 </span>
               </div>
@@ -343,7 +343,7 @@
                   <div class="flex items-center gap-2">
                     <button
                       @click="startEditCategory(cat)"
-                      class="px-3 py-2 rounded-lg text-sm font-semibold text-[#59B292] hover:bg-[#59B292]/10 transition-colors cursor-pointer"
+                      class="px-3 py-2 rounded-lg text-sm font-semibold text-[#FFC94D] hover:bg-[#FFC94D]/10 transition-colors cursor-pointer"
                     >
                       Edit
                     </button>
@@ -409,7 +409,7 @@
                       @click="categoryFormIcon = icon"
                       class="p-2 rounded-lg border flex items-center justify-center transition-all duration-200 cursor-pointer"
                       :class="categoryFormIcon === icon
-                        ? 'border-[#59B292] bg-[#59B292]/10 text-[#59B292] font-bold scale-105 shadow-sm'
+                        ? 'border-[#FFC94D] bg-[#FFC94D]/10 text-[#FFC94D] font-bold scale-105 shadow-sm'
                         : 'border-transparent bg-white hover:bg-gray-100 text-gray-500'"
                     >
                       <CategoryIcon :icon="icon" class="w-5 h-5" />
@@ -432,7 +432,7 @@
                 <div class="flex items-center gap-2 pt-2">
                   <button
                     @click="saveCategory"
-                    class="flex-1 px-4 py-2.5 rounded-xl bg-[#59B292] text-white text-sm font-semibold hover:bg-[#478f76] transition-colors cursor-pointer"
+                    class="flex-1 px-4 py-2.5 rounded-xl bg-[#FFC94D] text-white text-sm font-semibold hover:bg-[#e6b03a] transition-colors cursor-pointer"
                   >
                     {{ editingCategory ? 'Simpan' : 'Tambah' }}
                   </button>
@@ -499,7 +499,7 @@
                     </td>
                     <td class="px-6 py-4">
                       <span
-                        :class="rep.status === 'resolved' ? 'bg-[#59B292]/10 text-[#59B292]' : 'bg-gray-100 text-gray-500'"
+                        :class="rep.status === 'resolved' ? 'bg-[#FFC94D]/10 text-[#FFC94D]' : 'bg-gray-100 text-gray-500'"
                         class="px-2.5 py-1 rounded-full text-xs font-semibold"
                       >
                         {{ rep.status === 'resolved' ? 'Selesai' : 'Baru' }}
@@ -510,7 +510,7 @@
                         <button
                           v-if="rep.status === 'pending'"
                           @click="resolveReport(rep.id)"
-                          class="px-3 py-1.5 rounded-lg bg-[#59B292]/10 text-[#59B292] hover:bg-[#59B292] hover:text-white transition-all text-xs font-bold"
+                          class="px-3 py-1.5 rounded-lg bg-[#FFC94D]/10 text-[#FFC94D] hover:bg-[#FFC94D] hover:text-white transition-all text-xs font-bold"
                         >
                           Tandai Selesai
                         </button>
@@ -704,7 +704,7 @@
                         type="checkbox"
                         :checked="jam.jam === 'Buka 24 Jam'"
                         @change="toggleSpecialTime(index, 'Buka 24 Jam')"
-                        class="w-3.5 h-3.5 rounded border-gray-300 text-[#59B292] focus:ring-[#59B292]"
+                        class="w-3.5 h-3.5 rounded border-gray-300 text-[#FFC94D] focus:ring-[#FFC94D]"
                       />
                       <span>Buka 24 Jam</span>
                     </label>
@@ -713,7 +713,7 @@
                         type="checkbox"
                         :checked="jam.jam === 'Tutup'"
                         @change="toggleSpecialTime(index, 'Tutup')"
-                        class="w-3.5 h-3.5 rounded border-gray-300 text-[#59B292] focus:ring-[#59B292]"
+                        class="w-3.5 h-3.5 rounded border-gray-300 text-[#FFC94D] focus:ring-[#FFC94D]"
                       />
                       <span>Tutup</span>
                     </label>
@@ -783,14 +783,14 @@
                   :key="metode"
                   class="flex items-center gap-2.5 p-3 border rounded-xl cursor-pointer transition-all duration-200"
                   :class="form.metodePembayaran.includes(metode)
-                    ? 'border-[#59B292] bg-[#59B292]/5 text-[#59B292]'
+                    ? 'border-[#FFC94D] bg-[#FFC94D]/5 text-[#FFC94D]'
                     : 'border-gray-200 hover:border-gray-300 text-gray-600'"
                 >
                   <input
                     type="checkbox"
                     :value="metode"
                     v-model="form.metodePembayaran"
-                    class="w-4 h-4 rounded border-gray-300 text-[#59B292] focus:ring-[#59B292]"
+                    class="w-4 h-4 rounded border-gray-300 text-[#FFC94D] focus:ring-[#FFC94D]"
                   />
                   <span class="text-sm font-medium">{{ metode }}</span>
                 </label>
@@ -808,14 +808,14 @@
                   :key="facility"
                   class="relative flex items-center gap-2.5 p-3 border rounded-xl cursor-pointer transition-all duration-200 select-none group/fac"
                   :class="form.fasilitas.includes(facility)
-                    ? 'border-[#59B292] bg-[#59B292]/5 text-[#59B292]'
+                    ? 'border-[#FFC94D] bg-[#FFC94D]/5 text-[#FFC94D]'
                     : 'border-gray-200 hover:border-gray-300 text-gray-600'"
                 >
                   <input
                     type="checkbox"
                     :value="facility"
                     v-model="form.fasilitas"
-                    class="w-4 h-4 rounded border-gray-300 text-[#59B292] focus:ring-[#59B292]"
+                    class="w-4 h-4 rounded border-gray-300 text-[#FFC94D] focus:ring-[#FFC94D]"
                   />
                   <div class="w-5 h-5 flex items-center justify-center shrink-0">
                     <FacilityIcon :name="facility" :icon="facilityIconMap[facility] || ''" class="w-4 h-4" />
@@ -847,7 +847,7 @@
                   <button
                     type="button"
                     @click="addCustomFacility"
-                    class="px-5 py-2.5 bg-[#59B292] hover:bg-[#4a9e80] text-white font-semibold text-sm rounded-xl transition-all duration-200 whitespace-nowrap active:scale-[0.97]"
+                    class="px-5 py-2.5 bg-[#FFC94D] hover:bg-[#e6b03a] text-white font-semibold text-sm rounded-xl transition-all duration-200 whitespace-nowrap active:scale-[0.97]"
                   >
                     Tambah Fasilitas
                   </button>
@@ -866,7 +866,7 @@
                       @click="selectedCustomIcon = icon.name"
                       class="flex items-center gap-1.5 px-3 py-1.5 border rounded-full text-xs font-semibold transition-all duration-200 select-none"
                       :class="selectedCustomIcon === icon.name
-                        ? 'border-[#59B292] bg-[#59B292] text-white shadow-sm shadow-[#59B292]/20'
+                        ? 'border-[#FFC94D] bg-[#FFC94D] text-white shadow-sm shadow-[#FFC94D]/20'
                         : 'border-gray-200 bg-white hover:border-gray-300 text-gray-600 dark:bg-[#161a24]'"
                       :title="icon.title"
                     >
@@ -904,7 +904,7 @@
             </button>
             <button
               @click="saveUmkm"
-              class="px-6 py-2.5 rounded-xl bg-[#59B292] hover:bg-[#4a9e80] text-white font-semibold text-sm shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.97]"
+              class="px-6 py-2.5 rounded-xl bg-[#FFC94D] hover:bg-[#e6b03a] text-white font-semibold text-sm shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.97]"
             >
               {{ isEditing ? 'Simpan Perubahan' : 'Tambah UMKM' }}
             </button>
@@ -957,7 +957,7 @@
       >
         <div
           class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm"
-          :class="toast.type === 'success' ? 'bg-[#59B292]' : 'bg-[#FA6781]'"
+          :class="toast.type === 'success' ? 'bg-[#FFC94D]' : 'bg-[#FA6781]'"
         >
           <svg v-if="toast.type === 'success'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="m5 13 4 4L19 7" />
@@ -990,7 +990,7 @@ const editingId = ref(null)
 const deleteTarget = ref(null)
 const categoryFormName = ref('')
 const categoryFormIcon = ref('grid')
-const categoryFormColor = ref('#59B292')
+const categoryFormColor = ref('#FFC94D')
 const editingCategory = ref('')
 const toast = reactive({ show: false, message: '', type: 'success' })
 const adminEmail = sessionStorage.getItem('umkm-admin-email') || 'Admin'
@@ -1003,7 +1003,7 @@ const availableIcons = [
 ]
 
 const colorPresets = [
-  '#FA6781', '#59B292', '#FFC94D', '#E0A96D', '#4A5568',
+  '#FA6781', '#FFC94D', '#18933C', '#E0A96D', '#4A5568',
   '#4F46E5', '#0EA5E9', '#D946EF', '#F43F5E', '#14B8A6',
   '#3B82F6', '#10B981', '#F97316', '#8B5CF6', '#EC4899',
   '#EF4444', '#06B6D4', '#84CC16', '#172554', '#78350F',
@@ -1135,7 +1135,7 @@ const categoryDistribution = computed(() => {
   const all = umkmStore.getAll()
   const styles = {
     Makanan: 'bg-[#FA6781]/15 text-[#FA6781]',
-    Minuman: 'bg-[#59B292]/15 text-[#59B292]',
+    Minuman: 'bg-[#FFC94D]/15 text-[#FFC94D]',
     Fashion: 'bg-[#FFC94D]/20 text-[#9a7600]',
     Kerajinan: 'bg-[#FAE7CB] text-[#8a5f27]',
     Jasa: 'bg-slate-100 text-slate-700'
@@ -1182,7 +1182,7 @@ function categoryFilterClass(category) {
   return [
     'px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
     filterCategory.value === category
-      ? 'bg-[#59B292] text-white shadow-sm'
+      ? 'bg-[#FFC94D] text-white shadow-sm'
       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
   ]
 }
@@ -1539,14 +1539,14 @@ function startEditCategory(categoryObj) {
   editingCategory.value = categoryObj.name
   categoryFormName.value = categoryObj.name
   categoryFormIcon.value = categoryObj.icon || 'grid'
-  categoryFormColor.value = categoryObj.color || '#59B292'
+  categoryFormColor.value = categoryObj.color || '#FFC94D'
 }
 
 function cancelCategoryEdit() {
   editingCategory.value = ''
   categoryFormName.value = ''
   categoryFormIcon.value = 'grid'
-  categoryFormColor.value = '#59B292'
+  categoryFormColor.value = '#FFC94D'
 }
 
 function saveCategory() {
@@ -1771,7 +1771,7 @@ const UrlList = defineComponent({
   width: 2rem;
   height: 2rem;
   background: rgb(89 178 146 / 0.1);
-  color: #59B292;
+  color: #FFC94D;
 }
 
 .form-input {
@@ -1793,7 +1793,7 @@ const UrlList = defineComponent({
 .form-input:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(89, 178, 146, 0.4);
-  border-color: #59B292;
+  border-color: #FFC94D;
 }
 
 .admin-search-input {
@@ -1841,14 +1841,14 @@ const UrlList = defineComponent({
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #59B292;
+  color: #FFC94D;
   font-size: 0.875rem;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .add-inline-button:hover {
-  color: #478f76;
+  color: #e6b03a;
 }
 
 .slide-enter-active,

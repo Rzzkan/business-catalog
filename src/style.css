@@ -3,12 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #59B292;
-  --color-primary-dark: #478f76;
-  --color-primary-light: #7ac4a8;
-  --color-accent: #FFC94D;
-  --color-accent-dark: #e6b03a;
-  --color-accent-light: #ffd876;
+  --color-primary: #FFC94D;
+  --color-primary-dark: #e6b03a;
+  --color-primary-light: #ffd876;
+  --color-accent: #18933C;
+  --color-accent-dark: #117530;
+  --color-accent-light: #3fb85f;
   --color-cream: #FAE7CB;
   --color-cream-dark: #f0d4a8;
   --color-cream-light: #FFF9F0;
@@ -43,17 +43,17 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #59B292;
+  background: #FFC94D;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #478f76;
+  background: #e6b03a;
 }
 
 /* Selection colors */
 ::selection {
-  background: #59B292;
+  background: #FFC94D;
   color: white;
 }
 
@@ -143,9 +143,19 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* HIPMI-style grid + corner glow background accent (used on hero sections) */
+.brand-grid-glow {
+  background-image:
+    radial-gradient(circle at 8% 15%, rgba(255, 201, 77, 0.16), transparent 32%),
+    radial-gradient(circle at 92% 85%, rgba(255, 201, 77, 0.12), transparent 32%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+}
+
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #59B292, #FFC94D);
+  background: linear-gradient(135deg, #FFC94D, #18933C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -184,7 +194,7 @@ body {
 /* Dark Mode Global Styles */
 .dark body {
   color: #f1f2f6;
-  background-color: #0c0e14;
+  background-color: #0a0a0a;
 }
 
 .dark ::-webkit-scrollbar-track {
@@ -192,16 +202,16 @@ body {
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #59B292;
+  background: #FFC94D;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #478f76;
+  background: #e6b03a;
 }
 
 .dark ::selection {
-  background: #59B292;
-  color: #0c0e14;
+  background: #FFC94D;
+  color: #0a0a0a;
 }
 
 /* Glass effect dark mode */
@@ -251,7 +261,7 @@ body {
   background-color: white !important;
 }
 .dark.disable-transitions nav.shadow-lg {
-  background-color: #0c0e14 !important;
+  background-color: #0a0a0a !important;
 }
 
 /* Respect the user's OS-level "reduce motion" preference: neutralize CSS

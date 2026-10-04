@@ -3,7 +3,7 @@ import { reactive } from 'vue'
 // Default categories configuration
 const defaultCategories = [
   { name: 'Makanan', icon: 'utensils', color: '#FA6781' },
-  { name: 'Minuman', icon: 'coffee', color: '#59B292' },
+  { name: 'Minuman', icon: 'coffee', color: '#FFC94D' },
   { name: 'Fashion', icon: 'shirt', color: '#FFC94D' },
   { name: 'Kerajinan', icon: 'palette', color: '#E0A96D' },
   { name: 'Jasa', icon: 'wrench', color: '#4A5568' }
@@ -478,7 +478,7 @@ export const umkmStore = reactive({
     this.categoriesList.push({
       name: cleanName,
       icon: catObj.icon || 'grid',
-      color: catObj.color || '#59B292'
+      color: catObj.color || '#FFC94D'
     })
     localStorage.setItem('umkm-categories', JSON.stringify(this.categoriesList))
     return true
@@ -496,7 +496,7 @@ export const umkmStore = reactive({
       this.categoriesList[index] = {
         name: cleanName,
         icon: catObj.icon || 'grid',
-        color: catObj.color || '#59B292'
+        color: catObj.color || '#FFC94D'
       }
 
       this.umkmList.forEach((u) => {
@@ -528,7 +528,7 @@ export const umkmStore = reactive({
   add(umkm) {
     const newId = this.umkmList.length ? Math.max(...this.umkmList.map(u => u.id)) + 1 : 1
     if (umkm.kategori && !this.getCategories().includes(umkm.kategori)) {
-      this.categoriesList.push({ name: umkm.kategori, icon: 'grid', color: '#59B292' })
+      this.categoriesList.push({ name: umkm.kategori, icon: 'grid', color: '#FFC94D' })
       localStorage.setItem('umkm-categories', JSON.stringify(this.categoriesList))
     }
     this.umkmList.push({ ...umkm, id: newId })

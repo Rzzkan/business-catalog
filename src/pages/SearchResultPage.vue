@@ -132,16 +132,16 @@ function truncate(text, maxLength = 100) {
 <template>
   <div
     ref="rootRef"
-    class="min-h-screen bg-gradient-to-br from-[#FAE7CB]/30 via-white to-[#59B292]/5 dark:from-[#13100a] dark:via-[#0c0e14] dark:to-[#07130f] pt-16 lg:pt-20 transition-colors duration-300"
+    class="min-h-screen bg-gradient-to-br from-[#FAE7CB]/30 via-white to-[#FFC94D]/5 dark:from-[#13100a] dark:via-[#0a0a0a] dark:to-[#07130f] pt-16 lg:pt-20 transition-colors duration-300"
     :class="easterEggClass"
   >
-    <header class="bg-white/80 dark:bg-[#0c0e14]/80 backdrop-blur-md border-b border-[#59B292]/10 dark:border-white/5 transition-colors duration-300">
+    <header class="bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-[#FFC94D]/10 dark:border-white/5 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
         <div class="flex items-start sm:items-center gap-3 mb-4">
           <button
             data-grav
             @click="goHome"
-            class="shrink-0 mt-1 sm:mt-0 w-9 h-9 flex items-center justify-center rounded-xl bg-[#59B292]/10 dark:bg-[#59B292]/20 text-[#59B292] hover:bg-[#59B292] hover:text-white dark:hover:text-black transition-all duration-200 cursor-pointer"
+            class="shrink-0 mt-1 sm:mt-0 w-9 h-9 flex items-center justify-center rounded-xl bg-[#FFC94D]/10 dark:bg-[#FFC94D]/20 text-[#FFC94D] hover:bg-[#FFC94D] hover:text-white dark:hover:text-black transition-all duration-200 cursor-pointer"
             aria-label="Kembali ke beranda"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,13 +150,13 @@ function truncate(text, maxLength = 100) {
           </button>
           <div class="min-w-0">
             <h1 v-if="query" data-grav class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white truncate">
-              Hasil pencarian untuk "<span class="text-[#59B292]">{{ query }}</span>"
+              Hasil pencarian untuk "<span class="text-[#FFC94D]">{{ query }}</span>"
             </h1>
             <h1 v-else data-grav class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white">
               Semua UMKM
             </h1>
             <p data-grav class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-              <span class="font-semibold text-[#59B292]">{{ results.length }}</span> UMKM ditemukan
+              <span class="font-semibold text-[#FFC94D]">{{ results.length }}</span> UMKM ditemukan
             </p>
           </div>
         </div>
@@ -170,11 +170,11 @@ function truncate(text, maxLength = 100) {
               v-model="searchInput"
               type="text"
               :placeholder="query ? 'Cari lagi...' : 'Cari UMKM...'"
-              class="w-full pl-10 pr-24 py-2.5 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50/80 dark:bg-[#161a24] text-sm text-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#59B292]/40 focus:border-[#59B292] transition-all duration-200"
+              class="w-full pl-10 pr-24 py-2.5 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50/80 dark:bg-[#161a24] text-sm text-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/40 focus:border-[#FFC94D] transition-all duration-200"
             />
             <button
               type="submit"
-              class="absolute right-1.5 px-4 py-1.5 rounded-lg bg-[#59B292] text-white text-sm font-medium hover:bg-[#4a9e80] active:scale-95 transition-all duration-150 cursor-pointer"
+              class="absolute right-1.5 px-4 py-1.5 rounded-lg bg-[#FFC94D] text-white text-sm font-medium hover:bg-[#e6b03a] active:scale-95 transition-all duration-150 cursor-pointer"
             >
               Cari
             </button>
@@ -191,8 +191,8 @@ function truncate(text, maxLength = 100) {
               :class="[
                 'shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer',
                 selectedCategory === cat
-                  ? 'bg-[#59B292] text-white shadow-md shadow-[#59B292]/25'
-                  : 'bg-white dark:bg-[#161a24] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-white/5 hover:border-[#59B292]/40 hover:text-[#59B292] dark:hover:text-[#59B292]'
+                  ? 'bg-[#FFC94D] text-white shadow-md shadow-[#FFC94D]/25'
+                  : 'bg-white dark:bg-[#161a24] text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-white/5 hover:border-[#FFC94D]/40 hover:text-[#FFC94D] dark:hover:text-[#FFC94D]'
               ]"
             >
               <CategoryIcon :name="cat" class="w-3.5 h-3.5" />
@@ -204,7 +204,7 @@ function truncate(text, maxLength = 100) {
             <label class="text-xs text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">Urutkan:</label>
             <select
               v-model="sortBy"
-              class="text-sm border border-gray-200 dark:border-white/10 rounded-lg px-2.5 py-1.5 bg-white dark:bg-[#161a24] text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#59B292]/30 focus:border-[#59B292] transition-all duration-200 cursor-pointer"
+              class="text-sm border border-gray-200 dark:border-white/10 rounded-lg px-2.5 py-1.5 bg-white dark:bg-[#161a24] text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/30 focus:border-[#FFC94D] transition-all duration-200 cursor-pointer"
             >
               <option value="nama-az">Nama A-Z</option>
               <option value="nama-za">Nama Z-A</option>
@@ -223,7 +223,7 @@ function truncate(text, maxLength = 100) {
         <article
           v-for="umkm in results"
           :key="umkm.id"
-          class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm dark:shadow-black/40 hover:shadow-xl hover:shadow-[#59B292]/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+          class="group bg-white dark:bg-[#161a24] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-sm dark:shadow-black/40 hover:shadow-xl hover:shadow-[#FFC94D]/10 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
           @click="goToDetail(umkm.id)"
         >
           <div class="relative h-32 sm:h-48 overflow-hidden">
@@ -247,7 +247,7 @@ function truncate(text, maxLength = 100) {
           </div>
 
           <div class="p-3 sm:p-5">
-            <h3 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base leading-snug mb-1 group-hover:text-[#59B292] transition-colors duration-200 line-clamp-1">
+            <h3 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base leading-snug mb-1 group-hover:text-[#FFC94D] transition-colors duration-200 line-clamp-1">
               {{ umkm.namaUsaha }}
             </h3>
 
@@ -264,7 +264,7 @@ function truncate(text, maxLength = 100) {
 
             <button
               @click.stop="goToDetail(umkm.id)"
-              class="w-full flex items-center justify-center gap-1.5 sm:gap-2 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl bg-[#59B292]/10 dark:bg-[#59B292]/20 text-[#59B292] text-xs sm:text-sm font-semibold hover:bg-[#59B292] hover:text-white dark:hover:text-black active:scale-[0.98] transition-all duration-200 cursor-pointer"
+              class="w-full flex items-center justify-center gap-1.5 sm:gap-2 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl bg-[#FFC94D]/10 dark:bg-[#FFC94D]/20 text-[#FFC94D] text-xs sm:text-sm font-semibold hover:bg-[#FFC94D] hover:text-white dark:hover:text-black active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               Lihat Detail
               <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -302,7 +302,7 @@ function truncate(text, maxLength = 100) {
           <button
             data-grav
             @click="goHome"
-            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#59B292] text-white font-semibold text-sm hover:bg-[#4a9e80] active:scale-95 shadow-lg shadow-[#59B292]/25 transition-all duration-200 cursor-pointer"
+            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#FFC94D] text-white font-semibold text-sm hover:bg-[#e6b03a] active:scale-95 shadow-lg shadow-[#FFC94D]/25 transition-all duration-200 cursor-pointer"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10h14V10" />
@@ -312,7 +312,7 @@ function truncate(text, maxLength = 100) {
           <button
             data-grav
             @click="showAllUmkm"
-            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white dark:bg-[#161a24] text-[#59B292] font-semibold text-sm border-2 border-[#59B292]/30 dark:border-white/10 hover:border-[#59B292] hover:bg-[#59B292]/5 dark:hover:bg-[#59B292]/10 active:scale-95 transition-all duration-200 cursor-pointer"
+            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white dark:bg-[#161a24] text-[#FFC94D] font-semibold text-sm border-2 border-[#FFC94D]/30 dark:border-white/10 hover:border-[#FFC94D] hover:bg-[#FFC94D]/5 dark:hover:bg-[#FFC94D]/10 active:scale-95 transition-all duration-200 cursor-pointer"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

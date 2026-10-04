@@ -6,11 +6,11 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
         <div class="lg:col-span-1">
           <div class="flex items-center gap-2 mb-4">
-            <img src="/logo.svg" alt="UMKMHub Logo" class="w-10 h-10 object-contain" />
-            <span class="text-lg font-bold">UMKM<span class="text-primary">Hub</span></span>
+            <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-10 h-10 object-contain" />
+            <span class="text-lg font-bold">HIPMI<span class="text-primary">Bantul</span></span>
           </div>
           <p class="text-gray-400 text-sm leading-relaxed">
-            Platform E-Catalog untuk UMKM Indonesia. Temukan dan dukung usaha mikro, kecil, dan menengah di sekitarmu.
+            Katalog bisnis anggota BPC HIPMI Bantul. Temukan dan dukung usaha para pengusaha muda di Kabupaten Bantul.
           </p>
         </div>
 
@@ -80,14 +80,14 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10.5h.01" />
               </svg>
-              <span>Indonesia</span>
+              <span>Bantul, Yogyakarta</span>
             </li>
             <li class="flex items-start gap-2">
               <svg class="w-4 h-4 text-primary mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 6 8 6 8-6" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16v12H4z" />
               </svg>
-              <span>info@umkmhub.id</span>
+              <span>info@hipmibantul.com</span>
             </li>
             <li class="flex items-start gap-2">
               <svg class="w-4 h-4 text-primary mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,10 +101,10 @@
 
       <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <p class="text-gray-500 text-sm">
-          &copy; {{ new Date().getFullYear() }} UMKMHub. Mendukung UMKM Indonesia.
+          &copy; {{ new Date().getFullYear() }} Bidang OKK BPC HIPMI Bantul.
         </p>
         <p class="text-gray-600 text-xs">
-          Dibuat untuk kemajuan UMKM Indonesia.
+          Tumbuh Bareng HIPMI Bantul, Bersinergi untuk Bantul.
         </p>
       </div>
     </div>
