@@ -129,8 +129,8 @@ function handleLogin() {
   }
 
   // Pre-configured credentials
-  const correctEmail = 'admin@admin'
-  const correctPassword = 'admin123'
+  const correctEmail = 'okkhipmibantul@gmail.com'
+  const correctPassword = 'okkbergerak'
 
   if (email.value !== correctEmail || password.value !== correctPassword) {
     failedAttempts.value++

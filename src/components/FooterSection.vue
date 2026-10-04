@@ -80,20 +80,20 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10.5h.01" />
               </svg>
-              <span>Bantul, Yogyakarta</span>
+              <span>Jl. Jend. Sudirman No.Ruko, Bantul Wr., Bantul, Plaza, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55711</span>
             </li>
             <li class="flex items-start gap-2">
               <svg class="w-4 h-4 text-primary mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 6 8 6 8-6" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16v12H4z" />
               </svg>
-              <span>info@hipmibantul.com</span>
+              <span>okkhipmibantul@gmail.com</span>
             </li>
             <li class="flex items-start gap-2">
               <svg class="w-4 h-4 text-primary mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z" />
               </svg>
-              <span>+62 812-0000-0000</span>
+              <span>+62</span>
             </li>
           </ul>
         </div>

@@ -23,7 +23,7 @@
               <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-full h-full object-contain" />
             </div>
             <div>
-              <h2 class="font-bold text-lg leading-tight">UMKM Admin</h2>
+              <h2 class="font-bold text-lg leading-tight">Admin Katalog Bisnis</h2>
               <p class="text-xs text-white/70">Panel Pengelolaan</p>
             </div>
           </div>
@@ -46,7 +46,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h10" />
             </svg>
-            <span>Kelola UMKM</span>
+            <span>Kelola Bisnis</span>
           </button>
           <button
             @click="setSection('categories')"
@@ -133,7 +133,7 @@
                 </svg>
               </div>
               <p class="text-3xl font-bold text-gray-800 mt-4">{{ stats.totalBusiness }}</p>
-              <p class="text-sm text-gray-500 mt-1">Total UMKM</p>
+              <p class="text-sm text-gray-500 mt-1">Total Bisnis Terdatar</p>
             </article>
 
             <article class="stat-card">
@@ -171,7 +171,7 @@
                 </div>
                 <div>
                   <p class="font-semibold text-gray-800">{{ cat.name }}</p>
-                  <p class="text-sm text-gray-500">{{ cat.count }} UMKM</p>
+                  <p class="text-sm text-gray-500">{{ cat.count }} Bisnis Terdatar</p>
                 </div>
               </div>
             </div>
@@ -187,7 +187,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
-              Tambah UMKM
+              Tambah Bisnis
             </button>
 
             <div class="relative w-full sm:w-80">
@@ -197,7 +197,7 @@
               <input
                 v-model="searchQuery"
                 type="text"
-                placeholder="Cari UMKM..."
+                placeholder="Cari Bisnis..."
                 class="form-input admin-search-input"
               />
             </div>
@@ -294,7 +294,7 @@
                         <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                         </svg>
-                        <p class="text-gray-500 font-medium">Tidak ada UMKM ditemukan</p>
+                        <p class="text-gray-500 font-medium">Tidak ada Bisnis ditemukan</p>
                         <p class="text-sm text-gray-400">Coba ubah kata kunci pencarian atau filter kategori</p>
                       </div>
                     </td>
@@ -303,7 +303,7 @@
               </table>
             </div>
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 text-sm text-gray-500">
-              Menampilkan {{ filteredBusiness.length }} dari {{ businessStore.getAll().length }} UMKM
+              Menampilkan {{ filteredBusiness.length }} dari {{ businessStore.getAll().length }} Bisnis Terdatar
             </div>
           </div>
         </section>
@@ -313,7 +313,7 @@
             <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4">
                 <div>
-                  <h2 class="text-lg font-bold text-gray-800">Kategori UMKM</h2>
+                  <h2 class="text-lg font-bold text-gray-800">Kategori Bisnis</h2>
                   <p class="text-sm text-gray-500 mt-1">Kelola kategori usaha warga dengan warna dan icon pilihan.</p>
                 </div>
                 <span class="text-sm font-semibold text-[#FFC94D] bg-[#FFC94D]/10 rounded-full px-3 py-1">
@@ -336,7 +336,7 @@
                     </div>
                     <div>
                       <p class="font-semibold text-gray-800">{{ cat.name }}</p>
-                      <p class="text-sm text-gray-500">{{ categoryUsage(cat.name) }} UMKM</p>
+                      <p class="text-sm text-gray-500">{{ categoryUsage(cat.name) }} Bisnis Terdaftar</p>
                     </div>
                   </div>
 
@@ -351,7 +351,7 @@
                       @click="removeCategory(cat.name)"
                       class="px-3 py-2 rounded-lg text-sm font-semibold text-[#FA6781] hover:bg-[#FA6781]/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                       :disabled="categoryUsage(cat.name) > 0"
-                      :title="categoryUsage(cat.name) > 0 ? 'Kategori masih dipakai UMKM' : 'Hapus kategori'"
+                      :title="categoryUsage(cat.name) > 0 ? 'Kategori masih dipakai Salah satu Unit Bisnis' : 'Hapus kategori'"
                     >
                       Hapus
                     </button>
@@ -554,7 +554,7 @@
         <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8 z-10">
           <div class="sticky top-0 bg-white rounded-t-2xl border-b border-gray-100 px-6 py-4 flex items-center justify-between z-10">
             <h2 class="text-xl font-bold text-gray-800">
-              {{ isEditing ? 'Edit UMKM' : 'Tambah UMKM Baru' }}
+              {{ isEditing ? 'Edit Bisnis' : 'Tambah Bisnis Baru' }}
             </h2>
             <button
               @click="closeFormModal"
@@ -625,7 +625,7 @@
                 </div>
                 <div class="md:col-span-2">
                   <label class="form-label">Deskripsi <span class="text-[#FA6781]">*</span></label>
-                  <textarea v-model="form.deskripsi" rows="3" class="form-input resize-none" placeholder="Tuliskan deskripsi UMKM..."></textarea>
+                  <textarea v-model="form.deskripsi" rows="3" class="form-input resize-none" placeholder="Tuliskan deskripsi Bisnis..."></textarea>
                 </div>
               </div>
             </fieldset>
@@ -821,7 +821,7 @@
             <fieldset>
               <legend class="form-legend">
                 <IconFacility />
-                Status Fasilitas UMKM
+                Status Fasilitas Bisnis
               </legend>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
                 <label
@@ -927,7 +927,7 @@
               @click="saveBusiness"
               class="px-6 py-2.5 rounded-xl bg-[#FFC94D] hover:bg-[#e6b03a] text-white font-semibold text-sm shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.97]"
             >
-              {{ isEditing ? 'Simpan Perubahan' : 'Tambah UMKM' }}
+              {{ isEditing ? 'Simpan Perubahan' : 'Tambah Bisnis' }}
             </button>
           </div>
         </div>
@@ -948,7 +948,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M4.1 19h15.8L12 4 4.1 19Z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Hapus UMKM?</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Hapus Bisnis?</h3>
             <p class="text-gray-500 mb-1">Apakah Anda yakin ingin menghapus</p>
             <p class="font-semibold text-gray-700 mb-6">"{{ deleteTarget?.namaUsaha }}"?</p>
             <p class="text-sm text-gray-400 mb-6">Tindakan ini tidak dapat dibatalkan.</p>
@@ -1143,11 +1143,11 @@ const stats = computed(() => {
 const pageTitle = computed(() => {
   const titles = {
     dashboard: 'Dashboard Overview',
-    manage: 'Kelola UMKM',
+    manage: 'Kelola Bisnis',
     categories: 'Kelola Kategori',
     reports: 'Laporan Pengguna'
   }
-  return titles[activeSection.value] || 'UMKM Admin'
+  return titles[activeSection.value] || 'Bisnis Admin'
 })
 
 const pendingReportsCount = computed(() => {
@@ -1529,10 +1529,10 @@ function saveBusiness() {
 
   if (isEditing.value) {
     businessStore.update(editingId.value, data)
-    showToast('UMKM berhasil diperbarui.')
+    showToast('Bisnis berhasil diperbarui.')
   } else {
     businessStore.add(data)
-    showToast('UMKM baru berhasil ditambahkan.')
+    showToast('Bisnis baru berhasil ditambahkan.')
   }
 
   closeFormModal()
@@ -1546,7 +1546,7 @@ function openDeleteModal(item) {
 function confirmDelete() {
   if (deleteTarget.value) {
     businessStore.delete(deleteTarget.value.id)
-    showToast('UMKM berhasil dihapus.')
+    showToast('Bisnis berhasil dihapus.')
   }
   showDeleteModal.value = false
   deleteTarget.value = null
@@ -1617,7 +1617,7 @@ function saveCategory() {
 
 function removeCategory(category) {
   const removed = businessStore.deleteCategory(category)
-  showToast(removed ? 'Kategori berhasil dihapus.' : 'Kategori masih dipakai UMKM.', removed ? 'success' : 'error')
+  showToast(removed ? 'Kategori berhasil dihapus.' : 'Kategori masih dipakai Bisnis.', removed ? 'success' : 'error')
   if (editingCategory.value === category) cancelCategoryEdit()
 }
 

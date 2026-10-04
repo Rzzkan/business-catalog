@@ -28,7 +28,7 @@
           <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-105" />
           <div class="flex flex-col">
             <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-              HIPMI<span class="text-primary">Bantul</span>
+              BPC HIPMI<span class="text-primary">Bantul</span>
             </span>
             <span class="text-[10px] font-medium -mt-1 text-gray-400 dark:text-gray-500">
               Katalog Bisnis Anggota
