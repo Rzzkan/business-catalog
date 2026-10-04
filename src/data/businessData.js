@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { ownerStore } from './ownerData'
 
 // Default categories configuration
 const defaultCategories = [
@@ -553,6 +554,7 @@ export const businessStore = reactive({
     if (index !== -1) {
       this.businessList.splice(index, 1)
       localStorage.setItem('business-list', JSON.stringify(this.businessList))
+      ownerStore.unlinkBusiness(id)
       return true
     }
     return false

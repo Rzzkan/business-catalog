@@ -7,7 +7,7 @@
         <div class="lg:col-span-1">
           <div class="flex items-center gap-2 mb-4">
             <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-10 h-10 object-contain" />
-            <span class="text-lg font-bold">BPC HIPMI<span class="text-primary">Bantul</span></span>
+            <span class="text-lg font-bold">BPC HIPMI <span class="text-primary">Bantul</span></span>
           </div>
           <p class="text-gray-400 text-sm leading-relaxed">
             Katalog bisnis anggota BPC HIPMI Bantul. Temukan dan dukung usaha para pengusaha muda di Kabupaten Bantul.

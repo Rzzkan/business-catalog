@@ -28,7 +28,7 @@
           <img src="/logo.svg" alt="Logo BPC HIPMI Bantul" class="w-10 h-10 object-contain transition-all duration-300 group-hover:scale-105" />
           <div class="flex flex-col">
             <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-              BPC HIPMI<span class="text-primary">Bantul</span>
+              BPC HIPMI <span class="text-primary">Bantul</span>
             </span>
             <span class="text-[10px] font-medium -mt-1 text-gray-400 dark:text-gray-500">
               Katalog Bisnis Anggota
@@ -86,6 +86,16 @@
               v-if="isActive(link.path)"
               class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary"
             />
+          </router-link>
+
+          <router-link
+            to="/owner/login"
+            class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary/40 hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-200"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m14-11 2 2 4-4M11 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+            </svg>
+            Login Pemilik Usaha
           </router-link>
 
           <!-- Theme Toggle Button -->
@@ -163,6 +173,17 @@
                 : 'text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10'"
             >
               {{ link.name }}
+            </router-link>
+
+            <router-link
+              to="/owner/login"
+              @click="closeMenu"
+              class="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-all duration-200"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m14-11 2 2 4-4M11 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+              </svg>
+              Login Pemilik Usaha
             </router-link>
             
             <!-- Link to mobile settings appearance -->

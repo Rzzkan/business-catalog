@@ -50,6 +50,18 @@ const routes = [
     meta: { hideShell: true }
   },
   {
+    path: '/owner',
+    name: 'OwnerDashboard',
+    component: () => import('../pages/OwnerDashboardPage.vue'),
+    meta: { hideShell: true, requiresOwner: true }
+  },
+  {
+    path: '/owner/login',
+    name: 'OwnerLogin',
+    component: () => import('../pages/OwnerLoginPage.vue'),
+    meta: { hideShell: true }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../pages/NotFoundPage.vue')
@@ -82,6 +94,14 @@ router.beforeEach((to) => {
 
   if (to.name === 'AdminLogin' && sessionStorage.getItem('business-admin-auth') === 'true') {
     return { name: 'Admin' }
+  }
+
+  if (to.meta.requiresOwner && !sessionStorage.getItem('business-owner-auth')) {
+    return { name: 'OwnerLogin', query: { redirect: to.fullPath } }
+  }
+
+  if (to.name === 'OwnerLogin' && sessionStorage.getItem('business-owner-auth')) {
+    return { name: 'OwnerDashboard' }
   }
 
   return true

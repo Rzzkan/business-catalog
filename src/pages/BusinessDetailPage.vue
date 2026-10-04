@@ -110,11 +110,14 @@
               Informasi Pemilik
             </h2>
             <div class="flex items-center gap-4">
-              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-[#FFC94D] to-[#18933C] flex items-center justify-center text-white text-xl font-bold shadow-md">
-                {{ business.namaPemilik.charAt(0) }}
+              <div v-if="ownerAccount?.fotoProfil" class="w-14 h-14 rounded-full overflow-hidden shadow-md shrink-0">
+                <img :src="ownerAccount.fotoProfil" :alt="`Foto profil ${displayedOwnerName}`" class="w-full h-full object-cover" />
+              </div>
+              <div v-else class="w-14 h-14 rounded-full bg-gradient-to-br from-[#FFC94D] to-[#18933C] flex items-center justify-center text-white text-xl font-bold shadow-md shrink-0">
+                {{ displayedOwnerName.charAt(0) }}
               </div>
               <div>
-                <p class="font-semibold text-gray-800 dark:text-white text-lg">{{ business.namaPemilik }}</p>
+                <p class="font-semibold text-gray-800 dark:text-white text-lg">{{ displayedOwnerName }}</p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Pemilik Usaha</p>
               </div>
             </div>
@@ -815,6 +818,7 @@ import { computed, ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import { businessStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl } from '../data/businessData'
+import { ownerStore } from '../data/ownerData'
 
 const route = useRoute()
 const router = useRouter()
@@ -961,6 +965,12 @@ function shareToFacebook() {
 }
 
 const business = computed(() => businessStore.getById(route.params.id))
+
+// The owner account linked to this business (if any) is the source of truth for the
+// displayed name/photo, so editing it in one place (the owner dashboard or admin) stays
+// in sync everywhere this business is shown.
+const ownerAccount = computed(() => business.value ? ownerStore.getByBusinessId(business.value.id) : null)
+const displayedOwnerName = computed(() => ownerAccount.value?.nama || business.value?.namaPemilik || '')
 const operationalStatus = computed(() => {
   if (!business.value) return { isOpen: false, text: 'Tutup' }
   return checkOperationalStatus(business.value.jamOperasional)

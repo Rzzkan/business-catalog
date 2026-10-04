@@ -24,7 +24,7 @@
           </p>
 
           <div
-            class="max-w-3xl mx-auto mb-6 transition-all duration-500 ease-out"
+            class="max-w-3xl sm:max-w-4xl lg:max-w-5xl mx-auto mb-6 transition-all duration-500 ease-out"
             :class="searchState.docked ? 'opacity-0 -translate-y-4 scale-95 pointer-events-none' : 'opacity-100 translate-y-0 scale-100'"
           >
             <form class="relative group" @submit.prevent="handleSearch">
@@ -70,7 +70,7 @@
               @click="handleSearch"
               class="hidden sm:flex w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white text-base bg-gradient-to-r from-primary to-primary-dark hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 items-center justify-center gap-2"
             >
-              Cari UMKM
+              Cari Bisnis
             </button>
             <button
               @click="handleFeelingLucky"
@@ -98,10 +98,11 @@
             </button>
           </div>
 
+
           <div class="grid grid-cols-3 gap-4 sm:gap-8 mt-12">
             <div class="text-center">
               <p class="text-2xl sm:text-3xl font-extrabold text-primary">{{ totalBusiness }}+</p>
-              <p class="text-gray-400 dark:text-gray-500 text-xs sm:text-sm mt-1 transition-colors duration-300">UMKM Terdaftar</p>
+              <p class="text-gray-400 dark:text-gray-500 text-xs sm:text-sm mt-1 transition-colors duration-300">Bisnis Terdaftar</p>
             </div>
             <div class="text-center">
               <p class="text-2xl sm:text-3xl font-extrabold text-accent-dark">{{ totalKategori }}</p>
@@ -144,7 +145,7 @@
             <CategoryIcon :name="cat.name" class="w-11 h-11 sm:w-12 sm:h-12 mx-auto mb-4 transition-transform duration-300 group-hover:scale-110" />
             <h3 class="font-bold text-lg text-gray-800 dark:text-gray-200">{{ cat.name }}</h3>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-300">
-              {{ cat.name === 'Lainnya' ? 'Lihat Semua' : `${cat.count} UMKM` }}
+              {{ cat.name === 'Lainnya' ? 'Lihat Semua' : `${cat.count} Bisnis` }}
             </p>
             <div class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/50 dark:bg-black/35 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300">
               <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,12 +162,12 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
           <div>
             <span class="inline-block px-4 py-1.5 bg-accent/20 text-accent-dark text-sm font-semibold rounded-full mb-4">
-              UMKM Pilihan
+              Bisnis Pilihan
             </span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white transition-colors duration-300">
-              UMKM Terpopuler
+              Bisnis Terpopuler
             </h2>
-            <p class="text-gray-500 dark:text-gray-400 mt-2 transition-colors duration-300">Temukan UMKM lokal yang paling banyak dikunjungi</p>
+            <p class="text-gray-500 dark:text-gray-400 mt-2 transition-colors duration-300">Temukan Bisnis dari Anggota BPC HIPMI Bantul</p>
           </div>
           <router-link
             to="/search"

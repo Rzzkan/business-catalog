@@ -71,6 +71,15 @@
               </span>
             </span>
           </button>
+          <button
+            @click="setSection('owners')"
+            :class="navButtonClass('owners')"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m14-11 2 2 4-4M11 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+            </svg>
+            <span>Akun Pemilik</span>
+          </button>
         </nav>
 
         <div class="p-4 border-t border-white/20 space-y-1">
@@ -541,6 +550,143 @@
             </div>
           </div>
         </section>
+        <!-- Owner Accounts Section -->
+        <section v-if="activeSection === 'owners'">
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_24rem] gap-6">
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4">
+                <div>
+                  <h2 class="text-lg font-bold text-gray-800">Akun Pemilik Usaha</h2>
+                  <p class="text-sm text-gray-500 mt-1">Buatkan akses login untuk pemilik agar mereka bisa mengubah info bisnisnya sendiri.</p>
+                </div>
+                <span class="text-sm font-semibold text-[#FFC94D] bg-[#FFC94D]/10 rounded-full px-3 py-1">
+                  {{ ownerStore.getAll().length }} akun
+                </span>
+              </div>
+
+              <div class="divide-y divide-gray-100">
+                <div
+                  v-for="acc in ownerStore.getAll()"
+                  :key="acc.id"
+                  class="px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                >
+                  <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-[#FFC94D]/10 text-[#FFC94D] flex items-center justify-center font-bold shrink-0">
+                      {{ (acc.nama || '?').charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="min-w-0">
+                      <p class="font-semibold text-gray-800 truncate">{{ acc.nama }}</p>
+                      <p class="text-sm text-gray-500 truncate">{{ acc.email }}</p>
+                      <p class="text-xs text-gray-400 mt-0.5">
+                        {{ acc.businessIds.length }} bisnis terhubung{{ acc.businessIds.length ? ':' : '' }}
+                        <span v-if="acc.businessIds.length" class="text-gray-500">{{ ownerBusinessNames(acc) }}</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-2 shrink-0">
+                    <button
+                      @click="startEditOwner(acc)"
+                      class="px-3 py-2 rounded-lg text-sm font-semibold text-[#FFC94D] hover:bg-[#FFC94D]/10 transition-colors cursor-pointer"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      @click="removeOwner(acc)"
+                      class="px-3 py-2 rounded-lg text-sm font-semibold text-[#FA6781] hover:bg-[#FA6781]/10 transition-colors cursor-pointer"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+
+                <div v-if="!ownerStore.getAll().length" class="px-6 py-16 text-center">
+                  <div class="flex flex-col items-center gap-3">
+                    <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m14-11 2 2 4-4M11 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+                    </svg>
+                    <p class="text-gray-500 font-medium">Belum ada akun pemilik usaha</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <aside class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-fit max-h-[85vh] overflow-y-auto">
+              <h2 class="text-lg font-bold text-gray-800 mb-4">
+                {{ editingOwnerId ? 'Edit Akun Pemilik' : 'Tambah Akun Pemilik' }}
+              </h2>
+              <div class="space-y-5">
+                <div>
+                  <label class="form-label">Nama Pemilik</label>
+                  <input
+                    v-model.trim="ownerForm.nama"
+                    type="text"
+                    class="form-input"
+                    placeholder="Nama lengkap pemilik usaha"
+                  />
+                </div>
+
+                <div>
+                  <label class="form-label">Email</label>
+                  <input
+                    v-model.trim="ownerForm.email"
+                    type="email"
+                    class="form-input"
+                    placeholder="email@contoh.com"
+                  />
+                </div>
+
+                <div>
+                  <label class="form-label">Password {{ editingOwnerId ? '' : '' }}</label>
+                  <input
+                    v-model="ownerForm.password"
+                    type="text"
+                    class="form-input"
+                    :placeholder="editingOwnerId ? 'Kosongkan jika tidak diganti' : 'Buat password untuk akun ini'"
+                  />
+                  <p class="text-xs text-gray-400 mt-1.5">Bagikan email &amp; password ini langsung ke pemilik usaha.</p>
+                </div>
+
+                <div>
+                  <label class="form-label">Bisnis yang Terhubung</label>
+                  <div class="space-y-2 max-h-56 overflow-y-auto p-2 border border-gray-100 rounded-xl bg-gray-50/50">
+                    <label
+                      v-for="biz in businessStore.getAll()"
+                      :key="biz.id"
+                      class="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer hover:bg-white transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        :value="biz.id"
+                        v-model="ownerForm.businessIds"
+                        class="w-4 h-4 rounded border-gray-300 text-[#FFC94D] focus:ring-[#FFC94D]"
+                      />
+                      <span class="text-sm text-gray-700 truncate">{{ biz.namaUsaha }}</span>
+                    </label>
+                    <p v-if="!businessStore.getAll().length" class="text-xs text-gray-400 px-3 py-2">Belum ada bisnis terdaftar.</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                  <button
+                    @click="saveOwner"
+                    class="flex-1 px-4 py-2.5 rounded-xl bg-[#FFC94D] text-white text-sm font-semibold hover:bg-[#e6b03a] transition-colors cursor-pointer"
+                  >
+                    {{ editingOwnerId ? 'Simpan' : 'Tambah Akun' }}
+                  </button>
+                  <button
+                    v-if="editingOwnerId"
+                    @click="cancelOwnerEdit"
+                    class="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-semibold hover:bg-gray-50 transition-colors cursor-pointer"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
       </main>
     </div>
 
@@ -997,6 +1143,7 @@ import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import { businessStore, getCategoryLightStyle, sanitizeUrl } from '../data/businessData'
+import { ownerStore } from '../data/ownerData'
 
 const router = useRouter()
 const sidebarOpen = ref(false)
@@ -1013,6 +1160,8 @@ const categoryFormName = ref('')
 const categoryFormIcon = ref('grid')
 const categoryFormColor = ref('#FFC94D')
 const editingCategory = ref('')
+const editingOwnerId = ref(null)
+const ownerForm = reactive({ nama: '', email: '', password: '', businessIds: [] })
 const toast = reactive({ show: false, message: '', type: 'success' })
 const adminEmail = sessionStorage.getItem('business-admin-email') || 'Admin'
 
@@ -1145,7 +1294,8 @@ const pageTitle = computed(() => {
     dashboard: 'Dashboard Overview',
     manage: 'Kelola Bisnis',
     categories: 'Kelola Kategori',
-    reports: 'Laporan Pengguna'
+    reports: 'Laporan Pengguna',
+    owners: 'Akun Pemilik Usaha'
   }
   return titles[activeSection.value] || 'Bisnis Admin'
 })
@@ -1619,6 +1769,79 @@ function removeCategory(category) {
   const removed = businessStore.deleteCategory(category)
   showToast(removed ? 'Kategori berhasil dihapus.' : 'Kategori masih dipakai Bisnis.', removed ? 'success' : 'error')
   if (editingCategory.value === category) cancelCategoryEdit()
+}
+
+function ownerBusinessNames(acc) {
+  return acc.businessIds
+    .map(id => businessStore.getById(id)?.namaUsaha)
+    .filter(Boolean)
+    .join(', ')
+}
+
+function resetOwnerForm() {
+  ownerForm.nama = ''
+  ownerForm.email = ''
+  ownerForm.password = ''
+  ownerForm.businessIds = []
+}
+
+function startEditOwner(acc) {
+  editingOwnerId.value = acc.id
+  ownerForm.nama = acc.nama
+  ownerForm.email = acc.email
+  ownerForm.password = ''
+  ownerForm.businessIds = [...acc.businessIds]
+}
+
+function cancelOwnerEdit() {
+  editingOwnerId.value = null
+  resetOwnerForm()
+}
+
+function saveOwner() {
+  const nama = ownerForm.nama.trim()
+  const email = ownerForm.email.trim()
+
+  if (!nama || !email) {
+    showToast('Nama dan email wajib diisi.', 'error')
+    return
+  }
+
+  if (!editingOwnerId.value && !ownerForm.password.trim()) {
+    showToast('Password wajib diisi untuk akun baru.', 'error')
+    return
+  }
+
+  if (ownerStore.emailTaken(email, editingOwnerId.value)) {
+    showToast('Email ini sudah dipakai akun pemilik lain.', 'error')
+    return
+  }
+
+  if (editingOwnerId.value) {
+    ownerStore.update(editingOwnerId.value, {
+      nama,
+      email,
+      password: ownerForm.password.trim(),
+      businessIds: [...ownerForm.businessIds]
+    })
+    showToast('Akun pemilik berhasil diperbarui.')
+  } else {
+    ownerStore.add({
+      nama,
+      email,
+      password: ownerForm.password.trim(),
+      businessIds: [...ownerForm.businessIds]
+    })
+    showToast('Akun pemilik baru berhasil dibuat.')
+  }
+
+  cancelOwnerEdit()
+}
+
+function removeOwner(acc) {
+  ownerStore.delete(acc.id)
+  showToast('Akun pemilik berhasil dihapus.')
+  if (editingOwnerId.value === acc.id) cancelOwnerEdit()
 }
 
 function extractLatLng(value) {

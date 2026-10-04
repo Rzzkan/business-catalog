@@ -78,41 +78,48 @@
 
       <!-- Instagram profile card -->
       <div class="bg-white dark:bg-[#161a24] border border-gray-100 dark:border-white/5 rounded-3xl p-7 sm:p-8">
-        <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-5 text-center">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6 text-center">
           Inisiator Sistem
         </h2>
-        <div class="flex flex-col sm:flex-row items-center gap-5 sm:gap-6 max-w-md mx-auto">
-          <a
-            href="https://www.instagram.com/rzzkan"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="shrink-0 p-[3px] rounded-full bg-gradient-to-tr from-[#FFDC80] via-[#FD1D1D] to-[#833AB4] hover:scale-105 transition-transform duration-200"
-            title="Buka profil Instagram @rzzkan"
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 max-w-3xl mx-auto">
+          <div
+            v-for="person in initiators"
+            :key="person.instagram"
+            class="flex flex-col items-center text-center"
           >
-            <div class="w-20 h-20 rounded-full bg-white dark:bg-[#161a24] flex items-center justify-center overflow-hidden">
-              <img src="/instagram-rzzkan.jpg" alt="Foto profil @rzzkan" class="w-full h-full object-cover" />
-            </div>
-          </a>
-          <div class="text-center sm:text-left flex-1">
-            <p class="font-bold text-gray-900 dark:text-white text-lg leading-tight">
-              Aditya Nur Riskan Nugroho
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
-              Ketua Bidang 1 OKK BPC HIPMI Bantul
-            </p>
             <a
-              href="https://www.instagram.com/rzzkan"
+              :href="`https://www.instagram.com/${person.instagram}`"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-tr from-[#FFDC80] via-[#FD1D1D] to-[#833AB4] text-white text-sm font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
+              class="shrink-0 p-[3px] rounded-full bg-gradient-to-tr from-[#FFDC80] via-[#FD1D1D] to-[#833AB4] hover:scale-105 transition-transform duration-200"
+              :title="`Buka profil Instagram @${person.instagram}`"
             >
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.248.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.217 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.248-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.217-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.416-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2Zm0 1.802c-2.67 0-2.987.01-4.04.059-.976.045-1.505.207-1.858.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.858-.048 1.053-.059 1.37-.059 4.039 0 2.67.01 2.987.059 4.04.045.976.207 1.505.344 1.858.182.466.399.8.748 1.15.35.35.684.566 1.15.748.353.137.882.3 1.858.344 1.052.048 1.369.059 4.04.059 2.67 0 2.988-.01 4.04-.059.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.858.048-1.053.059-1.37.059-4.04 0-2.669-.01-2.986-.059-4.039-.045-.976-.207-1.505-.344-1.858a3.09 3.09 0 0 0-.748-1.15 3.096 3.096 0 0 0-1.15-.748c-.353-.137-.882-.3-1.858-.344-1.052-.048-1.369-.059-4.04-.059Z" />
-                <path d="M12 7.27A4.73 4.73 0 1 0 16.73 12 4.735 4.735 0 0 0 12 7.27Zm0 7.8A3.07 3.07 0 1 1 15.07 12 3.074 3.074 0 0 1 12 15.07Z" />
-                <circle cx="16.94" cy="7.06" r="1.1" />
-              </svg>
-              @rzzkan
+              <div class="w-20 h-20 rounded-full bg-white dark:bg-[#161a24] flex items-center justify-center overflow-hidden">
+                <img v-if="person.foto" :src="person.foto" :alt="`Foto profil @${person.instagram}`" class="w-full h-full object-cover" />
+                <span v-else class="text-2xl font-black text-gray-800 dark:text-white">{{ person.inisial }}</span>
+              </div>
             </a>
+            <div class="mt-4">
+              <p class="font-bold text-gray-900 dark:text-white text-base leading-snug">
+                {{ person.nama }}
+              </p>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 mb-3 leading-snug">
+                {{ person.jabatan }}
+              </p>
+              <a
+                :href="`https://www.instagram.com/${person.instagram}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-tr from-[#FFDC80] via-[#FD1D1D] to-[#833AB4] text-white text-xs font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.248.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.217 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.248-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.217-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.416-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2Zm0 1.802c-2.67 0-2.987.01-4.04.059-.976.045-1.505.207-1.858.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.858-.048 1.053-.059 1.37-.059 4.039 0 2.67.01 2.987.059 4.04.045.976.207 1.505.344 1.858.182.466.399.8.748 1.15.35.35.684.566 1.15.748.353.137.882.3 1.858.344 1.052.048 1.369.059 4.04.059 2.67 0 2.988-.01 4.04-.059.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.858.048-1.053.059-1.37.059-4.04 0-2.669-.01-2.986-.059-4.039-.045-.976-.207-1.505-.344-1.858a3.09 3.09 0 0 0-.748-1.15 3.096 3.096 0 0 0-1.15-.748c-.353-.137-.882-.3-1.858-.344-1.052-.048-1.369-.059-4.04-.059Z" />
+                  <path d="M12 7.27A4.73 4.73 0 1 0 16.73 12 4.735 4.735 0 0 0 12 7.27Zm0 7.8A3.07 3.07 0 1 1 15.07 12 3.074 3.074 0 0 1 12 15.07Z" />
+                  <circle cx="16.94" cy="7.06" r="1.1" />
+                </svg>
+                @{{ person.instagram }}
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -122,5 +129,28 @@
 </template>
 
 <script setup>
-// Halaman informasi statis, tidak memerlukan state tambahan.
+// Daftar inisiator/pengelola sistem yang ditampilkan pada kartu "Inisiator Sistem".
+const initiators = [
+  {
+    nama: 'Aditya Nur Riskan Nugroho',
+    jabatan: 'Ketua Bidang 1 OKK BPC HIPMI Bantul',
+    instagram: 'rzzkan',
+    foto: '/instagram-rzzkan.jpg',
+    inisial: 'AR'
+  },
+  {
+    nama: 'Fadhil Ramadhan',
+    jabatan: 'Wakil Sekretaris Umum Bidang 1 BPC HIPMI Bantul',
+    instagram: 'fadhilih26',
+    foto: '/instagram-fadhilih26.jpg',
+    inisial: 'FR'
+  },
+  {
+    nama: 'Al Ihzza Jihan Rayvaldo',
+    jabatan: 'Wakil Bendahara Umum Bidang 1 BPC HIPMI Bantul',
+    instagram: 'al.ihzza',
+    foto: '/instagram-alihzza.jpg',
+    inisial: 'AI'
+  }
+]
 </script>
