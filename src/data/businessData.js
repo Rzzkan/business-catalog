@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { ownerStore } from './ownerData'
+import { normalizeBusinessCabang } from '../utils/maps'
 
 const businessesCollection = collection(db, 'businesses')
 const reportsCollection = collection(db, 'reports')
@@ -640,7 +641,10 @@ export const businessStore = reactive({
 onSnapshot(
   query(businessesCollection, orderBy('id')),
   (snapshot) => {
-    businessStore.businessList = snapshot.docs.map(d => d.data())
+    // Each business can have multiple cabang (branches); normalize legacy
+    // single-address records into the same shape so every page can just read
+    // business.cabang without caring how old the record is.
+    businessStore.businessList = snapshot.docs.map(d => normalizeBusinessCabang(d.data()))
     businessStore.ready = true
   },
   (error) => {

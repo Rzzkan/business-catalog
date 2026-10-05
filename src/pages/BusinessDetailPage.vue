@@ -327,11 +327,28 @@
               </span>
               Alamat
             </h2>
+            <div
+              v-if="cabangList.length > 1"
+              class="flex flex-wrap gap-2 mb-3"
+            >
+              <button
+                v-for="(cab, cIdx) in cabangList"
+                :key="cIdx"
+                type="button"
+                @click="selectedCabangIndex = cIdx"
+                class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold border transition-colors cursor-pointer"
+                :class="selectedCabangIndex === cIdx
+                  ? 'bg-[#FA6781] text-white border-[#FA6781]'
+                  : 'bg-transparent text-gray-500 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:border-[#FA6781] hover:text-[#FA6781]'"
+              >
+                {{ cab.label || `Cabang ${cIdx + 1}` }}
+              </button>
+            </div>
             <div class="flex items-start gap-3 p-4 rounded-xl bg-gradient-to-r from-[#FAE7CB]/30 dark:from-[#FAE7CB]/10 to-transparent">
               <svg class="w-5 h-5 text-[#FA6781] mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 1 1 9.9 9.9L10 18.9l-4.95-4.95a7 7 0 0 1 0-9.9ZM10 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" clip-rule="evenodd" />
               </svg>
-              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ business.alamat }}</p>
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ selectedCabang.alamat }}</p>
             </div>
             <a
               v-if="mapEmbedUrl"
@@ -822,6 +839,7 @@ import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import { businessStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
+import { normalizeMapEmbed } from '../utils/maps'
 
 const route = useRoute()
 const router = useRouter()
@@ -969,6 +987,28 @@ function shareToFacebook() {
 
 const business = computed(() => businessStore.getById(route.params.id))
 
+const selectedCabangIndex = ref(0)
+
+// Falls back to a single "Cabang Utama" entry synthesized from the legacy flat
+// alamat/mapsEmbed fields, for businesses saved before the multi-branch feature.
+const cabangList = computed(() => {
+  if (!business.value) return []
+  if (Array.isArray(business.value.cabang) && business.value.cabang.length) {
+    return business.value.cabang
+  }
+  return [{
+    label: 'Cabang Utama',
+    alamat: business.value.alamat || '',
+    mapsEmbed: business.value.mapsEmbed || ''
+  }]
+})
+
+const selectedCabang = computed(() => {
+  const list = cabangList.value
+  if (!list.length) return { label: '', alamat: '', mapsEmbed: '' }
+  return list[selectedCabangIndex.value] || list[0]
+})
+
 // The owner account linked to this business (if any) is the source of truth for the
 // displayed name/photo, so editing it in one place (the owner dashboard or admin) stays
 // in sync everywhere this business is shown.
@@ -1019,16 +1059,16 @@ const recommendedBusiness = computed(() => {
 
 const mapEmbedUrl = computed(() => {
   if (!business.value) return ''
-  // Prefer an explicitly configured Google Maps link/embed/coordinates,
-  // fall back to the plain text address so a mini map still shows.
-  const source = (business.value.mapsEmbed || '').trim() || (business.value.alamat || '').trim()
+  // Prefer an explicitly configured Google Maps link/embed/coordinates for the
+  // currently selected branch, fall back to its plain text address so a mini map still shows.
+  const source = (selectedCabang.value.mapsEmbed || '').trim() || (selectedCabang.value.alamat || '').trim()
   if (!source) return ''
   return normalizeMapEmbed(source)
 })
 
 const mapRedirectUrl = computed(() => {
   if (!business.value) return ''
-  const source = (business.value.mapsEmbed || '').trim()
+  const source = (selectedCabang.value.mapsEmbed || '').trim()
 
   // Exact coordinates (either typed directly or embedded in a Maps URL)
   const coordMatch = source.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/)
@@ -1050,7 +1090,7 @@ const mapRedirectUrl = computed(() => {
   }
 
   // Last resort: search Google Maps by business name + address
-  const query = [business.value.namaUsaha, business.value.alamat].filter(Boolean).join(', ')
+  const query = [business.value.namaUsaha, selectedCabang.value.alamat].filter(Boolean).join(', ')
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 })
 
@@ -1061,43 +1101,6 @@ function formatPrice(price) {
 function getCity(alamat) {
   const parts = alamat.split(',')
   return parts[parts.length - 1]?.trim() || alamat
-}
-
-function normalizeMapEmbed(value) {
-  const input = (value || '').trim()
-  if (!input) return ''
-
-  const iframeSrc = input.match(/src=["']([^"']+)["']/i)?.[1]
-  const raw = (iframeSrc || input).replace(/&amp;/g, '&')
-
-  if (/^https:\/\/(www\.)?google\.[^/]+\/maps\/embed/i.test(raw) || /^https:\/\/maps\.google\.[^/]+\/maps/i.test(raw)) {
-    return raw
-  }
-
-  // Extract coordinates from long URL path (e.g. /@latitude,longitude)
-  const pathCoords = raw.match(/@(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/)
-  if (pathCoords) {
-    return `https://www.google.com/maps?q=${pathCoords[1]},${pathCoords[2]}&output=embed`
-  }
-
-  const coords = raw.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/)
-  if (coords) {
-    return `https://www.google.com/maps?q=${coords[1]},${coords[2]}&output=embed`
-  }
-
-  try {
-    const url = new URL(raw)
-    if (url.hostname.includes('google.')) {
-      const query = url.searchParams.get('q') || url.searchParams.get('query')
-      if (query) {
-        return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`
-      }
-    }
-  } catch {
-    // Treat as query below
-  }
-
-  return `https://www.google.com/maps?q=${encodeURIComponent(raw)}&output=embed`
 }
 
 function handleScroll() {
@@ -1178,6 +1181,7 @@ watch(() => route.params.id, () => {
   checkReportedStatus()
   heroLoaded.value = false
   lightboxOpen.value = false
+  selectedCabangIndex.value = 0
   document.body.style.overflow = ''
 }, { immediate: true })
 </script>

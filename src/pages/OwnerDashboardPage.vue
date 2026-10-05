@@ -173,32 +173,72 @@
                     <option v-for="cat in categoryOptions" :key="cat" :value="cat">{{ cat }}</option>
                   </select>
                 </div>
-                <div>
-                  <label class="form-label">Alamat <span class="text-[#FA6781]">*</span></label>
-                  <input v-model="form.alamat" type="text" class="form-input" placeholder="Masukkan alamat lengkap" />
-                </div>
-                <div class="md:col-span-2">
-                  <label class="form-label">Google Maps Embed / Link</label>
-                  <input
-                    v-model="form.mapsEmbed"
-                    type="text"
-                    class="form-input"
-                    placeholder="Paste kode embed iframe atau link Google Maps (opsional)"
-                  />
-                  <p class="text-xs text-gray-400 mt-1.5">Atau isi koordinat Latitude &amp; Longitude di bawah ini. Salah satu cukup — kalau keduanya diisi, Latitude/Longitude yang dipakai.</p>
-                </div>
-                <div>
-                  <label class="form-label">Latitude</label>
-                  <input v-model="form.latitude" type="text" inputmode="decimal" class="form-input" placeholder="Contoh: -7.8481" />
-                </div>
-                <div>
-                  <label class="form-label">Longitude</label>
-                  <input v-model="form.longitude" type="text" inputmode="decimal" class="form-input" placeholder="Contoh: 110.3287" />
-                </div>
                 <div class="md:col-span-2">
                   <label class="form-label">Deskripsi <span class="text-[#FA6781]">*</span></label>
                   <textarea v-model="form.deskripsi" rows="3" class="form-input resize-none" placeholder="Tuliskan deskripsi bisnis..."></textarea>
                 </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend class="form-legend">
+                <IconLocation />
+                Cabang &amp; Lokasi
+              </legend>
+              <p class="text-xs text-gray-400 -mt-1 mb-4">Tambahkan satu baris untuk tiap cabang/alamat yang dimiliki bisnis ini. Minimal satu cabang wajib diisi.</p>
+              <div class="space-y-4">
+                <div
+                  v-for="(cab, cIdx) in form.cabang"
+                  :key="cIdx"
+                  class="p-4 rounded-xl border border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-white/[0.02] space-y-3"
+                >
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-bold uppercase tracking-wide text-gray-400">Cabang {{ cIdx + 1 }}</span>
+                    <button
+                      v-if="form.cabang.length > 1"
+                      type="button"
+                      @click="removeCabangRow(cIdx)"
+                      class="text-xs font-semibold text-[#FA6781] hover:underline cursor-pointer"
+                    >
+                      Hapus Cabang
+                    </button>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <label class="form-label">Nama Cabang <span class="text-[#FA6781]">*</span></label>
+                      <input v-model="cab.label" type="text" class="form-input" placeholder="Contoh: Cabang Utama, Cabang Bantul Kota" />
+                    </div>
+                    <div>
+                      <label class="form-label">Alamat <span class="text-[#FA6781]">*</span></label>
+                      <input v-model="cab.alamat" type="text" class="form-input" placeholder="Masukkan alamat lengkap cabang ini" />
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="form-label">Google Maps Embed / Link</label>
+                      <input
+                        v-model="cab.mapsEmbed"
+                        type="text"
+                        class="form-input"
+                        placeholder="Paste kode embed iframe atau link Google Maps (opsional)"
+                      />
+                      <p class="text-xs text-gray-400 mt-1.5">Atau isi koordinat Latitude &amp; Longitude di bawah ini. Salah satu cukup — kalau keduanya diisi, Latitude/Longitude yang dipakai.</p>
+                    </div>
+                    <div>
+                      <label class="form-label">Latitude</label>
+                      <input v-model="cab.latitude" type="text" inputmode="decimal" class="form-input" placeholder="Contoh: -7.8481" />
+                    </div>
+                    <div>
+                      <label class="form-label">Longitude</label>
+                      <input v-model="cab.longitude" type="text" inputmode="decimal" class="form-input" placeholder="Contoh: 110.3287" />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  @click="addCabangRow"
+                  class="w-full px-4 py-2.5 rounded-xl border-2 border-dashed border-gray-200 dark:border-white/10 text-gray-500 text-sm font-semibold hover:border-[#FFC94D] hover:text-[#FFC94D] transition-colors cursor-pointer"
+                >
+                  + Tambah Cabang
+                </button>
               </div>
             </fieldset>
 
@@ -522,6 +562,7 @@ import { useRouter } from 'vue-router'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import { businessStore, sanitizeUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
+import { extractLatLng, normalizeMapEmbed, isValidGoogleMapsUrl } from '../utils/maps'
 
 const router = useRouter()
 
@@ -627,10 +668,7 @@ const getEmptyForm = () => ({
   namaPemilik: '',
   kategori: '',
   deskripsi: '',
-  alamat: '',
-  mapsEmbed: '',
-  latitude: '',
-  longitude: '',
+  cabang: [{ label: 'Cabang Utama', alamat: '', mapsEmbed: '', latitude: '', longitude: '' }],
   kontak: { telepon: '', whatsapp: '', instagram: '', email: '' },
   jamOperasional: [{ hari: '', jam: '00:00 - 00:00' }],
   produk: [{ nama: '', harga: 0, deskripsi: '' }],
@@ -641,12 +679,13 @@ const getEmptyForm = () => ({
 
 const form = reactive(getEmptyForm())
 
-function extractLatLng(value) {
-  const input = (value || '').trim()
-  if (!input) return null
-  const match = input.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/)
-  if (!match) return null
-  return { lat: match[1], lng: match[2] }
+function addCabangRow() {
+  form.cabang.push({ label: `Cabang ${form.cabang.length + 1}`, alamat: '', mapsEmbed: '', latitude: '', longitude: '' })
+}
+
+function removeCabangRow(index) {
+  if (form.cabang.length <= 1) return
+  form.cabang.splice(index, 1)
 }
 
 function loadForm(item) {
@@ -677,10 +716,15 @@ function loadForm(item) {
     namaPemilik: item.namaPemilik || '',
     kategori: item.kategori || '',
     deskripsi: item.deskripsi || '',
-    alamat: item.alamat || '',
-    mapsEmbed: item.mapsEmbed || '',
-    latitude: extractLatLng(item.mapsEmbed)?.lat || '',
-    longitude: extractLatLng(item.mapsEmbed)?.lng || '',
+    cabang: item.cabang?.length
+      ? item.cabang.map(cab => ({
+          label: cab.label || '',
+          alamat: cab.alamat || '',
+          mapsEmbed: cab.mapsEmbed || '',
+          latitude: extractLatLng(cab.mapsEmbed)?.lat || '',
+          longitude: extractLatLng(cab.mapsEmbed)?.lng || ''
+        }))
+      : [{ label: 'Cabang Utama', alamat: item.alamat || '', mapsEmbed: item.mapsEmbed || '', latitude: extractLatLng(item.mapsEmbed)?.lat || '', longitude: extractLatLng(item.mapsEmbed)?.lng || '' }],
     kontak: {
       telepon: item.kontak?.telepon || '',
       whatsapp: item.kontak?.whatsapp || '',
@@ -908,67 +952,6 @@ function removeProduk(index) {
   }
 }
 
-function normalizeMapEmbed(value) {
-  const input = (value || '').trim()
-  if (!input) return ''
-
-  const iframeSrc = input.match(/src=["']([^"']+)["']/i)?.[1]
-  const raw = (iframeSrc || input).replace(/&amp;/g, '&')
-
-  if (/^https:\/\/(www\.)?google\.[^/]+\/maps\/embed/i.test(raw) || /^https:\/\/maps\.google\.[^/]+\/maps/i.test(raw)) {
-    return raw
-  }
-
-  const pathCoords = raw.match(/@(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/)
-  if (pathCoords) {
-    return `https://www.google.com/maps?q=${pathCoords[1]},${pathCoords[2]}&output=embed`
-  }
-
-  const coords = raw.match(/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/)
-  if (coords) {
-    return `https://www.google.com/maps?q=${coords[1]},${coords[2]}&output=embed`
-  }
-
-  try {
-    const url = new URL(raw)
-    if (url.hostname.includes('google.')) {
-      const query = url.searchParams.get('q') || url.searchParams.get('query')
-      if (query) {
-        return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`
-      }
-    }
-  } catch {
-    // Treat as query below
-  }
-
-  return `https://www.google.com/maps?q=${encodeURIComponent(raw)}&output=embed`
-}
-
-function isValidGoogleMapsUrl(value) {
-  const input = (value || '').trim()
-  if (!input) return true
-
-  if (input.includes('maps.app.goo.gl') || input.includes('goo.gl/maps') || input.includes('goo.gl')) {
-    return false
-  }
-
-  const iframeSrc = input.match(/src=["']([^"']+)["']/i)?.[1]
-  const rawUrl = iframeSrc || input
-
-  if (/^https:\/\/(www\.)?google\.[^/]+\/maps\/embed/i.test(rawUrl) || /^https:\/\/maps\.google\.[^/]+\/maps/i.test(rawUrl)) {
-    return true
-  }
-  if (/(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)/.test(rawUrl)) {
-    return true
-  }
-  try {
-    const url = new URL(rawUrl)
-    return url.hostname.includes('google.')
-  } catch {
-    return false
-  }
-}
-
 async function saveBusiness() {
   // Defense in depth: never allow saving a business id outside this owner's assignments,
   // unless we're in the middle of creating a brand-new business (no id assigned yet).
@@ -981,40 +964,51 @@ async function saveBusiness() {
     !form.namaUsaha.trim() ||
     !(owner.value?.nama || '').trim() ||
     !form.kategori ||
-    !form.alamat.trim() ||
+    !form.cabang.length ||
+    form.cabang.some(cab => !cab.label.trim() || !cab.alamat.trim()) ||
     !form.deskripsi.trim() ||
     !form.foto.utama.trim()
   ) {
-    showToast('Mohon lengkapi field yang wajib diisi (Nama Usaha, Kategori, Alamat, Deskripsi, dan Foto Utama).', 'error')
+    showToast('Mohon lengkapi field yang wajib diisi (Nama Usaha, Kategori, Nama & Alamat tiap Cabang, Deskripsi, dan Foto Utama).', 'error')
     return
   }
 
-  const lat = form.latitude.trim()
-  const lng = form.longitude.trim()
-  let mapsInput = form.mapsEmbed.trim()
+  // Lokasi: Latitude/Longitude (jika diisi) menggantikan field link/embed, per cabang
+  const cabangResult = []
+  for (const cab of form.cabang) {
+    const lat = cab.latitude.trim()
+    const lng = cab.longitude.trim()
+    let mapsInput = cab.mapsEmbed.trim()
 
-  if (lat || lng) {
-    const latNum = Number(lat)
-    const lngNum = Number(lng)
-    if (!lat || !lng) {
-      showToast('Latitude dan Longitude harus diisi berdua, atau kosongkan keduanya.', 'error')
-      return
+    if (lat || lng) {
+      const latNum = Number(lat)
+      const lngNum = Number(lng)
+      if (!lat || !lng) {
+        showToast(`Cabang "${cab.label || '-'}": Latitude dan Longitude harus diisi berdua, atau kosongkan keduanya.`, 'error')
+        return
+      }
+      if (Number.isNaN(latNum) || Number.isNaN(lngNum) || latNum < -90 || latNum > 90 || lngNum < -180 || lngNum > 180) {
+        showToast(`Cabang "${cab.label || '-'}": Latitude/Longitude tidak valid. Latitude antara -90 s/d 90, Longitude antara -180 s/d 180.`, 'error')
+        return
+      }
+      mapsInput = `${latNum},${lngNum}`
+    } else if (mapsInput) {
+      const mapsVal = mapsInput.toLowerCase()
+      if (mapsVal.includes('maps.app.goo.gl') || mapsVal.includes('goo.gl/maps') || mapsVal.includes('goo.gl')) {
+        showToast(`Cabang "${cab.label || '-'}": Tautan pendek Google Maps (maps.app.goo.gl) tidak bisa dimuat secara langsung karena pembatasan dari Google. Silakan klik "Bagikan" -> "Sematkan peta" di Google Maps lalu salin kode HTML-nya, atau isi Latitude/Longitude (contoh: -6.8893, 107.5962).`, 'error')
+        return
+      }
+      if (!isValidGoogleMapsUrl(mapsInput)) {
+        showToast(`Cabang "${cab.label || '-'}": Tautan Google Maps tidak valid. Harus berupa kode HTML iframe atau tautan Google Maps asli yang berisi koordinat.`, 'error')
+        return
+      }
     }
-    if (Number.isNaN(latNum) || Number.isNaN(lngNum) || latNum < -90 || latNum > 90 || lngNum < -180 || lngNum > 180) {
-      showToast('Latitude/Longitude tidak valid. Latitude antara -90 s/d 90, Longitude antara -180 s/d 180.', 'error')
-      return
-    }
-    mapsInput = `${latNum},${lngNum}`
-  } else if (mapsInput) {
-    const mapsVal = mapsInput.toLowerCase()
-    if (mapsVal.includes('maps.app.goo.gl') || mapsVal.includes('goo.gl/maps') || mapsVal.includes('goo.gl')) {
-      showToast('Tautan pendek Google Maps (maps.app.goo.gl) tidak bisa dimuat secara langsung karena pembatasan dari Google. Silakan klik "Bagikan" -> "Sematkan peta" di Google Maps lalu salin kode HTML-nya, atau isi Latitude/Longitude (contoh: -6.8893, 107.5962).', 'error')
-      return
-    }
-    if (!isValidGoogleMapsUrl(mapsInput)) {
-      showToast('Tautan Google Maps tidak valid. Harus berupa kode HTML iframe atau tautan Google Maps asli yang berisi koordinat.', 'error')
-      return
-    }
+
+    cabangResult.push({
+      label: cab.label.trim(),
+      alamat: cab.alamat.trim(),
+      mapsEmbed: normalizeMapEmbed(mapsInput)
+    })
   }
 
   const data = {
@@ -1022,8 +1016,9 @@ async function saveBusiness() {
     namaPemilik: (owner.value?.nama || '').trim(),
     kategori: form.kategori,
     deskripsi: form.deskripsi.trim(),
-    alamat: form.alamat.trim(),
-    mapsEmbed: normalizeMapEmbed(mapsInput),
+    cabang: cabangResult,
+    alamat: cabangResult[0].alamat,
+    mapsEmbed: cabangResult[0].mapsEmbed,
     kontak: { ...form.kontak },
     jamOperasional: form.jamOperasional.filter(jam => jam.hari.trim() || jam.jam.trim()),
     produk: form.produk.filter(produk => produk.nama.trim()),
@@ -1094,6 +1089,7 @@ function createSvgIcon(path, extra = {}) {
 }
 
 const IconInfo = createSvgIcon('M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z')
+const IconLocation = createSvgIcon('M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z')
 const IconPhone = createSvgIcon('M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.7.6 2.5a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6.5 6.5l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.6.5 2.5.6a2 2 0 0 1 1.7 2Z')
 const IconClock = createSvgIcon('M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z')
 const IconBox = createSvgIcon('M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7V8Z')
