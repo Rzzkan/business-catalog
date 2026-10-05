@@ -577,6 +577,7 @@
                     <div class="min-w-0">
                       <p class="font-semibold text-gray-800 truncate">{{ acc.nama }}</p>
                       <p class="text-sm text-gray-500 truncate">{{ acc.email }}</p>
+                      <p class="text-xs text-gray-400 mt-0.5">No. KTA: {{ acc.nomorKTA || '-' }}</p>
                       <p class="text-xs text-gray-400 mt-0.5">
                         {{ acc.businessIds.length }} bisnis terhubung{{ acc.businessIds.length ? ':' : '' }}
                         <span v-if="acc.businessIds.length" class="text-gray-500">{{ ownerBusinessNames(acc) }}</span>
@@ -633,6 +634,16 @@
                     type="email"
                     class="form-input"
                     placeholder="email@contoh.com"
+                  />
+                </div>
+
+                <div>
+                  <label class="form-label">Nomor KTA</label>
+                  <input
+                    v-model.trim="ownerForm.nomorKTA"
+                    type="text"
+                    class="form-input"
+                    placeholder="Nomor Kartu Tanda Anggota HIPMI (opsional)"
                   />
                 </div>
 
@@ -1162,7 +1173,7 @@ const categoryFormIcon = ref('grid')
 const categoryFormColor = ref('#FFC94D')
 const editingCategory = ref('')
 const editingOwnerId = ref(null)
-const ownerForm = reactive({ nama: '', email: '', password: '', businessIds: [] })
+const ownerForm = reactive({ nama: '', email: '', nomorKTA: '', password: '', businessIds: [] })
 const toast = reactive({ show: false, message: '', type: 'success' })
 const adminEmail = sessionStorage.getItem('business-admin-email') || 'Admin'
 
@@ -1782,6 +1793,7 @@ function ownerBusinessNames(acc) {
 function resetOwnerForm() {
   ownerForm.nama = ''
   ownerForm.email = ''
+  ownerForm.nomorKTA = ''
   ownerForm.password = ''
   ownerForm.businessIds = []
 }
@@ -1790,6 +1802,7 @@ function startEditOwner(acc) {
   editingOwnerId.value = acc.id
   ownerForm.nama = acc.nama
   ownerForm.email = acc.email
+  ownerForm.nomorKTA = acc.nomorKTA || ''
   ownerForm.password = ''
   ownerForm.businessIds = [...acc.businessIds]
 }
@@ -1822,6 +1835,7 @@ async function saveOwner() {
     await ownerStore.update(editingOwnerId.value, {
       nama,
       email,
+      nomorKTA: ownerForm.nomorKTA.trim(),
       password: ownerForm.password.trim(),
       businessIds: [...ownerForm.businessIds]
     })
@@ -1830,6 +1844,7 @@ async function saveOwner() {
     await ownerStore.add({
       nama,
       email,
+      nomorKTA: ownerForm.nomorKTA.trim(),
       password: ownerForm.password.trim(),
       businessIds: [...ownerForm.businessIds]
     })

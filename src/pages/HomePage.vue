@@ -250,6 +250,19 @@
         </div>
       </div>
     </section>
+
+    <!-- Floating CTA: join BPC HIPMI Bantul -->
+    <a
+      href="https://daftar.hipmibantul.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 pl-4 pr-5 py-3.5 rounded-full bg-[#18933C] text-white text-sm font-semibold shadow-xl shadow-[#18933C]/30 hover:bg-[#147530] hover:-translate-y-1 active:scale-95 transition-all duration-300"
+    >
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m14-11 2 2 4-4M11 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+      </svg>
+      <span>Gabung BPC Hipmi Bantul</span>
+    </a>
   </div>
 </template>
 

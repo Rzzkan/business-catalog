@@ -67,7 +67,8 @@ export const ownerStore = reactive({
       passwordSalt: salt,
       passwordHash: hash,
       businessIds: Array.isArray(owner.businessIds) ? [...new Set(owner.businessIds.map(Number))] : [],
-      fotoProfil: (owner.fotoProfil || '').trim()
+      fotoProfil: (owner.fotoProfil || '').trim(),
+      nomorKTA: (owner.nomorKTA || '').trim()
     }
     await setDoc(doc(db, 'owners', String(newId)), record)
     return newId
@@ -84,6 +85,7 @@ export const ownerStore = reactive({
     if (data.nama) next.nama = data.nama.trim()
     if (Array.isArray(data.businessIds)) next.businessIds = [...new Set(data.businessIds.map(Number))]
     if (typeof data.fotoProfil === 'string') next.fotoProfil = data.fotoProfil.trim()
+    if (typeof data.nomorKTA === 'string') next.nomorKTA = data.nomorKTA.trim()
     if (data.password) {
       const { salt, hash } = await hashPassword(data.password)
       next.passwordSalt = salt

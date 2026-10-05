@@ -119,6 +119,9 @@
               <div>
                 <p class="font-semibold text-gray-800 dark:text-white text-lg">{{ displayedOwnerName }}</p>
                 <p class="text-sm text-gray-500 dark:text-gray-400">Pemilik Usaha</p>
+                <p v-if="ownerAccount?.nomorKTA" class="text-xs font-semibold text-[#18933C] bg-[#18933C]/10 rounded-full px-2.5 py-0.5 mt-1.5 inline-block">
+                  No. KTA: {{ ownerAccount.nomorKTA }}
+                </p>
               </div>
             </div>
           </article>

@@ -68,6 +68,18 @@
             <p class="text-xs text-gray-400 mt-1.5">Foto ini akan tampil di halaman detail bisnis Anda dan di dashboard ini.</p>
           </div>
         </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5 pt-5 border-t border-gray-100 dark:border-white/5">
+          <div>
+            <label class="form-label">Nama Pemilik</label>
+            <input :value="owner?.nama" type="text" class="form-input opacity-70 cursor-not-allowed" disabled />
+          </div>
+          <div>
+            <label class="form-label">Nomor KTA</label>
+            <input :value="owner?.nomorKTA || 'Belum diisi'" type="text" class="form-input opacity-70 cursor-not-allowed" disabled />
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 mt-2">Nama dan Nomor KTA dikelola oleh Bidang OKK. Hubungi pengurus apabila ada koreksi.</p>
       </div>
 
       <!-- Empty state: owner account not linked to any business yet -->

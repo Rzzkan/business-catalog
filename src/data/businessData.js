@@ -28,6 +28,17 @@ const defaultCategories = [
   { name: 'Jasa', icon: 'wrench', color: '#4A5568' }
 ]
 
+// ============================================================================
+// ARSIP DATA DUMMY (NONAKTIF)
+// Diarsipkan pada 5 Oktober 2026. Data contoh di bawah ini dulunya dipakai untuk
+// mengisi Firestore secara otomatis saat database masih kosong (lihat
+// seedIfEmpty()). Karena katalog sekarang sudah diisi data bisnis anggota yang
+// sesungguhnya, data dummy ini TIDAK lagi aktif/digunakan — disimpan di sini
+// hanya sebagai arsip/referensi. Untuk mengaktifkan kembali (misalnya untuk
+// development/testing), hapus pembungkus komentar /* */ di bawah ini dan
+// kembalikan deklarasi defaultBusinessList & defaultFacilitiesMap ke isinya.
+// ============================================================================
+/*
 const defaultBusinessList = [
     {
       id: 1,
@@ -420,6 +431,10 @@ const defaultFacilitiesMap = {
   8: ['Toilet', 'Tempat Parkir', 'Meja & Tempat Duduk'],
   9: ['Toilet', 'Tempat Parkir', 'WiFi', 'Meja & Tempat Duduk']
 }
+*/
+
+const defaultBusinessList = []
+const defaultFacilitiesMap = {}
 
 // Apply the default per-business facility list to any seed business missing one.
 defaultBusinessList.forEach(u => {

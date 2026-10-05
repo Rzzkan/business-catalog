@@ -153,10 +153,10 @@ function truncate(text, maxLength = 100) {
               Hasil pencarian untuk "<span class="text-[#FFC94D]">{{ query }}</span>"
             </h1>
             <h1 v-else data-grav class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white">
-              Semua UMKM
+              Semua Bisnis
             </h1>
             <p data-grav class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-              <span class="font-semibold text-[#FFC94D]">{{ results.length }}</span> UMKM ditemukan
+              <span class="font-semibold text-[#FFC94D]">{{ results.length }}</span> Bisnis ditemukan
             </p>
           </div>
         </div>
@@ -169,7 +169,7 @@ function truncate(text, maxLength = 100) {
             <input
               v-model="searchInput"
               type="text"
-              :placeholder="query ? 'Cari lagi...' : 'Cari UMKM...'"
+              :placeholder="query ? 'Cari lagi...' : 'Cari Bisnis...'"
               class="w-full pl-10 pr-24 py-2.5 rounded-xl border border-gray-200 dark:border-white/10 bg-gray-50/80 dark:bg-[#161a24] text-sm text-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/40 focus:border-[#FFC94D] transition-all duration-200"
             />
             <button
@@ -288,10 +288,10 @@ function truncate(text, maxLength = 100) {
         </div>
 
         <h2 data-grav class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-2">
-          Tidak ada UMKM yang ditemukan
+          Tidak ada Bisnis yang ditemukan
         </h2>
         <p data-grav class="text-gray-500 dark:text-gray-400 text-sm sm:text-base max-w-md mb-2">
-          Kami tidak menemukan UMKM yang cocok dengan pencarian
+          Kami tidak menemukan Bisnis yang cocok dengan pencarian
           <span v-if="query" class="font-semibold text-[#FA6781]">"{{ query }}"</span>.
         </p>
         <p data-grav class="text-gray-400 dark:text-gray-500 text-sm mb-8">
@@ -317,7 +317,7 @@ function truncate(text, maxLength = 100) {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            Lihat Semua UMKM
+            Lihat Semua Bisnis
           </button>
         </div>
       </div>
