@@ -31,12 +31,11 @@
 
         <div>
           <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
-          <input
+          <PasswordInput
             id="password"
             v-model="password"
-            type="password"
             autocomplete="current-password"
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white bg-white dark:bg-[#0d0f14] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/40 focus:border-[#FFC94D] transition-colors duration-300"
+            input-class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white bg-white dark:bg-[#0d0f14] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/40 focus:border-[#FFC94D] transition-colors duration-300"
             placeholder="••••••••"
           />
         </div>
@@ -66,6 +65,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ownerStore } from '../data/ownerData'
+import PasswordInput from '../components/PasswordInput.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -118,7 +118,7 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
 })
 
-function handleLogin() {
+async function handleLogin() {
   errorMessage.value = ''
 
   // Check lockout
@@ -133,7 +133,7 @@ function handleLogin() {
     return
   }
 
-  const owner = ownerStore.authenticate(email.value, password.value)
+  const owner = await ownerStore.authenticate(email.value, password.value)
 
   if (!owner) {
     failedAttempts.value++

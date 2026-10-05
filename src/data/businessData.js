@@ -1,7 +1,25 @@
 import { reactive } from 'vue'
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  writeBatch
+} from 'firebase/firestore'
+import { db } from '../firebase'
 import { ownerStore } from './ownerData'
 
-// Default categories configuration
+const businessesCollection = collection(db, 'businesses')
+const reportsCollection = collection(db, 'reports')
+const categoriesDocRef = doc(db, 'meta', 'categories')
+
+// Default categories configuration — used only to seed Firestore the first time
+// this app connects to an empty database (see seedIfEmpty() below).
 const defaultCategories = [
   { name: 'Makanan', icon: 'utensils', color: '#FA6781' },
   { name: 'Minuman', icon: 'coffee', color: '#FFC94D' },
@@ -9,12 +27,6 @@ const defaultCategories = [
   { name: 'Kerajinan', icon: 'palette', color: '#E0A96D' },
   { name: 'Jasa', icon: 'wrench', color: '#4A5568' }
 ]
-
-const storedCategories = localStorage.getItem('business-categories')
-const initialCategories = storedCategories ? JSON.parse(storedCategories) : defaultCategories
-if (!storedCategories) {
-  localStorage.setItem('business-categories', JSON.stringify(defaultCategories))
-}
 
 const defaultBusinessList = [
     {
@@ -397,9 +409,6 @@ const defaultBusinessList = [
     }
 ]
 
-const storedBusiness = localStorage.getItem('business-list')
-let initialBusiness = storedBusiness ? JSON.parse(storedBusiness) : defaultBusinessList
-
 const defaultFacilitiesMap = {
   1: ['Toilet', 'Tempat Parkir', 'Meja & Tempat Duduk'],
   2: ['WiFi', 'AC', 'Toilet', 'Meja & Tempat Duduk', 'Pembayaran Non-Tunai'],
@@ -412,31 +421,56 @@ const defaultFacilitiesMap = {
   9: ['Toilet', 'Tempat Parkir', 'WiFi', 'Meja & Tempat Duduk']
 }
 
-initialBusiness.forEach(u => {
+// Apply the default per-business facility list to any seed business missing one.
+defaultBusinessList.forEach(u => {
   if (!u.hasOwnProperty('fasilitas')) {
     u.fasilitas = defaultFacilitiesMap[u.id] || []
   }
 })
 
-localStorage.setItem('business-list', JSON.stringify(initialBusiness))
+// One-time seed: if this is a brand-new Firestore database (no business documents
+// yet), populate it with the sample catalog + default categories so the app isn't
+// empty on first connect. Safe to call every time the app loads — it only writes
+// when the businesses collection is completely empty, and never overwrites data a
+// real admin has since added or changed.
+async function seedIfEmpty() {
+  try {
+    const snapshot = await getDocs(businessesCollection)
+    if (!snapshot.empty) return
 
-// Reactive store for UMKM data
+    const batch = writeBatch(db)
+    defaultBusinessList.forEach(business => {
+      batch.set(doc(db, 'businesses', String(business.id)), business)
+    })
+    batch.set(categoriesDocRef, { list: defaultCategories })
+    await batch.commit()
+  } catch (error) {
+    console.error('Gagal melakukan seeding data awal ke Firestore:', error)
+  }
+}
+seedIfEmpty()
+
+// Reactive store for business data. Backed by Firestore: `businessList`,
+// `categoriesList` and `reports` are kept in sync in real time via onSnapshot, so
+// reads below stay synchronous against a local cache, while writes (add/update/
+// delete and friends) are async Firestore calls.
 export const businessStore = reactive({
-  categoriesList: initialCategories,
-  reports: JSON.parse(localStorage.getItem('business-reports') || '[]'),
-  businessList: initialBusiness,
+  categoriesList: [],
+  reports: [],
+  businessList: [],
+  ready: false,
 
-  // Get all UMKM
+  // Get all businesses
   getAll() {
     return this.businessList
   },
 
-  // Get UMKM by ID
+  // Get business by ID
   getById(id) {
-    return this.businessList.find(u => u.id === Number(id))
+    return this.businessList.find(u => String(u.id) === String(id))
   },
 
-  // Search UMKM
+  // Search businesses
   search(query) {
     const q = query.toLowerCase()
     return this.businessList.filter(u =>
@@ -448,12 +482,12 @@ export const businessStore = reactive({
     )
   },
 
-  // Get UMKM by category
+  // Get businesses by category
   getByCategory(kategori) {
     return this.businessList.filter(u => u.kategori === kategori)
   },
 
-  // Get random UMKM
+  // Get random business
   getRandom(categories = null) {
     const pool = Array.isArray(categories) && categories.length
       ? this.businessList.filter(u => categories.includes(u.kategori))
@@ -471,21 +505,20 @@ export const businessStore = reactive({
     return this.categoriesList.map(c => c.name)
   },
 
-  addCategory(catObj) {
+  async addCategory(catObj) {
     const cleanName = catObj.name.trim()
     if (!cleanName || this.categoriesList.some(c => c.name.toLowerCase() === cleanName.toLowerCase())) {
       return false
     }
-    this.categoriesList.push({
-      name: cleanName,
-      icon: catObj.icon || 'grid',
-      color: catObj.color || '#FFC94D'
-    })
-    localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
+    const nextList = [
+      ...this.categoriesList,
+      { name: cleanName, icon: catObj.icon || 'grid', color: catObj.color || '#FFC94D' }
+    ]
+    await setDoc(categoriesDocRef, { list: nextList })
     return true
   },
 
-  updateCategory(oldName, catObj) {
+  async updateCategory(oldName, catObj) {
     const cleanName = catObj.name.trim()
     if (!cleanName) return false
     if (this.categoriesList.some(c => c.name !== oldName && c.name.toLowerCase() === cleanName.toLowerCase())) {
@@ -493,77 +526,71 @@ export const businessStore = reactive({
     }
 
     const index = this.categoriesList.findIndex(c => c.name === oldName)
-    if (index !== -1) {
-      this.categoriesList[index] = {
-        name: cleanName,
-        icon: catObj.icon || 'grid',
-        color: catObj.color || '#FFC94D'
-      }
+    if (index === -1) return false
 
-      this.businessList.forEach((u) => {
-        if (u.kategori === oldName) u.kategori = cleanName
-      })
+    const nextList = [...this.categoriesList]
+    nextList[index] = { name: cleanName, icon: catObj.icon || 'grid', color: catObj.color || '#FFC94D' }
 
-      localStorage.setItem('business-list', JSON.stringify(this.businessList))
-      localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
-      return true
-    }
-    return false
+    const affected = this.businessList.filter(u => u.kategori === oldName)
+
+    const batch = writeBatch(db)
+    batch.set(categoriesDocRef, { list: nextList })
+    affected.forEach(u => {
+      batch.update(doc(db, 'businesses', String(u.id)), { kategori: cleanName })
+    })
+    await batch.commit()
+    return true
   },
 
-  deleteCategory(name) {
+  async deleteCategory(name) {
     if (this.businessList.some(u => u.kategori === name)) {
       return false
     }
 
     const index = this.categoriesList.findIndex(c => c.name === name)
-    if (index !== -1) {
-      this.categoriesList.splice(index, 1)
-      localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
-      return true
-    }
-    return false
+    if (index === -1) return false
+
+    const nextList = this.categoriesList.filter(c => c.name !== name)
+    await setDoc(categoriesDocRef, { list: nextList })
+    return true
   },
 
-  // Add new UMKM
-  add(business) {
+  // Add new business
+  async add(business) {
     const newId = this.businessList.length ? Math.max(...this.businessList.map(u => u.id)) + 1 : 1
+
+    const batch = writeBatch(db)
     if (business.kategori && !this.getCategories().includes(business.kategori)) {
-      this.categoriesList.push({ name: business.kategori, icon: 'grid', color: '#FFC94D' })
-      localStorage.setItem('business-categories', JSON.stringify(this.categoriesList))
+      const nextList = [...this.categoriesList, { name: business.kategori, icon: 'grid', color: '#FFC94D' }]
+      batch.set(categoriesDocRef, { list: nextList })
     }
-    this.businessList.push({ ...business, id: newId })
-    localStorage.setItem('business-list', JSON.stringify(this.businessList))
+    batch.set(doc(db, 'businesses', String(newId)), { ...business, id: newId })
+    await batch.commit()
     return newId
   },
 
-  // Update UMKM
-  update(id, data) {
-    const index = this.businessList.findIndex(u => u.id === Number(id))
-    if (index !== -1) {
-      this.businessList[index] = { ...this.businessList[index], ...data }
-      localStorage.setItem('business-list', JSON.stringify(this.businessList))
-      return true
-    }
-    return false
+  // Update business
+  async update(id, data) {
+    const existing = this.getById(id)
+    if (!existing) return false
+    await updateDoc(doc(db, 'businesses', String(existing.id)), data)
+    return true
   },
 
-  // Delete UMKM
-  delete(id) {
-    const index = this.businessList.findIndex(u => u.id === Number(id))
-    if (index !== -1) {
-      this.businessList.splice(index, 1)
-      localStorage.setItem('business-list', JSON.stringify(this.businessList))
-      ownerStore.unlinkBusiness(id)
-      return true
-    }
-    return false
+  // Delete business
+  async delete(id) {
+    const existing = this.getById(id)
+    if (!existing) return false
+    await deleteDoc(doc(db, 'businesses', String(existing.id)))
+    await ownerStore.unlinkBusiness(existing.id)
+    return true
   },
 
   // Add a report
-  addReport(report) {
+  async addReport(report) {
+    const newId = Date.now()
     const newReport = {
-      id: Date.now(),
+      id: newId,
       businessId: Number(report.businessId),
       namaUsaha: report.namaUsaha,
       tipe: report.tipe, // 'kesalahan_data' | 'toko_tutup'
@@ -571,32 +598,60 @@ export const businessStore = reactive({
       tanggal: new Date().toISOString(),
       status: 'pending' // 'pending' | 'resolved'
     }
-    this.reports.push(newReport)
-    localStorage.setItem('business-reports', JSON.stringify(this.reports))
+    await setDoc(doc(db, 'reports', String(newId)), newReport)
+    return newId
   },
 
   // Resolve a report
-  resolveReport(reportId) {
-    const index = this.reports.findIndex(r => r.id === Number(reportId))
-    if (index !== -1) {
-      this.reports[index].status = 'resolved'
-      localStorage.setItem('business-reports', JSON.stringify(this.reports))
-      return true
-    }
-    return false
+  async resolveReport(reportId) {
+    const existing = this.reports.find(r => String(r.id) === String(reportId))
+    if (!existing) return false
+    await updateDoc(doc(db, 'reports', String(existing.id)), { status: 'resolved' })
+    return true
   },
 
   // Delete a report
-  deleteReport(reportId) {
-    const index = this.reports.findIndex(r => r.id === Number(reportId))
-    if (index !== -1) {
-      this.reports.splice(index, 1)
-      localStorage.setItem('business-reports', JSON.stringify(this.reports))
-      return true
-    }
-    return false
+  async deleteReport(reportId) {
+    const existing = this.reports.find(r => String(r.id) === String(reportId))
+    if (!existing) return false
+    await deleteDoc(doc(db, 'reports', String(existing.id)))
+    return true
   }
 })
+
+// Keep businessList, categoriesList and reports in sync with Firestore in real time,
+// so every page reflects the latest data (including changes made from another
+// device/tab) without any manual refresh.
+onSnapshot(
+  query(businessesCollection, orderBy('id')),
+  (snapshot) => {
+    businessStore.businessList = snapshot.docs.map(d => d.data())
+    businessStore.ready = true
+  },
+  (error) => {
+    console.error('Gagal memuat data bisnis dari Firestore:', error)
+  }
+)
+
+onSnapshot(
+  categoriesDocRef,
+  (snapshot) => {
+    businessStore.categoriesList = snapshot.exists() ? (snapshot.data().list || []) : []
+  },
+  (error) => {
+    console.error('Gagal memuat data kategori dari Firestore:', error)
+  }
+)
+
+onSnapshot(
+  query(reportsCollection, orderBy('id', 'desc')),
+  (snapshot) => {
+    businessStore.reports = snapshot.docs.map(d => d.data())
+  },
+  (error) => {
+    console.error('Gagal memuat data laporan dari Firestore:', error)
+  }
+)
 
 function getContrastColor(hex) {
   const r = parseInt(hex.slice(1, 3), 16)

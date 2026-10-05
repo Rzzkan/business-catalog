@@ -1,0 +1,59 @@
+rules_version = '2';
+
+// Firestore Security Rules for business-catalog-3a442 (Katalog Bisnis BPC HIPMI Bantul).
+//
+// Publish these in the Firebase Console: Build -> Firestore Database -> Rules -> paste -> Publish.
+// (Or with the Firebase CLI: `firebase deploy --only firestore:rules`, once this project
+// is linked with `firebase init`.)
+//
+// IMPORTANT — read this before publishing:
+// This app has no server backend and does not use Firebase Authentication. Admin and
+// owner logins are checked entirely in the browser (against a password hash stored in
+// Firestore, for owners — see src/data/ownerData.js), and that check cannot be repeated
+// here in these rules because Firestore Rules can only see a Firebase Auth identity, not
+// "this browser passed a JS password check". That means:
+//   - The password hashes below (owners/{id}) are protected by PBKDF2 (150,000 iterations) —
+//     not reversible at a glance — but they ARE readable by anyone who queries Firestore
+//     directly with this project's public web config, same as any visitor of the site.
+//   - These rules can only gate reads/writes by collection, not by "is this really the
+//     admin". With no Firebase Auth, anyone with the web config (which is not a secret —
+//     it ships in the site's own JS bundle) can write to any collection left open below,
+//     bypassing the admin/owner UI entirely.
+//
+// The rules below keep the app fully working (matches what the admin panel and owner
+// dashboard need) but writes are open. If/when you want real protection against someone
+// editing your catalog directly through the Firebase SDK, the fix is to add Firebase
+// Authentication (e.g. email/password or anonymous sign-in tied to each admin/owner) and
+// then scope these rules to `request.auth != null` (or to a custom claim). Ask to have
+// this set up if you'd like it — it's a separate, larger change from this data migration.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public business catalog — anyone can browse; writes are open (see note above).
+    match /businesses/{businessId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Category list (single doc: meta/categories) — public read, open write.
+    match /meta/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Owner accounts — must be readable so the login page can check a password hash
+    // client-side (see note above: this is an inherent limit of auth with no backend).
+    // Writes are open so the admin panel's "Akun Pemilik" CRUD can function.
+    match /owners/{ownerId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // User-submitted data reports ("kesalahan data" / "toko tutup") — anyone can
+    // submit one; open write/read so the admin panel can list and resolve them.
+    match /reports/{reportId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}

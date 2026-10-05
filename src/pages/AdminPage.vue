@@ -637,14 +637,14 @@
                 </div>
 
                 <div>
-                  <label class="form-label">Password {{ editingOwnerId ? '' : '' }}</label>
-                  <input
+                  <label class="form-label">Password</label>
+                  <PasswordInput
                     v-model="ownerForm.password"
-                    type="text"
-                    class="form-input"
+                    input-class="form-input"
+                    autocomplete="new-password"
                     :placeholder="editingOwnerId ? 'Kosongkan jika tidak diganti' : 'Buat password untuk akun ini'"
                   />
-                  <p class="text-xs text-gray-400 mt-1.5">Bagikan email &amp; password ini langsung ke pemilik usaha.</p>
+                  <p class="text-xs text-gray-400 mt-1.5">Bagikan email &amp; password ini langsung ke pemilik usaha. Password disimpan terenkripsi (hash), bukan teks asli.</p>
                 </div>
 
                 <div>
@@ -1142,6 +1142,7 @@ import { computed, defineComponent, h, nextTick, onMounted, onUnmounted, reactiv
 import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
+import PasswordInput from '../components/PasswordInput.vue'
 import { businessStore, getCategoryLightStyle, sanitizeUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
 
@@ -1609,7 +1610,7 @@ function removeProduk(index) {
   }
 }
 
-function saveBusiness() {
+async function saveBusiness() {
   if (
     !form.namaUsaha.trim() ||
     !form.namaPemilik.trim() ||
@@ -1678,10 +1679,10 @@ function saveBusiness() {
   if (!data.jamOperasional.length) data.jamOperasional = [{ hari: '', jam: '' }]
 
   if (isEditing.value) {
-    businessStore.update(editingId.value, data)
+    await businessStore.update(editingId.value, data)
     showToast('Bisnis berhasil diperbarui.')
   } else {
-    businessStore.add(data)
+    await businessStore.add(data)
     showToast('Bisnis baru berhasil ditambahkan.')
   }
 
@@ -1693,24 +1694,24 @@ function openDeleteModal(item) {
   showDeleteModal.value = true
 }
 
-function confirmDelete() {
+async function confirmDelete() {
   if (deleteTarget.value) {
-    businessStore.delete(deleteTarget.value.id)
+    await businessStore.delete(deleteTarget.value.id)
     showToast('Bisnis berhasil dihapus.')
   }
   showDeleteModal.value = false
   deleteTarget.value = null
 }
 
-function resolveReport(id) {
-  const ok = businessStore.resolveReport(id)
+async function resolveReport(id) {
+  const ok = await businessStore.resolveReport(id)
   if (ok) {
     showToast('Laporan berhasil ditandai selesai.')
   }
 }
 
-function deleteReport(id) {
-  const ok = businessStore.deleteReport(id)
+async function deleteReport(id) {
+  const ok = await businessStore.deleteReport(id)
   if (ok) {
     showToast('Laporan berhasil dihapus.')
   }
@@ -1741,7 +1742,7 @@ function cancelCategoryEdit() {
   categoryFormColor.value = '#FFC94D'
 }
 
-function saveCategory() {
+async function saveCategory() {
   if (!categoryFormName.value.trim()) {
     showToast('Nama kategori wajib diisi.', 'error')
     return
@@ -1755,18 +1756,18 @@ function saveCategory() {
 
   let ok = false
   if (editingCategory.value) {
-    ok = businessStore.updateCategory(editingCategory.value, categoryData)
+    ok = await businessStore.updateCategory(editingCategory.value, categoryData)
     showToast(ok ? 'Kategori berhasil diperbarui.' : 'Kategori sudah ada atau tidak valid.', ok ? 'success' : 'error')
   } else {
-    ok = businessStore.addCategory(categoryData)
+    ok = await businessStore.addCategory(categoryData)
     showToast(ok ? 'Kategori berhasil ditambahkan.' : 'Kategori sudah ada atau tidak valid.', ok ? 'success' : 'error')
   }
 
   if (ok) cancelCategoryEdit()
 }
 
-function removeCategory(category) {
-  const removed = businessStore.deleteCategory(category)
+async function removeCategory(category) {
+  const removed = await businessStore.deleteCategory(category)
   showToast(removed ? 'Kategori berhasil dihapus.' : 'Kategori masih dipakai Bisnis.', removed ? 'success' : 'error')
   if (editingCategory.value === category) cancelCategoryEdit()
 }
@@ -1798,7 +1799,7 @@ function cancelOwnerEdit() {
   resetOwnerForm()
 }
 
-function saveOwner() {
+async function saveOwner() {
   const nama = ownerForm.nama.trim()
   const email = ownerForm.email.trim()
 
@@ -1818,7 +1819,7 @@ function saveOwner() {
   }
 
   if (editingOwnerId.value) {
-    ownerStore.update(editingOwnerId.value, {
+    await ownerStore.update(editingOwnerId.value, {
       nama,
       email,
       password: ownerForm.password.trim(),
@@ -1826,7 +1827,7 @@ function saveOwner() {
     })
     showToast('Akun pemilik berhasil diperbarui.')
   } else {
-    ownerStore.add({
+    await ownerStore.add({
       nama,
       email,
       password: ownerForm.password.trim(),
@@ -1838,8 +1839,8 @@ function saveOwner() {
   cancelOwnerEdit()
 }
 
-function removeOwner(acc) {
-  ownerStore.delete(acc.id)
+async function removeOwner(acc) {
+  await ownerStore.delete(acc.id)
   showToast('Akun pemilik berhasil dihapus.')
   if (editingOwnerId.value === acc.id) cancelOwnerEdit()
 }

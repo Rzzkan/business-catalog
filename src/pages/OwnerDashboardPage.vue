@@ -707,10 +707,10 @@ onMounted(() => {
   profileFotoInput.value = owner.value?.fotoProfil || ''
 })
 
-function saveProfilePhoto() {
+async function saveProfilePhoto() {
   if (!ownerId) return
   const url = profileFotoInput.value.trim()
-  ownerStore.update(ownerId, { fotoProfil: url })
+  await ownerStore.update(ownerId, { fotoProfil: url })
   profileFotoInput.value = url
   showToast('Foto profil berhasil diperbarui.')
 }
@@ -957,7 +957,7 @@ function isValidGoogleMapsUrl(value) {
   }
 }
 
-function saveBusiness() {
+async function saveBusiness() {
   // Defense in depth: never allow saving a business id outside this owner's assignments,
   // unless we're in the middle of creating a brand-new business (no id assigned yet).
   if (!isCreatingNew.value && (!selectedBusinessId.value || !ownedBusinesses.value.some(b => b.id === selectedBusinessId.value))) {
@@ -1031,13 +1031,13 @@ function saveBusiness() {
   if (!data.jamOperasional.length) data.jamOperasional = [{ hari: '', jam: '' }]
 
   if (isCreatingNew.value) {
-    const newId = businessStore.add(data)
-    ownerStore.update(ownerId, { businessIds: [...(owner.value?.businessIds || []), newId] })
+    const newId = await businessStore.add(data)
+    await ownerStore.update(ownerId, { businessIds: [...(owner.value?.businessIds || []), newId] })
     isCreatingNew.value = false
     selectedBusinessId.value = newId
     showToast('Bisnis baru berhasil ditambahkan.')
   } else {
-    businessStore.update(selectedBusinessId.value, data)
+    await businessStore.update(selectedBusinessId.value, data)
     showToast('Informasi bisnis berhasil diperbarui.')
   }
 }

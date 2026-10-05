@@ -10,78 +10,92 @@
       </router-link>
 
       <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight uppercase">
-        Kebijakan Privasi Penggunaan Platform E-Catalog UMKM
+        Kebijakan Privasi Business Catalog Anggota BPC HIPMI Bantul
       </h1>
       <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 border-b border-gray-200 dark:border-white/10 pb-4">
-        Tanggal Berlaku: 2 Juni 2026 | Pembaruan Terakhir: 2 Juni 2026
+        Tanggal Berlaku: 5 Oktober 2026 | Pembaruan Terakhir: 5 Oktober 2026
       </p>
 
       <div class="space-y-8 text-sm sm:text-base leading-relaxed">
         <p>
-          Kebijakan Privasi ini (selanjutnya disebut sebagai "Kebijakan") menjelaskan bagaimana pengelola platform E-Catalog UMKM Rukun Tetangga (selanjutnya disebut "Pengelola") mengumpulkan, menyimpan, menggunakan, dan melindungi data serta informasi milik Pengguna saat mengakses dan menggunakan layanan di website direktori ini. Pengelola berkomitmen untuk menghormati dan melindungi privasi warga serta seluruh pemilik usaha sesuai dengan ketentuan hukum yang berlaku di Republik Indonesia.
+          Kebijakan Privasi ini (selanjutnya disebut sebagai "Kebijakan") menjelaskan bagaimana Bidang Organisasi, Keanggotaan, dan Kaderisasi (OKK) Badan Pengurus Cabang Himpunan Pengusaha Muda Indonesia Kabupaten Bantul (selanjutnya disebut "BPC HIPMI Bantul" atau "Pengelola") mengumpulkan, menyimpan, menggunakan, dan melindungi data pada Business Catalog Anggota BPC HIPMI Bantul (selanjutnya disebut "Platform"). Pengelola berkomitmen menghormati privasi anggota dan pengunjung Platform sesuai dengan ketentuan hukum pelindungan data pribadi yang berlaku di Republik Indonesia, serta AD/ART dan Peraturan Organisasi HIPMI.
         </p>
 
         <div>
-          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 1 - PENGUMPULAN DATA DAN METODE PENYIMPANAN LOKAL</h2>
+          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 1 - PENGENDALI DATA DAN ARSITEKTUR SISTEM</h2>
           <p class="mb-3">
-            Platform E-Catalog UMKM ini dirancang untuk dapat diakses oleh publik tanpa mewajibkan pendaftaran akun bagi pengunjung umum (non-admin).
+            Platform ini dibangun menggunakan kerangka kerja antarmuka Vue.js yang berjalan di sisi peramban (client-side), dihosting pada layanan Vercel, dan menyimpan data pada basis data Firebase Firestore milik Google. Pemahaman mengenai arsitektur ini relevan bagi Pengguna karena memengaruhi di mana dan bagaimana data diproses.
           </p>
           <ul class="list-disc pl-6 space-y-2">
-            <li><strong>Data UMKM</strong>: Data profil usaha (mencakup nama pemilik, kontak komunikasi, alamat fisik, detail produk, foto, dan status fasilitas) dikumpulkan secara sukarela dari pemilik usaha dan dimasukkan secara manual oleh Pengelola berdasarkan persetujuan lisan maupun tertulis dari pemilik usaha yang bersangkutan.</li>
-            <li><strong>Penyimpanan Browser Lokal (Local Storage)</strong>: Website ini memanfaatkan teknologi penyimpanan browser lokal (seperti <em>localStorage</em> dan <em>sessionStorage</em>) untuk menyimpan data teknis sesi login administrator, preferensi tema tampilan (mode gelap/terang), dan riwayat pengiriman laporan warga guna menghindari spam serta menjaga keandalan sistem.</li>
-            <li>Pengelola tidak merekam atau mengumpulkan data pribadi sensitif milik pengunjung umum seperti Nomor Induk Kependudukan (NIK), informasi keuangan pribadi, atau dokumen kependudukan lainnya.</li>
+            <li><strong>Pengendali Data</strong>: Bidang OKK BPC HIPMI Bantul bertindak sebagai pengendali data untuk seluruh data usaha dan akun pemilik yang dikelola melalui Platform ini.</li>
+            <li><strong>Vercel (Hosting &amp; Edge Network)</strong>: Platform ditayangkan melalui infrastruktur Vercel, yang secara teknis mencatat metadata permintaan jaringan standar (seperti alamat IP, jenis peramban, dan waktu akses) untuk keperluan pengiriman konten, keamanan, dan pemantauan performa. Pencatatan ini dikelola di bawah kebijakan privasi Vercel sendiri sebagai penyedia infrastruktur.</li>
+            <li><strong>Firebase Firestore (Basis Data)</strong>: Seluruh data usaha, data akun pemilik, dan data laporan pengguna disimpan secara real-time pada Firebase Firestore, layanan basis data berbasis cloud milik Google, yang tunduk pada ketentuan keamanan infrastruktur Google Cloud.</li>
           </ul>
         </div>
 
         <div>
-          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 2 - PENGGUNAAN ALAT ANALITIK PIHAK KETIGA (COOKIES)</h2>
+          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 2 - DATA YANG DIKUMPULKAN DAN DISIMPAN</h2>
           <p class="mb-3">
-            Dalam rangka memantau keandalan sistem dan menganalisis statistik kunjungan warga secara berkala, platform ini menggunakan instrumen analitik pihak ketiga.
+            Platform ini dapat diakses publik untuk menelusuri katalog tanpa perlu membuat akun. Data berikut dikumpulkan dan disimpan pada Firebase Firestore untuk keperluan operasional Sistem.
           </p>
           <ul class="list-disc pl-6 space-y-2">
-            <li>Platform ini mengintegrasikan alat analitik pihak ketiga (seperti Google Analytics / tracking cookies) yang bekerja secara kolektif dan anonim untuk mencatat data log kunjungan, jenis perangkat yang digunakan, peramban (browser), serta durasi navigasi di halaman web.</li>
-            <li>Informasi yang dikumpulkan melalui instrumen analitik ini tidak digunakan untuk mengidentifikasi identitas pribadi Pengguna secara spesifik, melainkan murni untuk evaluasi kinerja operasional dan pengembangan platform ke depan.</li>
-            <li>Pengguna dapat mengatur preferensi browser masing-masing untuk menolak atau memblokir cookies pelacakan pihak ketiga tanpa membatasi akses navigasi utama pada direktori ini.</li>
+            <li><strong>Data Usaha Anggota</strong>: nama usaha, kategori, deskripsi, kontak (WhatsApp/telepon, media sosial), lokasi, jam operasional, fasilitas, dan foto, yang diinput oleh anggota pemilik usaha atau oleh pengurus Bidang OKK berdasarkan data yang diberikan anggota.</li>
+            <li><strong>Data Akun Pemilik Usaha</strong>: nama, alamat surel (email), dan kata sandi dalam bentuk hash terenkripsi, yang digunakan untuk otentikasi pada dasbor pemilik usaha (owner dashboard).</li>
+            <li><strong>Data Laporan Pengguna</strong>: isi laporan atau koreksi informasi yang dikirimkan melalui fitur pelaporan pada halaman detail usaha, digunakan semata untuk validasi dan pembaruan data internal oleh pengurus.</li>
+            <li><strong>Penyimpanan Lokal Peramban (Local Storage)</strong>: Platform memanfaatkan penyimpanan lokal peramban milik Pengguna untuk menyimpan preferensi tampilan (mode gelap/terang) dan status sesi login yang sedang berjalan; data ini tersimpan hanya pada perangkat Pengguna dan tidak dikirimkan ke pihak mana pun.</li>
+            <li>Pengelola tidak mengumpulkan data pribadi sensitif pengunjung umum seperti Nomor Induk Kependudukan (NIK), data keuangan pribadi, atau dokumen kependudukan.</li>
           </ul>
         </div>
 
         <div>
-          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 3 - PENGGUNAAN DAN PENYEBARLUASAN DATA</h2>
+          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 3 - KEAMANAN KATA SANDI DAN BATASAN PERLINDUNGAN DATA</h2>
           <p class="mb-3">
-            Pengelola membatasi penggunaan data yang terkumpul hanya untuk kepentingan promosi ekonomi lokal warga.
+            Pengelola menerapkan langkah teknis berikut untuk melindungi kredensial akun pada Platform.
           </p>
           <ul class="list-disc pl-6 space-y-2">
-            <li>Data kontak usaha (telepon, WhatsApp, email, dan akun media sosial) dipublikasikan secara sadar demi mempermudah warga atau publik menghubungi pemilik UMKM secara langsung untuk keperluan transaksi jual beli.</li>
-            <li>Data ulasan, saran, atau laporan kesalahan informasi yang dikirimkan oleh Pengguna melalui fitur pelaporan akan digunakan murni oleh Pengelola sebagai bahan validasi internal untuk memperbarui informasi direktori usaha.</li>
-            <li>Pengelola menjamin tidak akan menyebarluaskan, memperjualbelikan, atau menyerahkan informasi kontak pemilik usaha maupun data laporan warga kepada pihak ketiga untuk kepentingan komersial di luar wilayah Rukun Tetangga (RT).</li>
+            <li>Kata sandi akun admin dan akun pemilik usaha tidak pernah disimpan dalam bentuk teks biasa (plaintext). Kata sandi diolah menjadi nilai hash satu arah (PBKDF2) sebelum disimpan pada basis data, sehingga tidak dapat dibalik menjadi kata sandi asli meskipun oleh Pengelola sendiri.</li>
+            <li>Karena Platform ini belum mengimplementasikan Firebase Authentication dan otentikasi dilakukan secara mandiri di sisi aplikasi, Pengelola secara aktif meninjau dan memperketat aturan keamanan basis data (Firestore Security Rules) secara berkala sebagai bagian dari upaya perlindungan data yang berkelanjutan.</li>
+            <li>Pengguna disarankan untuk tidak menggunakan kata sandi yang sama dengan akun penting lain, dan segera melaporkan kepada Bidang OKK apabila mencurigai adanya akses tidak sah.</li>
           </ul>
         </div>
 
         <div>
-          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 4 - HAK PEMILIK DATA DAN PENGHAPUSAN INFORMASI</h2>
+          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 4 - PENGGUNAAN DAN PENYEBARLUASAN DATA</h2>
           <p class="mb-3">
-            Setiap warga atau pemilik usaha yang terdaftar di dalam platform ini memiliki hak penuh atas data usaha mereka secara berdaulat (Right to be Forgotten).
+            Pengelola membatasi penggunaan data yang terkumpul hanya untuk kepentingan keanggotaan dan sinergi ekonomi antaranggota BPC HIPMI Bantul.
           </p>
           <ul class="list-disc pl-6 space-y-2">
-            <li>Pemilik usaha berhak mengajukan koreksi atas kesalahan penulisan data, mengajukan pembaruan harga produk, mengubah gambar promosi, maupun memperbarui status fasilitas yang tersedia.</li>
-            <li>Pemilik usaha berhak untuk meminta penarikan publikasi data usaha mereka secara permanen dari sistem katalog online ini kapan saja.</li>
-            <li>Segala bentuk permohonan koreksi, pembaruan, atau penghapusan data usaha dapat diajukan secara langsung dengan menghubungi <strong>WhatsApp Pengurus RT/RW</strong> setempat yang nomor resminya tertera pada bagian kontak pengelola platform ini.</li>
+            <li>Data kontak usaha dipublikasikan secara sadar atas persetujuan anggota pemilik usaha, untuk mempermudah sesama anggota maupun publik menghubungi langsung guna keperluan bisnis dan kolaborasi.</li>
+            <li>Data laporan atau masukan dari Pengguna digunakan murni sebagai bahan validasi internal oleh pengurus Bidang OKK untuk memperbarui informasi direktori.</li>
+            <li>Pengelola tidak menyebarluaskan, memperjualbelikan, atau menyerahkan data kontak maupun data akun kepada pihak ketiga di luar keperluan operasional Platform, kecuali diwajibkan oleh ketentuan hukum yang berlaku atau atas permintaan resmi pengurus BPC/BPD/BPP HIPMI sehubungan dengan administrasi keanggotaan.</li>
           </ul>
         </div>
 
         <div>
-          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 5 - PERUBAHAN KEBIJAKAN PRIVASI</h2>
+          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 5 - HAK PEMILIK DATA DAN PERMOHONAN PERUBAHAN</h2>
           <p class="mb-3">
-            Pengelola berhak melakukan penyesuaian atau pembaruan pada Kebijakan Privasi ini sewaktu-waktu seiring dengan perkembangan teknologi dan regulasi pelindungan data pribadi yang berlaku di Indonesia.
+            Setiap anggota yang unit usahanya tercantum pada Platform memiliki hak atas data usaha dan data akunnya sendiri.
           </p>
           <ul class="list-disc pl-6 space-y-2">
-            <li>Setiap perubahan yang terjadi akan dipublikasikan secara langsung pada halaman Kebijakan Privasi ini dengan memperbarui kolom "Pembaruan Terakhir".</li>
-            <li>Pengguna disarankan untuk meninjau kebijakan ini secara berkala guna memahami bagaimana Pengelola menjaga privasi dan keamanan data warga di platform ini.</li>
+            <li>Anggota pemilik usaha dapat memperbarui sendiri data usaha, foto, dan status fasilitas melalui dasbor pemilik (owner dashboard), atau mengajukan koreksi kepada pengurus Bidang OKK.</li>
+            <li>Anggota berhak mengajukan permintaan penghapusan data usaha maupun akunnya secara permanen dari Platform kapan saja.</li>
+            <li>Permohonan koreksi, pembaruan, atau penghapusan data dapat diajukan dengan menghubungi Bidang OKK BPC HIPMI Bantul melalui kontak resmi yang tertera pada Platform.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-bold text-gray-950 dark:text-white mb-3">PASAL 6 - PERUBAHAN KEBIJAKAN PRIVASI</h2>
+          <p class="mb-3">
+            Pengelola berhak menyesuaikan atau memperbarui Kebijakan Privasi ini sewaktu-waktu seiring perkembangan teknologi, perubahan layanan infrastruktur (Vercel, Firebase), maupun regulasi pelindungan data pribadi yang berlaku di Indonesia.
+          </p>
+          <ul class="list-disc pl-6 space-y-2">
+            <li>Setiap perubahan dipublikasikan langsung pada halaman ini dengan memperbarui kolom "Pembaruan Terakhir".</li>
+            <li>Pengguna disarankan meninjau Kebijakan ini secara berkala guna memahami bagaimana Pengelola menjaga privasi dan keamanan data pada Platform.</li>
           </ul>
         </div>
 
         <p class="pt-6 border-t border-gray-200 dark:border-white/10 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-          Kebijakan Privasi ini diatur dan ditafsirkan berdasarkan hukum yang berlaku di Negara Kesatuan Republik Indonesia. Untuk pertanyaan, masukan, atau keluhan terkait dengan pelindungan data pribadi pada platform ini, silakan menghubungi langsung Pengurus Rukun Tetangga (RT) melalui saluran WhatsApp resmi pengurus.
+          Kebijakan Privasi ini diatur dan ditafsirkan berdasarkan hukum yang berlaku di Negara Kesatuan Republik Indonesia, selaras dengan AD/ART dan Peraturan Organisasi HIPMI. Untuk pertanyaan, masukan, atau keluhan terkait pelindungan data pribadi pada Platform ini, silakan menghubungi langsung Bidang Organisasi, Keanggotaan, dan Kaderisasi (OKK) BPC HIPMI Bantul melalui kontak resmi yang tertera.
         </p>
       </div>
     </div>
@@ -89,5 +103,5 @@
 </template>
 
 <script setup>
-// Halaman Kebijakan Privasi formal untuk kepatuhan UU PDP
+// Halaman Kebijakan Privasi - Business Catalog Anggota BPC HIPMI Bantul
 </script>

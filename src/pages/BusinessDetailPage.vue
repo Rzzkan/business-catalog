@@ -875,7 +875,7 @@ function closeReportModal() {
   reportModalOpen.value = false
 }
 
-function submitReport() {
+async function submitReport() {
   if (hasReported.value) return
   if (reportType.value === 'kesalahan_data' && (wordCount.value === 0 || wordCount.value > 200)) {
     return
@@ -886,7 +886,7 @@ function submitReport() {
     ? 'Laporan toko tutup permanen.'
     : words.slice(0, 200).join(' ')
 
-  businessStore.addReport({
+  await businessStore.addReport({
     businessId: business.value.id,
     namaUsaha: business.value.namaUsaha,
     tipe: reportType.value,

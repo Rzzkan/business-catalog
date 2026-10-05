@@ -31,12 +31,11 @@
 
         <div>
           <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
-          <input
+          <PasswordInput
             id="password"
             v-model="password"
-            type="password"
             autocomplete="current-password"
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white bg-white dark:bg-[#0d0f14] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/40 focus:border-[#FFC94D] transition-colors duration-300"
+            input-class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white bg-white dark:bg-[#0d0f14] placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFC94D]/40 focus:border-[#FFC94D] transition-colors duration-300"
             placeholder="••••••••"
           />
         </div>
@@ -61,6 +60,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import PasswordInput from '../components/PasswordInput.vue'
+import { verifyPassword } from '../utils/password'
 
 const route = useRoute()
 const router = useRouter()
@@ -113,7 +114,14 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
 })
 
-function handleLogin() {
+// Pre-configured admin credentials. The password is never kept in plain text here —
+// only a PBKDF2-SHA256 hash + its random salt (see src/utils/password.js), checked
+// with verifyPassword() below.
+const correctEmail = 'okkhipmibantul@gmail.com'
+const correctPasswordSalt = 'f2671c559fde80a70c8823bd3be53244'
+const correctPasswordHash = 'aebd20550a6d7f63e8a5d860bd2296adb5c41e1d47ea2a5926b0d1044548016c'
+
+async function handleLogin() {
   errorMessage.value = ''
 
   // Check lockout
@@ -128,11 +136,9 @@ function handleLogin() {
     return
   }
 
-  // Pre-configured credentials
-  const correctEmail = 'okkhipmibantul@gmail.com'
-  const correctPassword = 'okkbergerak'
+  const passwordOk = await verifyPassword(password.value, correctPasswordSalt, correctPasswordHash)
 
-  if (email.value !== correctEmail || password.value !== correctPassword) {
+  if (email.value !== correctEmail || !passwordOk) {
     failedAttempts.value++
     localStorage.setItem('admin-failed-attempts', failedAttempts.value.toString())
 
