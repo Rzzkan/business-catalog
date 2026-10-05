@@ -1104,7 +1104,7 @@
               <div class="space-y-4">
                 <div>
                   <label class="form-label">Foto Utama <span class="text-[#FA6781]">*</span></label>
-                  <input v-model="form.foto.utama" type="url" class="form-input" placeholder="https://example.com/foto-utama.jpg" />
+                  <ImageUrlInput v-model="form.foto.utama" placeholder="https://example.com/foto-utama.jpg" />
                 </div>
                 <UrlList v-model="form.foto.menu" label="Foto Menu" />
                 <UrlList v-model="form.foto.tempat" label="Foto Tempat" />
@@ -1194,6 +1194,8 @@ import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import PasswordInput from '../components/PasswordInput.vue'
+import ImageUrlInput from '../components/ImageUrlInput.vue'
+import UrlList from '../components/UrlList.vue'
 import { businessStore, getCategoryLightStyle, sanitizeUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
 import { extractLatLng, normalizeMapEmbed, isValidGoogleMapsUrl } from '../utils/maps'
@@ -1977,54 +1979,6 @@ const IconPlus = createSvgIcon('M12 4v16m8-8H4')
 const IconTrash = createSvgIcon('m19 7-.9 12.1A2 2 0 0 1 16.1 21H7.9a2 2 0 0 1-2-1.9L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16')
 const IconFacility = createSvgIcon('M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4')
 
-const UrlList = defineComponent({
-  props: {
-    modelValue: {
-      type: Array,
-      default: () => []
-    },
-    label: {
-      type: String,
-      required: true
-    }
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const updateAt = (index, value) => {
-      const next = [...props.modelValue]
-      next[index] = value
-      emit('update:modelValue', next)
-    }
-    const removeAt = (index) => {
-      const next = props.modelValue.filter((_, i) => i !== index)
-      emit('update:modelValue', next.length ? next : [''])
-    }
-    const addItem = () => emit('update:modelValue', [...props.modelValue, ''])
-
-    return () => h('div', { class: 'space-y-2' }, [
-      h('label', { class: 'form-label' }, props.label),
-      ...props.modelValue.map((url, index) => h('div', { class: 'flex gap-2', key: index }, [
-        h('input', {
-          value: url,
-          type: 'url',
-          class: 'form-input flex-1',
-          placeholder: 'https://example.com/foto.jpg',
-          onInput: event => updateAt(index, event.target.value)
-        }),
-        h('button', {
-          type: 'button',
-          class: 'icon-action text-[#FA6781] hover:bg-[#FA6781]/10',
-          onClick: () => removeAt(index)
-        }, [h(IconTrash)])
-      ])),
-      h('button', {
-        type: 'button',
-        class: 'add-inline-button',
-        onClick: addItem
-      }, [h(IconPlus), `Tambah ${props.label}`])
-    ])
-  }
-})
 </script>
 
 <style>

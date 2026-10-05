@@ -25,3 +25,8 @@ dist-ssr
 
 # Windows / Cygwin crash dumps (accidental artifacts)
 *.stackdump
+
+# Environment variables (R2 / Firebase secrets, etc.)
+.env
+.env.*
+!.env.example
