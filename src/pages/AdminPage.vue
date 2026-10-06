@@ -737,7 +737,7 @@
                 </div>
                 <div>
                   <label class="form-label">Nama Pemilik <span class="text-[#FA6781]">*</span></label>
-                  <input v-model="form.namaPemilik" type="text" class="form-input" placeholder="Masukkan nama pemilik" />
+                  <OwnerNameSelect v-model="form.namaPemilik" placeholder="Masukkan nama pemilik" />
                 </div>
                 <div>
                   <label class="form-label">Kategori <span class="text-[#FA6781]">*</span></label>
@@ -1196,6 +1196,7 @@ import FacilityIcon from '../components/FacilityIcon.vue'
 import PasswordInput from '../components/PasswordInput.vue'
 import ImageUrlInput from '../components/ImageUrlInput.vue'
 import UrlList from '../components/UrlList.vue'
+import OwnerNameSelect from '../components/OwnerNameSelect.vue'
 import { businessStore, getCategoryLightStyle, sanitizeUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
 import { extractLatLng, normalizeMapEmbed, isValidGoogleMapsUrl } from '../utils/maps'
