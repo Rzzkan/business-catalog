@@ -1,6 +1,18 @@
 <template>
   <div>
     <div class="flex gap-2">
+      <div
+        v-if="previewSrc"
+        class="w-10 h-10 rounded-lg overflow-hidden border border-gray-200 shrink-0 bg-gray-50"
+      >
+        <img
+          :src="previewSrc"
+          alt="Pratinjau gambar"
+          class="w-full h-full object-cover"
+          @error="previewBroken = true"
+          @load="previewBroken = false"
+        />
+      </div>
       <input
         :value="modelValue"
         type="url"
@@ -30,26 +42,49 @@
         </svg>
       </label>
     </div>
+    <p v-if="uploading" class="text-xs text-gray-400 mt-1">Mengompres &amp; mengunggah gambar...</p>
+    <p v-if="previewBroken && !uploading" class="text-xs text-[#FA6781] mt-1">
+      Gambar tidak bisa dimuat. Kalau ini path penyimpanan (bukan URL lengkap), pastikan Public Base URL sudah diatur di Admin &gt; Pengaturan.
+    </p>
     <p v-if="errorMessage" class="text-xs text-[#FA6781] mt-1">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script setup>
-// A URL text field paired with an upload button: picking a file uploads it
-// straight to Cloudflare R2 (via the shared uploadImageToR2 helper) and fills
-// the field with the resulting public URL. Pasting a URL by hand still works
-// exactly as before, so existing records with external links keep working.
-import { ref } from 'vue'
+// A URL text field paired with an upload button: picking a file compresses it
+// to a size matching where it's actually displayed (see imageCompression.js
+// presets) and uploads it straight to Cloudflare R2 (via the shared
+// uploadImageToR2 helper), then fills the field with the resulting object
+// KEY (e.g. "uploads/2026-10-07/abc.webp"), not a full URL — the full URL is
+// resolved at display time from that key plus the configurable Public Base
+// URL (see resolveImageUrl in data/businessData.js), so switching storage
+// domains later never requires touching every stored record again. Pasting a
+// full URL by hand still works exactly as before, so existing records with
+// external links (Instagram, Google Photos, etc.) keep working untouched.
+import { ref, computed } from 'vue'
 import { uploadImageToR2 } from '../utils/r2Upload'
+import { COMPRESSION_PRESETS } from '../utils/imageCompression'
+import { resolveImageUrl } from '../data/businessData'
 
-defineProps({
+const props = defineProps({
   modelValue: { type: String, default: '' },
-  placeholder: { type: String, default: 'https://example.com/foto.jpg' }
+  placeholder: { type: String, default: 'https://example.com/foto.jpg' },
+  // Which compression preset to use, matching how this image is actually
+  // displayed on the site: 'hero' (business detail banner), 'gallery'
+  // (Foto Tempat/Produk/Menu grids) or 'avatar' (small profile photo).
+  variant: {
+    type: String,
+    default: 'gallery',
+    validator: value => Object.keys(COMPRESSION_PRESETS).includes(value)
+  }
 })
 const emit = defineEmits(['update:modelValue'])
 
 const uploading = ref(false)
 const errorMessage = ref('')
+const previewBroken = ref(false)
+
+const previewSrc = computed(() => resolveImageUrl(props.modelValue))
 
 async function handleFileChange(event) {
   const file = event.target.files?.[0]
@@ -57,8 +92,8 @@ async function handleFileChange(event) {
   uploading.value = true
   errorMessage.value = ''
   try {
-    const publicUrl = await uploadImageToR2(file)
-    emit('update:modelValue', publicUrl)
+    const key = await uploadImageToR2(file, COMPRESSION_PRESETS[props.variant])
+    emit('update:modelValue', key)
   } catch (err) {
     errorMessage.value = err?.message || 'Upload gagal. Silakan coba lagi.'
   } finally {

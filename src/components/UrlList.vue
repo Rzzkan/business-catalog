@@ -4,6 +4,7 @@
     <div v-for="(url, index) in modelValue" :key="index" class="flex gap-2">
       <ImageUrlInput
         :model-value="url"
+        :variant="variant"
         class="flex-1"
         @update:modelValue="value => updateAt(index, value)"
       />
@@ -45,6 +46,11 @@ const props = defineProps({
   label: {
     type: String,
     required: true
+  },
+  // Forwarded to each ImageUrlInput — see its `variant` prop.
+  variant: {
+    type: String,
+    default: 'gallery'
   }
 })
 const emit = defineEmits(['update:modelValue'])

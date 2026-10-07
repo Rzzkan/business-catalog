@@ -80,6 +80,16 @@
             </svg>
             <span>Akun Pemilik</span>
           </button>
+          <button
+            @click="setSection('settings')"
+            :class="navButtonClass('settings')"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+            <span>Pengaturan</span>
+          </button>
         </nav>
 
         <div class="p-4 border-t border-white/20 space-y-1">
@@ -252,7 +262,7 @@
                       <div class="flex items-center gap-3">
                         <img
                           v-if="item.foto?.utama"
-                          :src="item.foto.utama"
+                          :src="resolveImageUrl(item.foto.utama)"
                           :alt="item.namaUsaha"
                           class="w-10 h-10 rounded-lg object-cover flex-shrink-0 hidden sm:block"
                           loading="lazy"
@@ -698,6 +708,52 @@
           </div>
         </section>
 
+        <section v-if="activeSection === 'settings'">
+          <div class="max-w-2xl">
+            <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-gray-800">Public Base URL Gambar</h2>
+                <p class="text-sm text-gray-500 mt-1">
+                  Domain yang dipakai untuk menampilkan foto yang diunggah lewat tombol upload. Mengubah nilai ini
+                  langsung berlaku untuk SEMUA foto yang tersimpan sebagai path penyimpanan di seluruh aplikasi, tanpa
+                  perlu mengedit data bisnis atau akun pemilik satu per satu kalau domain penyimpanan berganti lagi.
+                </p>
+              </div>
+              <div class="p-6 space-y-4">
+                <div v-if="!businessStore.publicBaseUrl" class="flex items-start gap-2 p-3 rounded-xl bg-[#FA6781]/10 text-[#FA6781] text-sm">
+                  <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z" />
+                  </svg>
+                  <span>Belum diatur. Foto yang diunggah lewat tombol upload tidak akan tampil sampai nilai ini disimpan.</span>
+                </div>
+
+                <div>
+                  <label class="form-label">Public Base URL</label>
+                  <input
+                    v-model.trim="publicBaseUrlInput"
+                    type="url"
+                    class="form-input"
+                    placeholder="https://img.hipmibantul.site"
+                    @keyup.enter="savePublicBaseUrl"
+                  />
+                  <p class="text-xs text-gray-400 mt-1.5">
+                    Tanpa garis miring di akhir. Contoh hasil: <code class="text-gray-500">{{ (publicBaseUrlInput || 'https://img.hipmibantul.site') + '/uploads/2026-10-07/abc.webp' }}</code>
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                  <button
+                    @click="savePublicBaseUrl"
+                    class="px-4 py-2.5 rounded-xl bg-[#FFC94D] text-white text-sm font-semibold hover:bg-[#e6b03a] transition-colors cursor-pointer"
+                  >
+                    Simpan
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
       </main>
     </div>
 
@@ -1104,7 +1160,7 @@
               <div class="space-y-4">
                 <div>
                   <label class="form-label">Foto Utama <span class="text-[#FA6781]">*</span></label>
-                  <ImageUrlInput v-model="form.foto.utama" placeholder="https://example.com/foto-utama.jpg" />
+                  <ImageUrlInput v-model="form.foto.utama" variant="hero" placeholder="https://example.com/foto-utama.jpg" />
                 </div>
                 <UrlList v-model="form.foto.menu" label="Foto Menu" />
                 <UrlList v-model="form.foto.tempat" label="Foto Tempat" />
@@ -1189,7 +1245,7 @@
 </template>
 
 <script setup>
-import { computed, defineComponent, h, nextTick, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { computed, defineComponent, h, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
@@ -1197,13 +1253,21 @@ import PasswordInput from '../components/PasswordInput.vue'
 import ImageUrlInput from '../components/ImageUrlInput.vue'
 import UrlList from '../components/UrlList.vue'
 import OwnerNameSelect from '../components/OwnerNameSelect.vue'
-import { businessStore, getCategoryLightStyle, sanitizeUrl } from '../data/businessData'
+import { businessStore, getCategoryLightStyle, sanitizeUrl, resolveImageUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
 import { extractLatLng, normalizeMapEmbed, isValidGoogleMapsUrl } from '../utils/maps'
 
 const router = useRouter()
 const sidebarOpen = ref(false)
 const activeSection = ref('dashboard')
+const publicBaseUrlInput = ref(businessStore.publicBaseUrl || '')
+
+// businessStore.publicBaseUrl starts empty and is filled in asynchronously once
+// the meta/config Firestore doc loads (or changes from another tab) - keep the
+// input in sync with it.
+watch(() => businessStore.publicBaseUrl, (value) => {
+  publicBaseUrlInput.value = value || ''
+})
 const searchQuery = ref('')
 const filterCategory = ref('')
 const isMobile = ref(false)
@@ -1357,7 +1421,8 @@ const pageTitle = computed(() => {
     manage: 'Kelola Bisnis',
     categories: 'Kelola Kategori',
     reports: 'Laporan Pengguna',
-    owners: 'Akun Pemilik Usaha'
+    owners: 'Akun Pemilik Usaha',
+    settings: 'Pengaturan'
   }
   return titles[activeSection.value] || 'Bisnis Admin'
 })
@@ -1799,6 +1864,11 @@ function showToast(message, type = 'success') {
   toast.message = message
   toast.type = type
   setTimeout(() => { toast.show = false }, 3000)
+}
+
+async function savePublicBaseUrl() {
+  await businessStore.setPublicBaseUrl(publicBaseUrlInput.value)
+  showToast('Public Base URL berhasil disimpan.')
 }
 
 function categoryUsage(category) {

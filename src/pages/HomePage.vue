@@ -189,7 +189,7 @@
           >
             <div class="relative h-32 sm:h-48 overflow-hidden">
               <img
-                :src="business.foto.utama"
+                :src="resolveImageUrl(business.foto.utama)"
                 :alt="business.namaUsaha"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 loading="lazy"
@@ -270,7 +270,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import CategoryIcon from '../components/CategoryIcon.vue'
-import { businessStore, getCategoryStyle } from '../data/businessData'
+import { businessStore, getCategoryStyle, resolveImageUrl } from '../data/businessData'
 import { homeSearchState } from '../stores/uiState'
 
 const router = useRouter()

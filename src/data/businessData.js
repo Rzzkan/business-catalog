@@ -18,6 +18,11 @@ import { normalizeBusinessCabang } from '../utils/maps'
 const businessesCollection = collection(db, 'businesses')
 const reportsCollection = collection(db, 'reports')
 const categoriesDocRef = doc(db, 'meta', 'categories')
+// Holds the public base URL prefixed onto image values that are stored as bare
+// R2 object keys rather than full URLs (see resolveImageUrl below). Kept in
+// Firestore, editable from Admin > Pengaturan, so switching storage domains
+// later is a single config change instead of a migration of every record.
+const configDocRef = doc(db, 'meta', 'config')
 
 // Default categories configuration — used only to seed Firestore the first time
 // this app connects to an empty database (see seedIfEmpty() below).
@@ -474,6 +479,7 @@ export const businessStore = reactive({
   categoriesList: [],
   reports: [],
   businessList: [],
+  publicBaseUrl: '',
   ready: false,
 
   // Get all businesses
@@ -571,6 +577,15 @@ export const businessStore = reactive({
     return true
   },
 
+  // Updates the Public Base URL used to resolve bare R2 object keys into full
+  // image URLs (resolveImageUrl below). Trailing slashes are stripped so
+  // resolveImageUrl can join it with a key using a single '/'.
+  async setPublicBaseUrl(url) {
+    const clean = (url || '').trim().replace(/\/+$/, '')
+    await setDoc(configDocRef, { publicBaseUrl: clean })
+    return clean
+  },
+
   // Add new business
   async add(business) {
     const newId = this.businessList.length ? Math.max(...this.businessList.map(u => u.id)) + 1 : 1
@@ -659,6 +674,16 @@ onSnapshot(
   },
   (error) => {
     console.error('Gagal memuat data kategori dari Firestore:', error)
+  }
+)
+
+onSnapshot(
+  configDocRef,
+  (snapshot) => {
+    businessStore.publicBaseUrl = snapshot.exists() ? (snapshot.data().publicBaseUrl || '') : ''
+  },
+  (error) => {
+    console.error('Gagal memuat konfigurasi URL publik dari Firestore:', error)
   }
 )
 
@@ -865,6 +890,24 @@ export const sanitizeUrl = (url, allowedProtocols = ['http:', 'https:', 'mailto:
     }
   }
   return '#'
+}
+
+// Resolves a stored image value into a URL the browser can load. A value is
+// stored as a bare R2 object key (e.g. "uploads/2026-10-07/abc.webp") when it
+// came from the upload button in ImageUrlInput, or as a full external URL
+// when pasted by hand (e.g. an Instagram/Google Photos link) — this tells the
+// two apart and only prefixes the configurable Public Base URL (Admin >
+// Pengaturan) onto the former, so switching storage domains later never
+// requires touching every stored business/owner record again.
+export function resolveImageUrl(value) {
+  const trimmed = (value || '').trim()
+  if (!trimmed) return ''
+  if (/^(https?:)?\/\//i.test(trimmed) || trimmed.startsWith('data:')) {
+    return trimmed
+  }
+  const base = (businessStore.publicBaseUrl || '').trim().replace(/\/+$/, '')
+  if (!base) return trimmed
+  return `${base}/${trimmed.replace(/^\/+/, '')}`
 }
 
 

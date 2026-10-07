@@ -25,7 +25,7 @@
   <div v-else class="min-h-screen bg-gray-50 dark:bg-[#0a0a0a] transition-colors duration-300">
     <section class="relative h-[65vh] min-h-[420px] max-h-[600px] overflow-hidden">
       <img
-        :src="business.foto.utama"
+        :src="resolveImageUrl(business.foto.utama)"
         :alt="business.namaUsaha"
         class="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-[1200ms]"
         fetchpriority="high"
@@ -111,7 +111,7 @@
             </h2>
             <div class="flex items-center gap-4">
               <div v-if="ownerAccount?.fotoProfil" class="w-14 h-14 rounded-full overflow-hidden shadow-md shrink-0">
-                <img :src="ownerAccount.fotoProfil" :alt="`Foto profil ${displayedOwnerName}`" class="w-full h-full object-cover" />
+                <img :src="resolveImageUrl(ownerAccount.fotoProfil)" :alt="`Foto profil ${displayedOwnerName}`" class="w-full h-full object-cover" />
               </div>
               <div v-else class="w-14 h-14 rounded-full bg-gradient-to-br from-[#FFC94D] to-[#18933C] flex items-center justify-center text-white text-xl font-bold shadow-md shrink-0">
                 {{ displayedOwnerName.charAt(0) }}
@@ -525,7 +525,7 @@
           >
             <div class="h-32 sm:h-40 overflow-hidden">
               <img
-                :src="item.foto.utama"
+                :src="resolveImageUrl(item.foto.utama)"
                 :alt="item.namaUsaha"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 loading="lazy"
@@ -837,7 +837,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { computed, ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
-import { businessStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl } from '../data/businessData'
+import { businessStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl, resolveImageUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
 import { normalizeMapEmbed } from '../utils/maps'
 
@@ -1029,20 +1029,20 @@ const allPhotos = computed(() => {
 
   const photos = []
   business.value.foto.tempat?.forEach((url, i) => {
-    photos.push({ url, label: `Suasana Tempat ${i + 1}` })
+    photos.push({ url: resolveImageUrl(url), label: `Suasana Tempat ${i + 1}` })
   })
   business.value.foto.produk?.forEach((url, i) => {
-    photos.push({ url, label: `Foto Produk ${i + 1}` })
+    photos.push({ url: resolveImageUrl(url), label: `Foto Produk ${i + 1}` })
   })
   if (business.value.foto.menu) {
     if (Array.isArray(business.value.foto.menu)) {
       business.value.foto.menu.forEach((url, i) => {
         if (url && url.trim()) {
-          photos.push({ url, label: `Menu ${i + 1}` })
+          photos.push({ url: resolveImageUrl(url), label: `Menu ${i + 1}` })
         }
       })
     } else if (typeof business.value.foto.menu === 'string' && business.value.foto.menu.trim()) {
-      photos.push({ url: business.value.foto.menu, label: 'Menu' })
+      photos.push({ url: resolveImageUrl(business.value.foto.menu), label: 'Menu' })
     }
   }
 

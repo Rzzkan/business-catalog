@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { businessStore, getCategoryStyle } from '../data/businessData'
+import { businessStore, getCategoryStyle, resolveImageUrl } from '../data/businessData'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
 import { useGravity } from '../composables/useGravity'
@@ -228,7 +228,7 @@ function truncate(text, maxLength = 100) {
         >
           <div class="relative h-32 sm:h-48 overflow-hidden">
             <img
-              :src="business.foto.utama"
+              :src="resolveImageUrl(business.foto.utama)"
               :alt="business.namaUsaha"
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               loading="lazy"

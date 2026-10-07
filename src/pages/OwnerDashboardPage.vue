@@ -18,7 +18,7 @@
             <p class="text-[11px] text-gray-400 dark:text-gray-500 truncate max-w-[12rem]">{{ owner?.email }}</p>
           </div>
           <div v-if="owner?.fotoProfil" class="w-9 h-9 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-white/10">
-            <img :src="owner.fotoProfil" alt="Foto profil Anda" class="w-full h-full object-cover" />
+            <img :src="resolveImageUrl(owner.fotoProfil)" alt="Foto profil Anda" class="w-full h-full object-cover" />
           </div>
           <div v-else class="w-9 h-9 rounded-full bg-[#FFC94D]/10 text-[#FFC94D] flex items-center justify-center font-bold text-sm shrink-0">
             {{ (owner?.nama || '?').charAt(0).toUpperCase() }}
@@ -43,18 +43,18 @@
         <p class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Profil Saya</p>
         <div class="flex flex-col sm:flex-row items-center gap-5">
           <div v-if="profileFotoInput.trim()" class="w-16 h-16 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-white/10">
-            <img :src="profileFotoInput.trim()" alt="Pratinjau foto profil" class="w-full h-full object-cover" />
+            <img :src="resolveImageUrl(profileFotoInput)" alt="Pratinjau foto profil" class="w-full h-full object-cover" />
           </div>
           <div v-else class="w-16 h-16 rounded-full bg-[#FFC94D]/10 text-[#FFC94D] flex items-center justify-center font-bold text-xl shrink-0">
             {{ (owner?.nama || '?').charAt(0).toUpperCase() }}
           </div>
           <div class="flex-1 w-full">
-            <label class="form-label">URL Foto Profil</label>
+            <label class="form-label">Foto Profil</label>
             <div class="flex flex-col sm:flex-row gap-2">
-              <input
+              <ImageUrlInput
                 v-model="profileFotoInput"
-                type="url"
-                class="form-input flex-1"
+                variant="avatar"
+                class="flex-1"
                 placeholder="https://example.com/foto-saya.jpg"
               />
               <button
@@ -510,7 +510,7 @@
               <div class="space-y-4">
                 <div>
                   <label class="form-label">Foto Utama <span class="text-[#FA6781]">*</span></label>
-                  <ImageUrlInput v-model="form.foto.utama" placeholder="https://example.com/foto-utama.jpg" />
+                  <ImageUrlInput v-model="form.foto.utama" variant="hero" placeholder="https://example.com/foto-utama.jpg" />
                 </div>
                 <UrlList v-model="form.foto.menu" label="Foto Menu" />
                 <UrlList v-model="form.foto.tempat" label="Foto Tempat" />
@@ -562,7 +562,7 @@ import { useRouter } from 'vue-router'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import ImageUrlInput from '../components/ImageUrlInput.vue'
 import UrlList from '../components/UrlList.vue'
-import { businessStore, sanitizeUrl } from '../data/businessData'
+import { businessStore, sanitizeUrl, resolveImageUrl } from '../data/businessData'
 import { ownerStore } from '../data/ownerData'
 import { extractLatLng, normalizeMapEmbed, isValidGoogleMapsUrl } from '../utils/maps'
 
