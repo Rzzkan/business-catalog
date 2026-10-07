@@ -838,6 +838,7 @@ import { computed, ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import CategoryIcon from '../components/CategoryIcon.vue'
 import FacilityIcon from '../components/FacilityIcon.vue'
 import { businessStore, getCategoryStyle, getCategoryLightStyle, checkOperationalStatus, sanitizeUrl, resolveImageUrl } from '../data/businessData'
+import { photoEntryUrl, photoEntryCaption } from '../utils/photoEntry'
 import { ownerStore } from '../data/ownerData'
 import { normalizeMapEmbed } from '../utils/maps'
 
@@ -1028,18 +1029,22 @@ const allPhotos = computed(() => {
   if (!business.value) return []
 
   const photos = []
-  business.value.foto.tempat?.forEach((url, i) => {
-    photos.push({ url: resolveImageUrl(url), label: `Suasana Tempat ${i + 1}` })
+  business.value.foto.tempat?.forEach((entry, i) => {
+    const url = photoEntryUrl(entry)
+    if (!url) return
+    photos.push({ url: resolveImageUrl(url), label: photoEntryCaption(entry) || `Suasana Tempat ${i + 1}` })
   })
-  business.value.foto.produk?.forEach((url, i) => {
-    photos.push({ url: resolveImageUrl(url), label: `Foto Produk ${i + 1}` })
+  business.value.foto.produk?.forEach((entry, i) => {
+    const url = photoEntryUrl(entry)
+    if (!url) return
+    photos.push({ url: resolveImageUrl(url), label: photoEntryCaption(entry) || `Foto Produk ${i + 1}` })
   })
   if (business.value.foto.menu) {
     if (Array.isArray(business.value.foto.menu)) {
-      business.value.foto.menu.forEach((url, i) => {
-        if (url && url.trim()) {
-          photos.push({ url: resolveImageUrl(url), label: `Menu ${i + 1}` })
-        }
+      business.value.foto.menu.forEach((entry, i) => {
+        const url = photoEntryUrl(entry)
+        if (!url) return
+        photos.push({ url: resolveImageUrl(url), label: photoEntryCaption(entry) || `Menu ${i + 1}` })
       })
     } else if (typeof business.value.foto.menu === 'string' && business.value.foto.menu.trim()) {
       photos.push({ url: resolveImageUrl(business.value.foto.menu), label: 'Menu' })

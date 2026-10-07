@@ -1254,6 +1254,7 @@ import ImageUrlInput from '../components/ImageUrlInput.vue'
 import UrlList from '../components/UrlList.vue'
 import OwnerNameSelect from '../components/OwnerNameSelect.vue'
 import { businessStore, getCategoryLightStyle, sanitizeUrl, resolveImageUrl } from '../data/businessData'
+import { normalizePhotoList } from '../utils/photoEntry'
 import { ownerStore } from '../data/ownerData'
 import { extractLatLng, normalizeMapEmbed, isValidGoogleMapsUrl } from '../utils/maps'
 
@@ -1391,7 +1392,7 @@ const getEmptyForm = () => ({
   produk: [{ nama: '', harga: 0, deskripsi: '' }],
   metodePembayaran: [],
   fasilitas: [],
-  foto: { utama: '', tempat: [''], produk: [''], menu: [''] }
+  foto: { utama: '', tempat: [{ url: '', caption: '' }], produk: [{ url: '', caption: '' }], menu: [{ url: '', caption: '' }] }
 })
 
 const form = reactive(getEmptyForm())
@@ -1706,11 +1707,9 @@ function openEditModal(item) {
       : [],
     foto: {
       utama: item.foto?.utama || '',
-      tempat: item.foto?.tempat?.length ? [...item.foto.tempat] : [''],
-      produk: item.foto?.produk?.length ? [...item.foto.produk] : [''],
-      menu: Array.isArray(item.foto?.menu)
-        ? [...item.foto.menu]
-        : (item.foto?.menu ? [item.foto.menu] : [''])
+      tempat: normalizePhotoList(item.foto?.tempat),
+      produk: normalizePhotoList(item.foto?.produk),
+      menu: normalizePhotoList(Array.isArray(item.foto?.menu) ? item.foto.menu : (item.foto?.menu ? [item.foto.menu] : []))
     }
   })
   showFormModal.value = true
@@ -1812,9 +1811,15 @@ async function saveBusiness() {
     }),
     foto: {
       utama: sanitizeUrl(form.foto.utama.trim()),
-      tempat: form.foto.tempat.filter(url => url.trim()).map(url => sanitizeUrl(url)),
-      produk: form.foto.produk.filter(url => url.trim()).map(url => sanitizeUrl(url)),
-      menu: form.foto.menu.filter(url => url.trim()).map(url => sanitizeUrl(url))
+      tempat: form.foto.tempat
+        .filter(item => item.url.trim())
+        .map(item => ({ url: sanitizeUrl(item.url), caption: item.caption.trim() })),
+      produk: form.foto.produk
+        .filter(item => item.url.trim())
+        .map(item => ({ url: sanitizeUrl(item.url), caption: item.caption.trim() })),
+      menu: form.foto.menu
+        .filter(item => item.url.trim())
+        .map(item => ({ url: sanitizeUrl(item.url), caption: item.caption.trim() }))
     }
   }
 
